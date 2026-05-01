@@ -308,73 +308,8 @@ if ($mode === 'search') {
 // Show sidebar on article and search pages only
 $showSidebar = in_array($mode, ['article', 'search']);
 
-// ============================================================
-// SPECIALTY MAPPING
-// Maps Mayo controlWords mcvId values to medical specialties
-// and placeholder doctor data. Expand this table as needed.
-// mcvId values come from meta.controlWords.category[].keyword
-// chains in the article response.
-// ============================================================
-
-$specialtyMap = [
-    // Cardiovascular / Heart
-    '1137' => 'Cardiology',        // Cardiovascular system
-    '1092' => 'Internal Medicine', // Diagnosable condition (generic)
-    '2082' => 'Oncology',          // Cancer
-    '2375' => 'Oncology',          // Breast cancer
-    '1104' => 'OB/GYN',            // Pregnancy
-    '1898' => 'OB/GYN',            // Pregnancy week by week
-    '1452' => 'Gastroenterology',  // Intestine
-    '138500' => 'Gastroenterology',// Gastrointestinal tract
-    '1770' => 'Pain Management',   // Pain NOS
-    '2926' => 'Gastroenterology',  // Gas and gas pains
-    '1255' => 'Pulmonology',       // Quit smoking
-    '1137' => 'Gastroenterology',  // Digestive system
-    '127048' => 'Sports Medicine', // Physical activity
-    '1006' => 'Wellness',          // Lifestyle
-    '1094' => 'Nutrition',         // Nutrition and healthy eating
-    '1090' => 'Sports Medicine',   // Fitness
-    '1100' => 'Sports Medicine',   // Aerobic exercise
-];
-
-// Placeholder doctors per specialty
-$doctorsBySpecialty = [
-    'Cardiology'       => [
-        ['name' => 'Dr. Sarah Mitchell', 'title' => 'Cardiologist', 'phone' => '(555) 201-1000'],
-        ['name' => 'Dr. James Harlow',   'title' => 'Cardiologist', 'phone' => '(555) 201-1001'],
-    ],
-    'Gastroenterology' => [
-        ['name' => 'Dr. Linda Park',     'title' => 'Gastroenterologist', 'phone' => '(555) 201-2000'],
-        ['name' => 'Dr. Tom Reyes',      'title' => 'Gastroenterologist', 'phone' => '(555) 201-2001'],
-    ],
-    'Oncology'         => [
-        ['name' => 'Dr. Rachel Nguyen',  'title' => 'Oncologist',         'phone' => '(555) 201-3000'],
-        ['name' => 'Dr. Brian Foster',   'title' => 'Oncologist',         'phone' => '(555) 201-3001'],
-    ],
-    'OB/GYN'           => [
-        ['name' => "Dr. Maria O'Brien",  'title' => 'OB/GYN',             'phone' => '(555) 201-4000'],
-        ['name' => 'Dr. Susan Caldwell', 'title' => 'OB/GYN',             'phone' => '(555) 201-4001'],
-    ],
-    'Pain Management'  => [
-        ['name' => 'Dr. Kevin Walsh',    'title' => 'Pain Specialist',    'phone' => '(555) 201-5000'],
-    ],
-    'Pulmonology'      => [
-        ['name' => 'Dr. Alan Torres',    'title' => 'Pulmonologist',      'phone' => '(555) 201-6000'],
-    ],
-    'Sports Medicine'  => [
-        ['name' => 'Dr. Chris Daniels',  'title' => 'Sports Medicine',    'phone' => '(555) 201-7000'],
-    ],
-    'Nutrition'        => [
-        ['name' => 'Dr. Amy Chen',       'title' => 'Dietitian',          'phone' => '(555) 201-8000'],
-    ],
-    'Internal Medicine'=> [
-        ['name' => 'Dr. Robert Ellis',   'title' => 'Internal Medicine',  'phone' => '(555) 201-9000'],
-        ['name' => 'Dr. Paula Greene',   'title' => 'Internal Medicine',  'phone' => '(555) 201-9001'],
-    ],
-    'Wellness'         => [
-        ['name' => 'Dr. Diane Brooks',   'title' => 'Wellness Physician', 'phone' => '(555) 201-0000'],
-    ],
-];
+// Specialty mapping and doctor data loaded from doctors.php
+require_once __DIR__ . '/doctors.php';
 
 // Extract matched specialty from article controlWords
 $matchedSpecialty = null;
