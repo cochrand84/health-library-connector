@@ -207,6 +207,76 @@ if (!empty($_GET['mayo-id'])) {
 
 
 // ============================================================
+// IMAGE PROXY
+// Mayo image binaries require an API key — we can't point <img src>
+// directly at cdapi.mayoclinic.org. Instead, browser requests hit
+// ?mayo-image=GUID here, we fetch and stream the binary server-side.
+// In WordPress this becomes a small REST endpoint or rewrite rule.
+// ============================================================
+
+if (!empty($_GET['mayo-image'])) {
+    $imageId = preg_replace('/[^A-Za-z0-9\-]/', '', trim($_GET['mayo-image']));
+    if (empty($imageId)) {
+        http_response_code(400);
+        exit('Invalid image ID');
+    }
+
+    $cacheKey  = 'img_' . $imageId;
+    $cacheFile = MAYO_CACHE_DIR . '/' . md5($cacheKey);
+    $cacheMeta = $cacheFile . '.meta';
+
+    // Serve from cache if fresh
+    if (file_exists($cacheFile) && file_exists($cacheMeta)
+        && (time() - filemtime($cacheFile)) < MAYO_CACHE_TTL) {
+        $meta = json_decode(file_get_contents($cacheMeta), true);
+        header('Content-Type: '  . ($meta['type'] ?? 'image/jpeg'));
+        header('Content-Length: ' . filesize($cacheFile));
+        header('Cache-Control: max-age=86400');
+        readfile($cacheFile);
+        exit;
+    }
+
+    // Fetch from Mayo API
+    $url = MAYO_API_BASE . '/content/' . $imageId . '/en';
+    $context = stream_context_create([
+        'http' => [
+            'method'  => 'GET',
+            'header'  =>
+                'apikey: ' . MAYO_API_KEY . "\r\n" .
+                'trckr: '  . MAYO_TRCKR   . "\r\n",
+            'timeout' => 15,
+        ],
+    ]);
+
+    $imageData = @file_get_contents($url, false, $context);
+
+    if ($imageData === false || empty($imageData)) {
+        http_response_code(404);
+        exit('Image not found');
+    }
+
+    // Detect content type from response headers
+    $contentType = 'image/jpeg'; // default
+    foreach ($http_response_header as $header) {
+        if (stripos($header, 'Content-Type:') === 0) {
+            $contentType = trim(substr($header, 13));
+            break;
+        }
+    }
+
+    // Cache the binary and its content type
+    if (!is_dir(MAYO_CACHE_DIR)) mkdir(MAYO_CACHE_DIR, 0755, true);
+    file_put_contents($cacheFile, $imageData);
+    file_put_contents($cacheMeta, json_encode(['type' => $contentType]));
+
+    header('Content-Type: '   . $contentType);
+    header('Content-Length: ' . strlen($imageData));
+    header('Cache-Control: max-age=86400');
+    echo $imageData;
+    exit;
+}
+
+// ============================================================
 // DATA FETCHING
 // In WordPress this also lives in the page template, above
 // the call to get_header().
@@ -420,6 +490,16 @@ function e(string $value): void {
         .mayo-section-content li { margin-bottom: .35rem; }
         .mayo-section-content h3 { font-size: 1rem; color: #003865; margin: 1rem 0 .4rem; }
 
+        figure.mayo-image {
+            margin: 1rem 0 1.25rem;
+        }
+        figure.mayo-image figcaption {
+            font-size: .8rem;
+            color: #666;
+            font-style: italic;
+            margin-top: .4rem;
+        }
+
         .result-date {
             font-size: .8rem;
             color: #888;
@@ -528,13 +608,36 @@ function e(string $value): void {
                 <?php foreach ($sections as $section): ?>
                     <?php
                     $sectionHead = $section['sectionHead'] ?? '';
-                    // html is an array of HTML strings per the API docs
                     $htmlParts   = $section['html']        ?? [];
                     $htmlContent = is_array($htmlParts) ? implode('', $htmlParts) : (string) $htmlParts;
+
+                    // popupMedia sits inside each section — confirmed from ART-20047732 response
+                    // Structure: section.popupMedia[].image{ id, alt, caption, title, width, height }
+                    $popupMedia  = $section['popupMedia']  ?? [];
                     ?>
                     <?php if ($sectionHead && $sectionHead !== 'Answer section'): ?>
                         <h3><?php e($sectionHead); ?></h3>
                     <?php endif; ?>
+
+                    <?php foreach ($popupMedia as $media):
+                        $img = $media['image'] ?? [];
+                        $imgId  = preg_replace('/[^A-Za-z0-9\-]/', '', $img['id']      ?? '');
+                        $imgAlt = $img['alt']     ?? '';
+                        $imgCap = $img['caption'] ?? '';
+                        if (!$imgId) continue;
+                    ?>
+                        <figure class="mayo-image">
+                            <img
+                                src="/?mayo-image=<?php echo urlencode($imgId); ?>"
+                                alt="<?php e($imgAlt); ?>"
+                                loading="lazy"
+                                style="max-width:100%;height:auto;border-radius:4px;"
+                            >
+                            <?php if ($imgCap): ?>
+                                <figcaption><?php e($imgCap); ?></figcaption>
+                            <?php endif; ?>
+                        </figure>
+                    <?php endforeach; ?>
                     <?php if ($htmlContent): ?>
                         <!-- Mayo-provided HTML — safe to output raw, do not sanitize away their markup -->
                         <div class="mayo-section-content"><?php echo $htmlContent; ?></div>
