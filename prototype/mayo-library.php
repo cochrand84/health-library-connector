@@ -22,8 +22,9 @@
 
 define('MAYO_API_BASE',    'https://cdapi.mayoclinic.org/api/v2');
 define('MAYO_API_KEY',     'YOUR_API_KEY_HERE');   // <-- replace with your key
+define('MAYO_TRCKR',       'YOUR_TRCKR_VALUE_HERE'); // <-- replace with trckr value from Mayo ops contact
 define('MAYO_CACHE_DIR',   __DIR__ . '/cache');     // local file cache (WP will use transients instead)
-define('MAYO_CACHE_TTL',   3600);                   // cache lifetime in seconds (1 hour)
+define('MAYO_CACHE_TTL',   172800);                 // 48 hours MAX per Mayo license requirement (do not increase)
 define('SITE_NAME',        'Health Library');
 define('ARTICLES_PATH',    '/article/');            // the base path for article pages on your site
                                                     // e.g. /mayo-clinic-health-information-library/article/
@@ -94,7 +95,10 @@ function mayo_api_get(string $endpoint, array $params = []): ?array {
     $context = stream_context_create([
         'http' => [
             'method'  => 'GET',
-            'header'  => 'apikey: ' . MAYO_API_KEY . "\r\n",
+            'header'  =>
+                'apikey: ' . MAYO_API_KEY . "\r\n" .
+                'trckr: '  . MAYO_TRCKR   . "\r\n" .  // Recommended by Mayo for tracking
+                'Accept: application/json' . "\r\n",
             'timeout' => 10,
         ],
     ]);
@@ -124,10 +128,13 @@ function mayo_api_get(string $endpoint, array $params = []): ?array {
  * @param  int    $top    Max results to return (default 10)
  * @return array|null
  */
-function mayo_search(string $query, int $top = 10): ?array {
-    return mayo_api_get('/search', [
+function mayo_search(string $query, int $top = 10, int $skip = 0): ?array {
+    // Search endpoint is GET {Base URL}content (not /search)
+    // 'skip' enables pagination: skip=1000&top=1000 returns records 1001-2000
+    return mayo_api_get('/content', [
         'q'    => $query,
         'top'  => $top,
+        'skip' => $skip,
         'lang' => 'en',
     ]);
 }
@@ -135,13 +142,42 @@ function mayo_search(string $query, int $top = 10): ?array {
 /**
  * Fetch a single article by Mayo content ID.
  *
- * Endpoint: GET /content/{id}/en
+ * Endpoint: GET {Base URL}content/{id}/{lang}
+ *
+ * Confirmed response structure (from Developer Reference V3):
+ *   {
+ *     "meta": {
+ *       "contentType": "Disease"|"Article"|"Answer"|etc,
+ *       "docId": "CON-20372638",
+ *       "originalUrl": "https://www.mayoclinic.org/...",  // use for canonical tag
+ *       "updateDate": "2025-09-20T00:00:00",              // MUST be displayed per license
+ *       "publicationDate": "...",
+ *       "attribution": { "url": "...", "value": "..." },
+ *       "termsOfUse": { "docId": "ART-20045381" },        // link required per license
+ *       "metaKeywords": { "metaKeyword": [...] },
+ *       "controlWords": { ... }
+ *     },
+ *     "body": {
+ *       "section": [
+ *         { "sectionHead": "Section title" },
+ *         { "sectionHead": "...", "html": ["<p>...</p>"] }
+ *       ]
+ *     },
+ *     "title": "Article title",
+ *     "abstract": "Brief description",
+ *     "encoding": "UTF-8",
+ *     "language": "en"
+ *   }
+ *
+ * Note: Structure varies by contentType (Disease, Article, Answer, Recipe, etc.)
+ * Note: Images referenced in body HTML have GUID IDs — fetch separately if needed:
+ *       GET {Base URL}content/{GUID-id}/en
  *
  * @param  string $mayoId  e.g. 'CON-20372638'
  * @return array|null
  */
 function mayo_get_article(string $mayoId): ?array {
-    // Sanitize the ID — only allow alphanumerics and hyphens
+    // Sanitize — Mayo IDs contain alphanumerics, hyphens, and for GUIDs, also hyphens only
     $mayoId = preg_replace('/[^A-Za-z0-9\-]/', '', $mayoId);
     if (empty($mayoId)) return null;
 
@@ -222,7 +258,6 @@ function e(string $value): void {
     <title>
         <?php
         if ($mode === 'article' && $article) {
-            // NOTE: adjust field name to match actual Mayo JSON response structure
             e($article['title'] ?? 'Article');
             echo ' | ';
         } elseif ($mode === 'search') {
@@ -232,6 +267,16 @@ function e(string $value): void {
         echo SITE_NAME;
         ?>
     </title>
+
+    <?php
+    // REQUIRED by Mayo Developer Reference V3 (page 7):
+    // Canonical tag must be included on all public-facing pages with Mayo content.
+    // The originalUrl comes from the article's meta.originalUrl field.
+    // In WordPress this goes in wp_head() via add_action('wp_head', ...) in functions.php.
+    if ($mode === 'article' && !empty($article['meta']['originalUrl'])):
+    ?>
+    <link rel="canonical" href="<?php e($article['meta']['originalUrl']); ?>">
+    <?php endif; ?>
 
     <!--
         In WordPress, styles go in your child theme's style.css
@@ -431,57 +476,70 @@ function e(string $value): void {
             &larr; Back to search
         </a>
 
+        <?php
+        // Extract confirmed fields from Mayo API response structure
+        // (Developer Reference V3, pages 28-31)
+        $meta        = $article['meta']     ?? [];
+        $body        = $article['body']     ?? [];
+        $sections    = $body['section']     ?? [];
+        $title       = $article['title']    ?? ($meta['docId'] ?? 'Article');
+        $originalUrl = $meta['originalUrl'] ?? '';   // required for canonical tag
+        $contentType = $meta['contentType'] ?? '';
+
+        // updateDate MUST be displayed per Mayo Syndication Guide
+        $updateDate  = !empty($meta['updateDate'])
+                       ? date('F j, Y', strtotime($meta['updateDate']))
+                       : '';
+
+        // termsOfUse docId — fetch this doc or link to mayoclinic.org terms page
+        $touDocId    = $meta['termsOfUse']['docId'] ?? '';
+        ?>
+
         <div class="article-content">
-            <!--
-                IMPORTANT: The field names below (title, content, sections, etc.)
-                are PLACEHOLDERS. You'll need to map these to the actual keys
-                in the Mayo API JSON response once you have a sample payload.
-                Common patterns: article['title'], article['content']['html'],
-                article['sections'], article['updatedDate'], etc.
-            -->
+            <?php if ($contentType): ?>
+                <span class="content-type-badge"><?php e($contentType); ?></span>
+            <?php endif; ?>
 
-            <h2><?php e($article['title'] ?? 'Article'); ?></h2>
+            <h2><?php e($title); ?></h2>
 
-            <?php if (!empty($article['content'])): ?>
-                <!--
-                    If Mayo returns pre-formatted HTML in the content field,
-                    output it raw (but ONLY Mayo's own HTML — do not do this
-                    with user-supplied content).
-                -->
-                <?php echo $article['content']; ?>
-
-            <?php elseif (!empty($article['sections'])): ?>
-                <!--
-                    If Mayo returns structured sections, loop through them.
-                    Adjust field names to match actual response.
-                -->
-                <?php foreach ($article['sections'] as $section): ?>
-                    <?php if (!empty($section['title'])): ?>
-                        <h3><?php e($section['title']); ?></h3>
+            <?php if (!empty($sections)): ?>
+                <?php foreach ($sections as $section): ?>
+                    <?php
+                    $sectionHead = $section['sectionHead'] ?? '';
+                    // html is an array of HTML strings per the API docs
+                    $htmlParts   = $section['html']        ?? [];
+                    $htmlContent = is_array($htmlParts) ? implode('', $htmlParts) : (string) $htmlParts;
+                    ?>
+                    <?php if ($sectionHead && $sectionHead !== 'Answer section'): ?>
+                        <h3><?php e($sectionHead); ?></h3>
                     <?php endif; ?>
-                    <?php if (!empty($section['content'])): ?>
-                        <p><?php echo $section['content']; ?></p>
+                    <?php if ($htmlContent): ?>
+                        <!-- Mayo-provided HTML — safe to output raw, do not sanitize away their markup -->
+                        <div class="mayo-section-content"><?php echo $htmlContent; ?></div>
                     <?php endif; ?>
                 <?php endforeach; ?>
 
             <?php else: ?>
-                <!-- Fallback: dump raw data for debugging during development -->
-                <pre style="font-size:.75rem;overflow:auto;"><?php
+                <!-- Development fallback: raw dump if section structure doesn't match -->
+                <pre style="font-size:.75rem;overflow:auto;background:#f5f5f5;padding:1rem;"><?php
                     echo htmlspecialchars(json_encode($article, JSON_PRETTY_PRINT));
                 ?></pre>
             <?php endif; ?>
 
-            <div class="article-meta">
-                <?php if (!empty($article['updatedDate'])): ?>
-                    Last reviewed: <?php e($article['updatedDate']); ?>
-                <?php endif; ?>
-            </div>
+            <?php if ($updateDate): ?>
+                <!-- REQUIRED by Mayo Syndication Guide: update date must be displayed -->
+                <div class="article-meta">
+                    <strong>Last reviewed:</strong> <?php e($updateDate); ?>
+                </div>
+            <?php endif; ?>
         </div>
 
-        <!-- Mayo license typically requires this attribution -->
+        <!-- REQUIRED by Mayo Syndication Guide: copyright + terms of use -->
         <p class="mayo-attribution">
-            &copy; <?php echo date('Y'); ?> Mayo Foundation for Medical Education and Research (MFMER).
+            &copy;1998-<?php echo date('Y'); ?> Mayo Foundation for Medical Education and Research (MFMER).
             All rights reserved.
+            <a href="https://www.mayoclinic.org/about-this-site/terms-use-licensed-content"
+               target="_blank" rel="noopener">Terms of Use</a>
         </p>
 
 
