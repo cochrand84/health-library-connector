@@ -28,7 +28,7 @@ define('MAYO_API_BASE',  'https://cdapi.mayoclinic.org/api/v2');
 define('MAYO_CACHE_DIR', __DIR__ . '/cache');  // local file cache (WP will use transients instead)
 define('MAYO_CACHE_TTL', 172800);              // 48 hours MAX per Mayo license requirement
 define('SITE_NAME',      'Mayo Clinic Health Library');
-define('ARTICLES_PATH',  '/');                 // root path for this standalone prototype
+define('ARTICLES_PATH',  '/index-cta.php');   // CTA variant — links back to itself
 
 // ============================================================
 // IMAGE PROXY — must run before functions are defined and before
@@ -787,7 +787,7 @@ function e(string $value): void {
     <?php // ---- MODE: ARTICLE ------------------------------------------ ?>
     <?php if ($mode === 'article' && $article): ?>
 
-        <a class="back-link" href="<?php echo ARTICLES_PATH; ?>?q=<?php e($query); ?>">
+        <a class="back-link" href="/index-cta.php?q=<?php e($query); ?>">
             &larr; Back to search
         </a>
 
