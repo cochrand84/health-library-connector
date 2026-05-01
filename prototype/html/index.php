@@ -20,14 +20,14 @@
 // and are accessed via get_option() or defined constants.
 // ============================================================
 
-define('MAYO_API_BASE',    'https://cdapi.mayoclinic.org/api/v2');
-define('MAYO_API_KEY',     'YOUR_API_KEY_HERE');   // <-- replace with your key
-define('MAYO_TRCKR',       'YOUR_TRCKR_VALUE_HERE'); // <-- replace with trckr value from Mayo ops contact
-define('MAYO_CACHE_DIR',   __DIR__ . '/cache');     // local file cache (WP will use transients instead)
-define('MAYO_CACHE_TTL',   172800);                 // 48 hours MAX per Mayo license requirement (do not increase)
-define('SITE_NAME',        'Health Library');
-define('ARTICLES_PATH',    '/article/');            // the base path for article pages on your site
-                                                    // e.g. /mayo-clinic-health-information-library/article/
+// Credentials are in config.php — edit that file, not this one
+require_once __DIR__ . '/config.php';
+
+define('MAYO_API_BASE',  'https://cdapi.mayoclinic.org/api/v2');
+define('MAYO_CACHE_DIR', __DIR__ . '/cache');  // local file cache (WP will use transients instead)
+define('MAYO_CACHE_TTL', 172800);              // 48 hours MAX per Mayo license requirement
+define('SITE_NAME',      'Mayo Clinic Health Library');
+define('ARTICLES_PATH',  '/');                 // root path for this standalone prototype
 
 
 // ============================================================
@@ -622,7 +622,7 @@ function e(string $value): void {
         <?php endif; ?>
 
 
-    <?php // ---- MODE: HOME (landing / search form only) ----------------- ?>
+    <?php // ---- MODE: HOME (landing with sample articles) -------------- ?>
     <?php else: ?>
 
         <h2>Search the Health Library</h2>
@@ -630,6 +630,53 @@ function e(string $value): void {
             Search our library of trusted health information from Mayo Clinic.
             Enter a condition, symptom, procedure, or health topic to get started.
         </p>
+
+        <?php
+        // Fetch a varied sample of articles to populate the landing page.
+        // Uses a broad search with no query (q=*) ordered by update date so
+        // results stay reasonably fresh. Cached for 48 hours like everything else.
+        $sampleData = mayo_search('*', 12);
+        $sampleResults = $sampleData['searchResults'] ?? [];
+
+        // Shuffle so repeat visits feel different even when cached
+        shuffle($sampleResults);
+        ?>
+
+        <?php if (!empty($sampleResults)): ?>
+            <h3 style="margin-top:2rem;color:#003865;">Featured Health Topics</h3>
+            <ul class="search-results">
+                <?php foreach ($sampleResults as $result):
+                    $id          = $result['contentId']   ?? '';
+                    $title       = $result['title']       ?? 'Untitled';
+                    $contentType = $result['contentType'] ?? '';
+                    $abstractArr = $result['abstract']    ?? [];
+                    $snippet     = is_array($abstractArr)
+                                   ? implode(' ', $abstractArr)
+                                   : (string) $abstractArr;
+                    $updateDate  = !empty($result['updateDate'])
+                                   ? date('F j, Y', strtotime($result['updateDate']))
+                                   : '';
+                    if (!$id) continue;
+                ?>
+                <li class="search-result-item">
+                    <?php if ($contentType): ?>
+                        <span class="content-type-badge"><?php e($contentType); ?></span>
+                    <?php endif; ?>
+                    <h3>
+                        <a href="<?php echo article_url($id); ?>">
+                            <?php e($title); ?>
+                        </a>
+                    </h3>
+                    <?php if ($snippet): ?>
+                        <p class="snippet"><?php e($snippet); ?></p>
+                    <?php endif; ?>
+                    <?php if ($updateDate): ?>
+                        <p class="result-date">Updated: <?php e($updateDate); ?></p>
+                    <?php endif; ?>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
 
     <?php endif; ?>
 
