@@ -405,6 +405,21 @@ function e(string $value): void {
         }
         .back-link:hover { text-decoration: underline; }
 
+        .article-abstract {
+            font-size: 1.05rem;
+            color: #444;
+            font-style: italic;
+            border-left: 3px solid #003865;
+            padding-left: .75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mayo-section-content { margin-bottom: 1.25rem; }
+        .mayo-section-content p  { margin-bottom: .75rem; }
+        .mayo-section-content ul { padding-left: 1.5rem; margin-bottom: .75rem; }
+        .mayo-section-content li { margin-bottom: .35rem; }
+        .mayo-section-content h3 { font-size: 1rem; color: #003865; margin: 1rem 0 .4rem; }
+
         .result-date {
             font-size: .8rem;
             color: #888;
@@ -479,12 +494,14 @@ function e(string $value): void {
         <?php
         // Extract confirmed fields from Mayo API response structure
         // (Developer Reference V3, pages 28-31)
-        $meta        = $article['meta']     ?? [];
-        $body        = $article['body']     ?? [];
-        $sections    = $body['section']     ?? [];
-        $title       = $article['title']    ?? ($meta['docId'] ?? 'Article');
-        $originalUrl = $meta['originalUrl'] ?? '';   // required for canonical tag
-        $contentType = $meta['contentType'] ?? '';
+        $meta        = $article['meta']        ?? [];
+        $body        = $article['body']        ?? [];
+        $sections    = $body['section']        ?? [];
+        $title       = $article['title']       ?? ($meta['docId'] ?? 'Article');
+        $abstract    = $article['abstract']    ?? '';   // top-level string (NOT array like search results)
+        $originalUrl = $meta['originalUrl']    ?? '';   // required for canonical tag
+        $contentType = $meta['contentType']    ?? '';
+        $schema      = $article['noNamespaceSchemaLocation'] ?? ''; // e.g. disease.xsd, answer.xsd
 
         // updateDate MUST be displayed per Mayo Syndication Guide
         $updateDate  = !empty($meta['updateDate'])
@@ -501,6 +518,11 @@ function e(string $value): void {
             <?php endif; ?>
 
             <h2><?php e($title); ?></h2>
+
+            <?php if ($abstract): ?>
+                <!-- Article abstract — top-level string field confirmed from API response -->
+                <p class="article-abstract"><?php e($abstract); ?></p>
+            <?php endif; ?>
 
             <?php if (!empty($sections)): ?>
                 <?php foreach ($sections as $section): ?>
