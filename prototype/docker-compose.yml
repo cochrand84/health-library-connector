@@ -1,0 +1,13 @@
+---
+services:
+  mayo-library:
+    image: php:8.3-apache
+    container_name: mayo-library
+    restart: unless-stopped
+    ports:
+      - "8090:80"
+    volumes:
+      - ./html/index.php:/var/www/html/index.php
+      - ./html/cache:/var/www/html/cache
+
+networks: {}
