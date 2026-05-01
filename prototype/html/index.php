@@ -604,7 +604,16 @@ function e(string $value): void {
 
             <?php if ($abstract): ?>
                 <!-- Article abstract — top-level string field confirmed from API response -->
-                <p class="article-abstract"><?php echo strip_tags($abstract, '<b><i><em><strong><a><br>'); ?></p>
+                <?php
+                // Abstract may contain block-level HTML (<p> tags) from Mayo.
+                // If it does, render as a div to avoid invalid nested <p> tags.
+                $abstractClean = strip_tags($abstract, '<p><b><i><em><strong><a><br><ul><ol><li>');
+                if (strpos($abstractClean, '<p') !== false):
+                ?>
+                    <div class="article-abstract"><?php echo $abstractClean; ?></div>
+                <?php else: ?>
+                    <p class="article-abstract"><?php echo $abstractClean; ?></p>
+                <?php endif; ?>
             <?php endif; ?>
 
             <?php if (!empty($sections)): ?>
