@@ -308,6 +308,118 @@ if ($mode === 'search') {
 // Show sidebar on article and search pages only
 $showSidebar = in_array($mode, ['article', 'search']);
 
+// ============================================================
+// SPECIALTY MAPPING
+// Maps Mayo controlWords mcvId values to medical specialties
+// and placeholder doctor data. Expand this table as needed.
+// mcvId values come from meta.controlWords.category[].keyword
+// chains in the article response.
+// ============================================================
+
+$specialtyMap = [
+    // Cardiovascular / Heart
+    '1137' => 'Cardiology',        // Cardiovascular system
+    '1092' => 'Internal Medicine', // Diagnosable condition (generic)
+    '2082' => 'Oncology',          // Cancer
+    '2375' => 'Oncology',          // Breast cancer
+    '1104' => 'OB/GYN',            // Pregnancy
+    '1898' => 'OB/GYN',            // Pregnancy week by week
+    '1452' => 'Gastroenterology',  // Intestine
+    '138500' => 'Gastroenterology',// Gastrointestinal tract
+    '1770' => 'Pain Management',   // Pain NOS
+    '2926' => 'Gastroenterology',  // Gas and gas pains
+    '1255' => 'Pulmonology',       // Quit smoking
+    '1137' => 'Gastroenterology',  // Digestive system
+    '127048' => 'Sports Medicine', // Physical activity
+    '1006' => 'Wellness',          // Lifestyle
+    '1094' => 'Nutrition',         // Nutrition and healthy eating
+    '1090' => 'Sports Medicine',   // Fitness
+    '1100' => 'Sports Medicine',   // Aerobic exercise
+];
+
+// Placeholder doctors per specialty
+$doctorsBySpecialty = [
+    'Cardiology'       => [
+        ['name' => 'Dr. Sarah Mitchell', 'title' => 'Cardiologist', 'phone' => '(555) 201-1000'],
+        ['name' => 'Dr. James Harlow',   'title' => 'Cardiologist', 'phone' => '(555) 201-1001'],
+    ],
+    'Gastroenterology' => [
+        ['name' => 'Dr. Linda Park',     'title' => 'Gastroenterologist', 'phone' => '(555) 201-2000'],
+        ['name' => 'Dr. Tom Reyes',      'title' => 'Gastroenterologist', 'phone' => '(555) 201-2001'],
+    ],
+    'Oncology'         => [
+        ['name' => 'Dr. Rachel Nguyen',  'title' => 'Oncologist',         'phone' => '(555) 201-3000'],
+        ['name' => 'Dr. Brian Foster',   'title' => 'Oncologist',         'phone' => '(555) 201-3001'],
+    ],
+    'OB/GYN'           => [
+        ['name' => "Dr. Maria O'Brien",  'title' => 'OB/GYN',             'phone' => '(555) 201-4000'],
+        ['name' => 'Dr. Susan Caldwell', 'title' => 'OB/GYN',             'phone' => '(555) 201-4001'],
+    ],
+    'Pain Management'  => [
+        ['name' => 'Dr. Kevin Walsh',    'title' => 'Pain Specialist',    'phone' => '(555) 201-5000'],
+    ],
+    'Pulmonology'      => [
+        ['name' => 'Dr. Alan Torres',    'title' => 'Pulmonologist',      'phone' => '(555) 201-6000'],
+    ],
+    'Sports Medicine'  => [
+        ['name' => 'Dr. Chris Daniels',  'title' => 'Sports Medicine',    'phone' => '(555) 201-7000'],
+    ],
+    'Nutrition'        => [
+        ['name' => 'Dr. Amy Chen',       'title' => 'Dietitian',          'phone' => '(555) 201-8000'],
+    ],
+    'Internal Medicine'=> [
+        ['name' => 'Dr. Robert Ellis',   'title' => 'Internal Medicine',  'phone' => '(555) 201-9000'],
+        ['name' => 'Dr. Paula Greene',   'title' => 'Internal Medicine',  'phone' => '(555) 201-9001'],
+    ],
+    'Wellness'         => [
+        ['name' => 'Dr. Diane Brooks',   'title' => 'Wellness Physician', 'phone' => '(555) 201-0000'],
+    ],
+];
+
+// Extract matched specialty from article controlWords
+$matchedSpecialty = null;
+$matchedDoctors   = [];
+
+if ($mode === 'article' && $article) {
+    $categories = $article['meta']['controlWords']['category'] ?? [];
+
+    // Walk the category tree to find mcvId values at any depth
+    function extractMcvIds(array $node): array {
+        $ids = [];
+        if (isset($node['mcvId'])) $ids[] = (string) $node['mcvId'];
+        foreach ($node as $val) {
+            if (is_array($val)) {
+                $ids = array_merge($ids, extractMcvIds($val));
+            }
+        }
+        return $ids;
+    }
+
+    $allIds = [];
+    foreach ($categories as $cat) {
+        $allIds = array_merge($allIds, extractMcvIds($cat));
+    }
+    $allIds = array_unique($allIds);
+
+    global $specialtyMap, $doctorsBySpecialty;
+    foreach ($allIds as $id) {
+        if (isset($specialtyMap[$id])) {
+            $specialty = $specialtyMap[$id];
+            if (isset($doctorsBySpecialty[$specialty])) {
+                $matchedSpecialty = $specialty;
+                $matchedDoctors   = $doctorsBySpecialty[$specialty];
+                break;
+            }
+        }
+    }
+
+    // Fallback to Internal Medicine if no match
+    if (!$matchedSpecialty) {
+        $matchedSpecialty = 'Internal Medicine';
+        $matchedDoctors   = $doctorsBySpecialty['Internal Medicine'];
+    }
+}
+
 
 // ============================================================
 // OUTPUT HELPERS
@@ -497,6 +609,13 @@ function e(string $value): void {
             color: #888;
             text-align: center;
             line-height: 1.4;
+            margin-top: .5rem;
+        }
+        .cta-card-secondary h3 {
+            font-size: .95rem;
+        }
+        .cta-card-secondary p {
+            margin-bottom: .35rem;
         }
 
         @media (max-width: 700px) {
@@ -898,22 +1017,44 @@ function e(string $value): void {
 
 <aside class="cta-sidebar">
 
-    <!-- Primary CTA -->
-    <div class="cta-card">
-        <h3>Find a Doctor</h3>
-        <p>Connect with a specialist who can help with your health concerns.</p>
-        <a class="cta-btn" href="#">Schedule an Appointment</a>
-    </div>
+    <?php if ($mode === 'article' && $matchedSpecialty && !empty($matchedDoctors)): ?>
 
-    <!-- Secondary CTA -->
-    <div class="cta-card-secondary">
-        <h3>Have Questions?</h3>
-        <p>Our care team is here to help you understand your options.</p>
-        <a class="cta-btn-secondary" href="#">Contact Us</a>
-    </div>
+        <div class="cta-card">
+            <h3><?php e($matchedSpecialty); ?> Specialists</h3>
+            <p>Based on this article, these providers may be able to help.</p>
+        </div>
+
+        <?php foreach ($matchedDoctors as $doc): ?>
+        <div class="cta-card-secondary">
+            <h3><?php e($doc['name']); ?></h3>
+            <p><?php e($doc['title']); ?></p>
+            <p style="font-size:.8rem;color:#555;margin-bottom:.75rem;">
+                <?php e($doc['phone']); ?>
+            </p>
+            <a class="cta-btn-secondary" href="#">Schedule Appointment</a>
+        </div>
+        <?php endforeach; ?>
+
+    <?php elseif ($mode === 'search'): ?>
+
+        <div class="cta-card">
+            <h3>Find a Doctor</h3>
+            <p>Our specialists are here to help with your health concerns.</p>
+            <a class="cta-btn" href="#">Search Our Providers</a>
+        </div>
+
+    <?php else: ?>
+
+        <div class="cta-card">
+            <h3>Find a Doctor</h3>
+            <p>Connect with a specialist who can help with your health concerns.</p>
+            <a class="cta-btn" href="#">Schedule an Appointment</a>
+        </div>
+
+    <?php endif; ?>
 
     <p class="cta-disclaimer">
-        This health information is provided for educational purposes and is not a substitute for professional medical advice.
+        This health information is provided for educational purposes only and is not a substitute for professional medical advice.
     </p>
 
 </aside>
