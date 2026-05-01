@@ -8,6 +8,7 @@ services:
       - "8090:80"
     volumes:
       - ./html/index.php:/var/www/html/index.php
+      - ./html/index-cta.php:/var/www/html/index-cta.php
       - ./html/config.php:/var/www/html/config.php
       - ./html/cache:/var/www/html/cache
 
