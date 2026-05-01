@@ -29,6 +29,79 @@ define('MAYO_CACHE_TTL', 172800);              // 48 hours MAX per Mayo license 
 define('SITE_NAME',      'Mayo Clinic Health Library');
 define('ARTICLES_PATH',  '/');                 // root path for this standalone prototype
 
+// ============================================================
+// IMAGE PROXY — must run before functions are defined and before
+// any HTML is output. ?mayo-image=GUID streams the binary from
+// Mayo's API server-side so the API key never hits the browser.
+// In WordPress this becomes a REST endpoint or rewrite rule.
+// ============================================================
+
+if (!empty($_GET['mayo-image'])) {
+    $imageId = preg_replace('/[^A-Za-z0-9\-]/', '', trim($_GET['mayo-image']));
+    if (empty($imageId)) {
+        http_response_code(400);
+        exit('Invalid image ID');
+    }
+
+    $cacheFile = MAYO_CACHE_DIR . '/' . md5('img_' . $imageId);
+    $cacheMeta = $cacheFile . '.meta';
+
+    // Serve from cache if still fresh
+    if (file_exists($cacheFile) && file_exists($cacheMeta)
+        && (time() - filemtime($cacheFile)) < MAYO_CACHE_TTL) {
+        $meta = json_decode(file_get_contents($cacheMeta), true);
+        header('Content-Type: '   . ($meta['type'] ?? 'image/jpeg'));
+        header('Content-Length: ' . filesize($cacheFile));
+        header('Cache-Control: max-age=86400');
+        readfile($cacheFile);
+        exit;
+    }
+
+    // Fetch from Mayo — no Accept header so Mayo returns the raw binary
+    $url     = MAYO_API_BASE . '/content/' . $imageId . '/en';
+    $context = stream_context_create([
+        'http' => [
+            'method'           => 'GET',
+            'header'           => 'apikey: ' . MAYO_API_KEY . "\r\n" .
+                                  'trckr: '  . MAYO_TRCKR   . "\r\n",
+            'timeout'          => 15,
+            'ignore_errors'    => true,   // don't suppress — we want $http_response_header
+        ],
+    ]);
+
+    $imageData = file_get_contents($url, false, $context);
+
+    // Pull HTTP status from response headers
+    $httpStatus = 200;
+    $contentType = 'image/jpeg';
+    if (!empty($http_response_header)) {
+        foreach ($http_response_header as $h) {
+            if (preg_match('#HTTP/\d+\.\d+\s+(\d+)#', $h, $m)) {
+                $httpStatus = (int) $m[1];
+            }
+            if (stripos($h, 'Content-Type:') === 0) {
+                $contentType = trim(substr($h, 13));
+            }
+        }
+    }
+
+    if ($imageData === false || $httpStatus >= 400) {
+        http_response_code(404);
+        exit('Image not available (Mayo API returned ' . $httpStatus . ')');
+    }
+
+    // Cache it
+    if (!is_dir(MAYO_CACHE_DIR)) mkdir(MAYO_CACHE_DIR, 0755, true);
+    file_put_contents($cacheFile, $imageData);
+    file_put_contents($cacheMeta, json_encode(['type' => $contentType]));
+
+    header('Content-Type: '   . $contentType);
+    header('Content-Length: ' . strlen($imageData));
+    header('Cache-Control: max-age=86400');
+    echo $imageData;
+    exit;
+}
+
 
 // ============================================================
 // CACHE HELPERS
@@ -205,76 +278,6 @@ if (!empty($_GET['mayo-id'])) {
     $query = trim($_GET['q']);
 }
 
-
-// ============================================================
-// IMAGE PROXY
-// Mayo image binaries require an API key — we can't point <img src>
-// directly at cdapi.mayoclinic.org. Instead, browser requests hit
-// ?mayo-image=GUID here, we fetch and stream the binary server-side.
-// In WordPress this becomes a small REST endpoint or rewrite rule.
-// ============================================================
-
-if (!empty($_GET['mayo-image'])) {
-    $imageId = preg_replace('/[^A-Za-z0-9\-]/', '', trim($_GET['mayo-image']));
-    if (empty($imageId)) {
-        http_response_code(400);
-        exit('Invalid image ID');
-    }
-
-    $cacheKey  = 'img_' . $imageId;
-    $cacheFile = MAYO_CACHE_DIR . '/' . md5($cacheKey);
-    $cacheMeta = $cacheFile . '.meta';
-
-    // Serve from cache if fresh
-    if (file_exists($cacheFile) && file_exists($cacheMeta)
-        && (time() - filemtime($cacheFile)) < MAYO_CACHE_TTL) {
-        $meta = json_decode(file_get_contents($cacheMeta), true);
-        header('Content-Type: '  . ($meta['type'] ?? 'image/jpeg'));
-        header('Content-Length: ' . filesize($cacheFile));
-        header('Cache-Control: max-age=86400');
-        readfile($cacheFile);
-        exit;
-    }
-
-    // Fetch from Mayo API
-    $url = MAYO_API_BASE . '/content/' . $imageId . '/en';
-    $context = stream_context_create([
-        'http' => [
-            'method'  => 'GET',
-            'header'  =>
-                'apikey: ' . MAYO_API_KEY . "\r\n" .
-                'trckr: '  . MAYO_TRCKR   . "\r\n",
-            'timeout' => 15,
-        ],
-    ]);
-
-    $imageData = @file_get_contents($url, false, $context);
-
-    if ($imageData === false || empty($imageData)) {
-        http_response_code(404);
-        exit('Image not found');
-    }
-
-    // Detect content type from response headers
-    $contentType = 'image/jpeg'; // default
-    foreach ($http_response_header as $header) {
-        if (stripos($header, 'Content-Type:') === 0) {
-            $contentType = trim(substr($header, 13));
-            break;
-        }
-    }
-
-    // Cache the binary and its content type
-    if (!is_dir(MAYO_CACHE_DIR)) mkdir(MAYO_CACHE_DIR, 0755, true);
-    file_put_contents($cacheFile, $imageData);
-    file_put_contents($cacheMeta, json_encode(['type' => $contentType]));
-
-    header('Content-Type: '   . $contentType);
-    header('Content-Length: ' . strlen($imageData));
-    header('Cache-Control: max-age=86400');
-    echo $imageData;
-    exit;
-}
 
 // ============================================================
 // DATA FETCHING
