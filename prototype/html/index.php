@@ -604,7 +604,7 @@ function e(string $value): void {
 
             <?php if ($abstract): ?>
                 <!-- Article abstract — top-level string field confirmed from API response -->
-                <p class="article-abstract"><?php e($abstract); ?></p>
+                <p class="article-abstract"><?php echo strip_tags($abstract, '<b><i><em><strong><a><br>'); ?></p>
             <?php endif; ?>
 
             <?php if (!empty($sections)): ?>
@@ -717,7 +717,7 @@ function e(string $value): void {
                         </a>
                     </h3>
                     <?php if ($snippet): ?>
-                        <p class="snippet"><?php e($snippet); ?></p>
+                        <p class="snippet"><?php echo strip_tags($snippet, '<b><i><em><strong>'); ?></p>
                     <?php endif; ?>
                     <?php if ($updateDate): ?>
                         <p class="result-date">Updated: <?php e($updateDate); ?></p>
@@ -774,7 +774,7 @@ function e(string $value): void {
                         </a>
                     </h3>
                     <?php if ($snippet): ?>
-                        <p class="snippet"><?php e($snippet); ?></p>
+                        <p class="snippet"><?php echo strip_tags($snippet, '<b><i><em><strong>'); ?></p>
                     <?php endif; ?>
                     <?php if ($updateDate): ?>
                         <p class="result-date">Updated: <?php e($updateDate); ?></p>
