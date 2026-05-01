@@ -118,19 +118,17 @@ function mayo_api_get(string $endpoint, array $params = []): ?array {
  * Search Mayo content by keyword.
  *
  * Endpoint: GET /search
- * Params:   q (required), rows, start, lang
+ * Params:   q (required), top, lang
  *
  * @param  string $query  Search term
- * @param  int    $rows   Results per page (default 10)
- * @param  int    $start  Offset for pagination (default 0)
+ * @param  int    $top    Max results to return (default 10)
  * @return array|null
  */
-function mayo_search(string $query, int $rows = 10, int $start = 0): ?array {
+function mayo_search(string $query, int $top = 10): ?array {
     return mayo_api_get('/search', [
-        'q'     => $query,
-        'rows'  => $rows,
-        'start' => $start,
-        'lang'  => 'en',
+        'q'    => $query,
+        'top'  => $top,
+        'lang' => 'en',
     ]);
 }
 
@@ -362,6 +360,12 @@ function e(string $value): void {
         }
         .back-link:hover { text-decoration: underline; }
 
+        .result-date {
+            font-size: .8rem;
+            color: #888;
+            margin: .25rem 0 0;
+        }
+
         /* === Mayo Attribution (check your license for exact required text) === */
         .mayo-attribution {
             font-size: .8rem;
@@ -485,13 +489,13 @@ function e(string $value): void {
     <?php elseif ($mode === 'search' && $searchData): ?>
 
         <?php
-        // NOTE: Adjust these field names to match the actual Mayo search
-        // response structure. Common patterns:
-        //   $searchData['response']['numFound']  — total result count
-        //   $searchData['response']['docs']      — array of result objects
-        //   $searchData['results']               — alternative top-level key
-        $results  = $searchData['response']['docs']     ?? $searchData['results'] ?? [];
-        $total    = $searchData['response']['numFound']  ?? count($results);
+        // Confirmed Mayo API response structure (from Postman, 2026):
+        // { "count": 176, "searchResults": [...], "facets": null }
+        // Each result: { "contentId", "contentType", "lang", "title",
+        //   "abstract": [string,...], "updateDate", "publicationDate",
+        //   "alternativeIdentifiers": [] }
+        $results = $searchData['searchResults'] ?? [];
+        $total   = $searchData['count']         ?? count($results);
         ?>
 
         <p class="search-results-count">
@@ -504,13 +508,18 @@ function e(string $value): void {
         <?php else: ?>
             <ul class="search-results">
                 <?php foreach ($results as $result):
-                    // NOTE: Adjust field names below to actual Mayo response keys.
-                    // Common patterns: id, contentId, title, description, snippet,
-                    // contentType, type, abstract
-                    $id          = $result['id']          ?? $result['contentId'] ?? '';
+                    $id          = $result['contentId']   ?? '';
                     $title       = $result['title']       ?? 'Untitled';
-                    $snippet     = $result['description'] ?? $result['abstract']  ?? '';
-                    $contentType = $result['contentType'] ?? $result['type']      ?? '';
+                    $contentType = $result['contentType'] ?? '';
+                    // abstract is an array of strings — join them
+                    $abstractArr = $result['abstract']    ?? [];
+                    $snippet     = is_array($abstractArr)
+                                   ? implode(' ', $abstractArr)
+                                   : (string) $abstractArr;
+                    // Format the update date for display
+                    $updateDate  = !empty($result['updateDate'])
+                                   ? date('F j, Y', strtotime($result['updateDate']))
+                                   : '';
                 ?>
                 <li class="search-result-item">
                     <?php if ($contentType): ?>
@@ -523,6 +532,9 @@ function e(string $value): void {
                     </h3>
                     <?php if ($snippet): ?>
                         <p class="snippet"><?php e($snippet); ?></p>
+                    <?php endif; ?>
+                    <?php if ($updateDate): ?>
+                        <p class="result-date">Updated: <?php e($updateDate); ?></p>
                     <?php endif; ?>
                 </li>
                 <?php endforeach; ?>
