@@ -56,7 +56,8 @@ class HLMC_CLI {
 		WP_CLI::log( 'Base URL:      ' . HLMC_Settings::base_url() );
 		WP_CLI::log( 'Cache TTL:     ' . ( HLMC_Settings::cache_ttl() / HOUR_IN_SECONDS ) . 'h' );
 		WP_CLI::log( 'Library page:  ' . ( $s['library_page_id'] ? get_permalink( $s['library_page_id'] ) : 'not set' ) );
-		WP_CLI::log( 'Sidebar:       ' . $s['sidebar'] );
+		WP_CLI::log( 'Sidebar:       ' . HLMC_Settings::normalize_sidebar( $s['sidebar'] ) );
+		WP_CLI::log( 'Sidebar links: ' . count( HLMC_Care_Links::rows() ) . ' rows' . ( HLMC_Care_Links::has_saved_rows() ? '' : ' (examples)' ) );
 	}
 }
 
