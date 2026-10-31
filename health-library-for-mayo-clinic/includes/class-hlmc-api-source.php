@@ -77,7 +77,7 @@ class HLMC_API_Source implements HLMC_Source {
 			return $cached;
 		}
 
-		if ( ! HLMC_Rate_Limit::allow() ) {
+		if ( ! HLMC_Rate_Limit::allow( 'image' ) ) {
 			return new WP_Error( 'hlmc_rate_limited', __( 'Too many requests. Please try again in a minute.', 'health-library-for-mayo-clinic' ), array( 'status' => 429 ) );
 		}
 

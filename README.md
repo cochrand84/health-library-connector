@@ -79,8 +79,9 @@ Rows can also be supplied from code with the `hlmc_care_links` filter.
 ## Protecting your API quota
 
 Every uncached search, results page or article costs a live API call. The
-plugin limits uncached calls to 20 per visitor and 120 site-wide per minute
-(administrators and WP-CLI are exempt). Adjust with the `hlmc_rate_limits`
+plugin limits uncached calls to 20 pages per visitor and 120 site-wide per
+minute, with a separate 100-per-visitor budget for images (administrators and
+WP-CLI are exempt). Adjust with the `hlmc_rate_limits`
 filter; behind a CDN or proxy, use `hlmc_client_ip` to read the real visitor
 IP from a header you trust (e.g. `CF-Connecting-IP`).
 
@@ -110,7 +111,8 @@ wp health-library cache clear
 ## Your license obligations
 
 The plugin builds in the display and caching requirements we know of from
-Mayo's syndication terms, but **your license agreement is what counts**. Check the required attribution wording and override
+Mayo's syndication terms, but **your license agreement is what counts**.
+Check the required attribution wording and override
 `templates/attribution.php` if yours differs.
 
 ## Repository layout

@@ -39,7 +39,7 @@ define('ARTICLES_PATH',  '/index-cta.php');   // CTA variant — links back to i
 
 if (!empty($_GET['mayo-image'])) {
     // Only image GUIDs — otherwise this would proxy any licensed content ID
-    $imageId = trim($_GET['mayo-image']);
+    $imageId = is_string($_GET['mayo-image']) ? trim($_GET['mayo-image']) : '';
     if (!preg_match('/^GUID-[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$/', $imageId)) {
         http_response_code(400);
         exit('Invalid image ID');

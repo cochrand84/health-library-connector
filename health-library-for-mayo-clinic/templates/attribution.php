@@ -2,7 +2,7 @@
 /**
  * Attribution footer.
  *
- * In live mode this renders the copyright notice and Terms of Use link the
+ * In live mode this renders the copyright notice and Terms of Use link that
  * Mayo Clinic's syndication terms require on pages showing licensed content.
  * Check your license agreement for the exact wording you must display, and
  * override this template if it differs.

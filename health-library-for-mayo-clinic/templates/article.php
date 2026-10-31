@@ -3,8 +3,8 @@
  * Article view.
  *
  * Renders body.section[] in order: section heading, any popupMedia images,
- * then the section's html[] fragments. Displays meta.updateDate, which the
- * Mayo's syndication terms require.
+ * then the section's html[] fragments. Displays meta.updateDate, as Mayo's
+ * syndication terms require.
  *
  * @var array $args See library.php.
  *
