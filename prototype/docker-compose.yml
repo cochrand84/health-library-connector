@@ -7,10 +7,10 @@ services:
     ports:
       - "8090:80"
     volumes:
-      - ./html/index.php:/var/www/html/index.php
-      - ./html/index-cta.php:/var/www/html/index-cta.php
-      - ./html/config.php:/var/www/html/config.php
-      - ./html/doctors.php:/var/www/html/doctors.php
-      - ./html/cache:/var/www/html/cache
+      # Mount the whole directory, not individual files. Single-file bind
+      # mounts pin the original inode, so when an editor or scp replaces
+      # the file the container keeps serving the old copy until it is
+      # recreated (the "needs compose down/up after every edit" problem).
+      - ./html:/var/www/html
 
 networks: {}

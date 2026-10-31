@@ -1,0 +1,14 @@
+# Credentials — never commit
+prototype/html/config.php
+.env
+
+# Runtime cache
+prototype/html/cache/
+
+# Local / OS
+.DS_Store
+*.log
+node_modules/
+vendor/
+/build/
+*.zip

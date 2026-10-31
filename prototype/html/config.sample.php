@@ -1,7 +1,9 @@
 <?php
 /**
  * Mayo Clinic API Credentials
- * Keep this file out of version control.
+ *
+ * Copy this file to config.php and fill in your values.
+ * config.php is git-ignored — never commit real credentials.
  */
 
 define('MAYO_API_KEY',  'YOUR_API_KEY_HERE');   // <-- replace with your key
