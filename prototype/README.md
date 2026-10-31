@@ -1,12 +1,16 @@
 # Prototype (standalone PHP)
 
+> **Reference only — do not deploy this publicly.** It was a local test
+> harness: its file cache lives inside the web root and it has none of the
+> plugin's hardening (escaping, rate limiting, settings). Use the plugin.
+
 This is the original single-file proof of concept that the WordPress plugin
 grew out of. It is kept here for reference; new work happens in the plugin.
 
 ```bash
 cd prototype
 cp html/config.sample.php html/config.php   # add your API key and trckr
-mkdir -p html/cache && chmod 777 html/cache
+mkdir -p html/cache
 docker compose up -d
 ```
 

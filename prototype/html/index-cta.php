@@ -38,8 +38,9 @@ define('ARTICLES_PATH',  '/index-cta.php');   // CTA variant — links back to i
 // ============================================================
 
 if (!empty($_GET['mayo-image'])) {
-    $imageId = preg_replace('/[^A-Za-z0-9\-]/', '', trim($_GET['mayo-image']));
-    if (empty($imageId)) {
+    // Only image GUIDs — otherwise this would proxy any licensed content ID
+    $imageId = trim($_GET['mayo-image']);
+    if (!preg_match('/^GUID-[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$/', $imageId)) {
         http_response_code(400);
         exit('Invalid image ID');
     }
@@ -86,7 +87,7 @@ if (!empty($_GET['mayo-image'])) {
         }
     }
 
-    if ($imageData === false || $httpStatus >= 400) {
+    if ($imageData === false || $httpStatus >= 400 || stripos($contentType, 'image/') !== 0) {
         http_response_code(404);
         exit('Image not available (Mayo API returned ' . $httpStatus . ')');
     }
@@ -218,7 +219,7 @@ function mayo_search(string $query, int $top = 10, int $skip = 0): ?array {
  *
  * Endpoint: GET {Base URL}content/{id}/{lang}
  *
- * Confirmed response structure (from Developer Reference V3):
+ * Response structure (as observed):
  *   {
  *     "meta": {
  *       "contentType": "Disease"|"Article"|"Answer"|etc,
@@ -393,7 +394,7 @@ function e(string $value): void {
     </title>
 
     <?php
-    // REQUIRED by Mayo Developer Reference V3 (page 7):
+    // REQUIRED by Mayo's syndication terms:
     // Canonical tag must be included on all public-facing pages with Mayo content.
     // The originalUrl comes from the article's meta.originalUrl field.
     // In WordPress this goes in wp_head() via add_action('wp_head', ...) in functions.php.
@@ -728,7 +729,7 @@ function e(string $value): void {
 
         <?php
         // Extract confirmed fields from Mayo API response structure
-        // (Developer Reference V3, pages 28-31)
+        // (as observed in article responses)
         $meta        = $article['meta']        ?? [];
         $body        = $article['body']        ?? [];
         $sections    = $body['section']        ?? [];
@@ -738,7 +739,7 @@ function e(string $value): void {
         $contentType = $meta['contentType']    ?? '';
         $schema      = $article['noNamespaceSchemaLocation'] ?? ''; // e.g. disease.xsd, answer.xsd
 
-        // updateDate MUST be displayed per Mayo Syndication Guide
+        // updateDate MUST be displayed per Mayo's syndication terms
         $updateDate  = !empty($meta['updateDate'])
                        ? date('F j, Y', strtotime($meta['updateDate']))
                        : '';
@@ -816,14 +817,14 @@ function e(string $value): void {
             <?php endif; ?>
 
             <?php if ($updateDate): ?>
-                <!-- REQUIRED by Mayo Syndication Guide: update date must be displayed -->
+                <!-- REQUIRED by Mayo's syndication terms: update date must be displayed -->
                 <div class="article-meta">
                     <strong>Last reviewed:</strong> <?php e($updateDate); ?>
                 </div>
             <?php endif; ?>
         </div>
 
-        <!-- REQUIRED by Mayo Syndication Guide: copyright + terms of use -->
+        <!-- REQUIRED by Mayo's syndication terms: copyright + terms of use -->
         <p class="mayo-attribution">
             &copy;1998-<?php echo date('Y'); ?> Mayo Foundation for Medical Education and Research (MFMER).
             All rights reserved.

@@ -3,7 +3,10 @@
  * Caching: transients for JSON responses, a protected uploads folder for
  * image binaries (too large to sensibly keep in wp_options).
  *
- * Everything is capped at 48 hours to satisfy the Mayo Syndication Guide.
+ * Everything is capped at 48 hours to satisfy Mayo's syndication terms.
+ *
+ * Image filenames are keyed with a site secret, so even on servers that
+ * ignore .htaccess (nginx) the cached files can't be fetched by guessing.
  *
  * @package HealthLibraryForMayoClinic
  */
@@ -112,7 +115,7 @@ class HLMC_Cache {
 		if ( ! $dir ) {
 			return null;
 		}
-		$file = $dir . md5( $source . '|' . $guid );
+		$file = $dir . self::image_name( $source, $guid );
 		if ( ! is_readable( $file ) || ! is_readable( $file . '.type' ) ) {
 			return null;
 		}
@@ -139,11 +142,22 @@ class HLMC_Cache {
 		if ( ! $dir ) {
 			return;
 		}
-		$file = $dir . md5( $source . '|' . $guid );
+		$file = $dir . self::image_name( $source, $guid );
 		// phpcs:disable WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
 		file_put_contents( $file, $image['body'] );
 		file_put_contents( $file . '.type', $image['type'] );
 		// phpcs:enable
+	}
+
+	/**
+	 * Unguessable cache filename for an image.
+	 *
+	 * @param string $source Source name.
+	 * @param string $guid   Image GUID.
+	 * @return string
+	 */
+	private static function image_name( $source, $guid ) {
+		return hash_hmac( 'sha256', $source . '|' . $guid, wp_salt( 'auth' ) ) . '.bin';
 	}
 
 	/** Delete every cached image file. */

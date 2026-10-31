@@ -4,7 +4,7 @@
  *
  * Renders body.section[] in order: section heading, any popupMedia images,
  * then the section's html[] fragments. Displays meta.updateDate, which the
- * Mayo Syndication Guide requires.
+ * Mayo's syndication terms require.
  *
  * @var array $args See library.php.
  *

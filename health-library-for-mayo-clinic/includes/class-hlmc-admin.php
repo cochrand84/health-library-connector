@@ -242,7 +242,7 @@ class HLMC_Admin {
 						<th scope="row"><label for="hlmc-cache"><?php esc_html_e( 'Cache lifetime (hours)', 'health-library-for-mayo-clinic' ); ?></label></th>
 						<td>
 							<input type="number" id="hlmc-cache" class="small-text" min="1" max="48" name="<?php echo esc_attr( $this->name( 'cache_hours' ) ); ?>" value="<?php echo esc_attr( $s['cache_hours'] ); ?>">
-							<p class="description"><?php esc_html_e( 'Maximum 48. The Mayo Clinic Syndication Guide requires content to be refreshed at least every 48 hours.', 'health-library-for-mayo-clinic' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Maximum 48. Mayo Clinic’s syndication terms require content to be refreshed at least every 48 hours.', 'health-library-for-mayo-clinic' ); ?></p>
 						</td>
 					</tr>
 				</table>

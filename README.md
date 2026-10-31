@@ -76,6 +76,18 @@ CSV columns: `mcv_ids, topic, provider_label, provider_url, service1_label, serv
 
 Rows can also be supplied from code with the `hlmc_care_links` filter.
 
+## Protecting your API quota
+
+Every uncached search, results page or article costs a live API call. The
+plugin limits uncached calls to 20 per visitor and 120 site-wide per minute
+(administrators and WP-CLI are exempt). Adjust with the `hlmc_rate_limits`
+filter; behind a CDN or proxy, use `hlmc_client_ip` to read the real visitor
+IP from a header you trust (e.g. `CF-Connecting-IP`).
+
+Cached images are stored in `wp-content/uploads/hlmc-cache/` under
+unguessable names. Apache is also blocked by an `.htaccess` file there; on
+nginx you can add `location ^~ /wp-content/uploads/hlmc-cache/ { deny all; }`.
+
 ## Customizing
 
 Copy any file from `health-library-for-mayo-clinic/templates/` to
@@ -83,8 +95,9 @@ Copy any file from `health-library-for-mayo-clinic/templates/` to
 (`--hlmc-accent`, `--hlmc-border`, …) scoped to `.hlmc`.
 
 Filters: `hlmc_source`, `hlmc_template`, `hlmc_allowed_html`,
-`hlmc_care_links`, `hlmc_care_links_match`, `hlmc_is_library_page`.
-Action: `hlmc_cache_cleared`.
+`hlmc_care_links`, `hlmc_care_links_match`, `hlmc_is_library_page`,
+`hlmc_rate_limits`, `hlmc_client_ip`.
+Actions: `hlmc_cache_cleared`, `hlmc_rate_limited`.
 
 ## WP-CLI
 
@@ -96,9 +109,8 @@ wp health-library cache clear
 
 ## Your license obligations
 
-The plugin builds in the requirements from Mayo's Developer Reference and
-Syndication Guide that we know of, but **your license agreement is what
-counts**. Check the required attribution wording and override
+The plugin builds in the display and caching requirements we know of from
+Mayo's syndication terms, but **your license agreement is what counts**. Check the required attribution wording and override
 `templates/attribution.php` if yours differs.
 
 ## Repository layout
@@ -106,7 +118,7 @@ counts**. Check the required attribution wording and override
 | Path | What it is |
 |------|------------|
 | `health-library-for-mayo-clinic/` | The plugin |
-| `prototype/` | The original standalone PHP prototype the plugin grew out of |
+| `prototype/` | The original standalone PHP prototype the plugin grew out of — reference only, **not for deployment** |
 
 The early commits are the prototype's development history, reconstructed
 from the working sessions it was built in (timestamps are approximate).

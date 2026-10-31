@@ -2,7 +2,7 @@
 /**
  * Live client for the Mayo Clinic GBS Realtime (Content Delivery) API.
  *
- * Endpoints (Developer Reference V3):
+ * Endpoints:
  *   GET {base}content?q=...&top=...&skip=...&lang=en   search
  *   GET {base}content/{id}/{lang}                      article / image
  *
@@ -77,6 +77,10 @@ class HLMC_API_Source implements HLMC_Source {
 			return $cached;
 		}
 
+		if ( ! HLMC_Rate_Limit::allow() ) {
+			return new WP_Error( 'hlmc_rate_limited', __( 'Too many requests. Please try again in a minute.', 'health-library-for-mayo-clinic' ), array( 'status' => 429 ) );
+		}
+
 		// No JSON Accept header here: Mayo returns the raw binary for images.
 		$response = wp_remote_get(
 			$this->base_url . 'content/' . rawurlencode( $guid ) . '/' . $this->lang,
@@ -149,6 +153,10 @@ class HLMC_API_Source implements HLMC_Source {
 		$cached = HLMC_Cache::get( $key );
 		if ( null !== $cached ) {
 			return $cached;
+		}
+
+		if ( ! HLMC_Rate_Limit::allow() ) {
+			return new WP_Error( 'hlmc_rate_limited', __( 'Too many requests. Please try again in a minute.', 'health-library-for-mayo-clinic' ), array( 'status' => 429 ) );
 		}
 
 		$response = wp_remote_get(

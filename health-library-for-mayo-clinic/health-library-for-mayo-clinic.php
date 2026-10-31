@@ -28,7 +28,7 @@ define( 'HLMC_DIR', plugin_dir_path( __FILE__ ) );
 define( 'HLMC_URL', plugin_dir_url( __FILE__ ) );
 
 /**
- * Mayo's Syndication Guide requires cached content to be refreshed at least
+ * Mayo's syndication terms require cached content to be refreshed at least
  * every 48 hours. The cache TTL setting can never exceed this value.
  */
 define( 'HLMC_MAX_CACHE_TTL', 48 * HOUR_IN_SECONDS );
@@ -37,6 +37,7 @@ require_once HLMC_DIR . 'includes/helpers.php';
 require_once HLMC_DIR . 'includes/interface-hlmc-source.php';
 require_once HLMC_DIR . 'includes/class-hlmc-settings.php';
 require_once HLMC_DIR . 'includes/class-hlmc-cache.php';
+require_once HLMC_DIR . 'includes/class-hlmc-rate-limit.php';
 require_once HLMC_DIR . 'includes/class-hlmc-api-source.php';
 require_once HLMC_DIR . 'includes/class-hlmc-demo-source.php';
 require_once HLMC_DIR . 'includes/class-hlmc-care-links.php';

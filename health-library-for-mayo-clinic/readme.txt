@@ -18,7 +18,8 @@ Health Library for Mayo Clinic lets organizations that license the Mayo Clinic H
 * `[health_library_search]` search box for headers, sidebars or the home page
 * Server-side API calls — your API key never reaches the browser
 * Article images proxied and cached server-side
-* Caching capped at 48 hours, as the Mayo Clinic Syndication Guide requires
+* Caching capped at 48 hours, as Mayo Clinic's syndication terms require
+* Limits how many uncached API calls a visitor can trigger, protecting your API quota
 * Canonical tag pointing at Mayo's original URL, update date, copyright and Terms of Use link
 * Optional sidebar: links to your own provider and service pages, matched to each article's topic — edit in a table or import from a spreadsheet (CSV)
 * Category inspector for administrators to see each article's Mayo topic codes

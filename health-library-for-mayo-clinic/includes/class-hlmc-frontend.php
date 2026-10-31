@@ -135,7 +135,7 @@ class HLMC_Frontend {
 	}
 
 	/**
-	 * Mayo's Developer Reference requires a canonical tag pointing at the
+	 * Mayo's syndication terms require a canonical tag pointing at the
 	 * article's meta.originalUrl on every public page that shows its content.
 	 */
 	public function output_canonical() {
