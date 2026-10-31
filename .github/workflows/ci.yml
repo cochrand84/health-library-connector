@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ["7.4", "8.1", "8.3"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: none
+      - name: PHP syntax check
+        run: find health-library-for-mayo-clinic -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: Demo data is valid JSON
+        run: for f in $(find health-library-for-mayo-clinic/demo-data -name '*.json'); do php -r 'json_decode(file_get_contents($argv[1]), false, 512, JSON_THROW_ON_ERROR);' "$f" || exit 1; done
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build plugin zip
+        run: zip -r health-library-for-mayo-clinic.zip health-library-for-mayo-clinic
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: health-library-for-mayo-clinic.zip
+          generate_release_notes: true
