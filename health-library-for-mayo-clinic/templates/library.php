@@ -6,9 +6,10 @@
  *     @type HLMC_Request $request  Current request (mode, article, search, error).
  *     @type bool         $live     True when showing real Mayo Clinic content.
  *     @type string       $base_url URL of the page hosting the library.
- *     @type string       $sidebar  'none' | 'cta' | 'providers'.
- *     @type array        $featured Featured search results for the landing view.
- *     @type array|null   $match    Specialist match for the article.
+ *     @type string       $sidebar   'none' | 'cta' | 'links'.
+ *     @type array        $featured  Featured search results for the landing view.
+ *     @type array|null   $match     Care-links match for the article (HLMC_Care_Links::match()).
+ *     @type bool         $inspector Show the admin-only category inspector.
  *     @type array        $settings Plugin settings.
  * }
  *
@@ -63,6 +64,10 @@ $hlmc_has_sidebar = 'none' !== $args['sidebar'];
 			</aside>
 		<?php endif; ?>
 	</div>
+
+	<?php if ( ! empty( $args['inspector'] ) ) : ?>
+		<?php hlmc_template( 'category-inspector', $args ); ?>
+	<?php endif; ?>
 
 	<?php hlmc_template( 'attribution', $args ); ?>
 </div>

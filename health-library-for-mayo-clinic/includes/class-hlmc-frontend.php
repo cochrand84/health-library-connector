@@ -3,7 +3,7 @@
  * Front end: shortcodes, document title, canonical tag, and assets.
  *
  *   [health_library]          Full library (landing, search, article) on any page.
- *     sidebar="none|cta|providers"  Override the sidebar setting for this page.
+ *     sidebar="none|cta|links"      Override the sidebar setting for this page.
  *     featured="12"                 Number of featured articles on the landing view (0 hides).
  *
  *   [health_library_search]   Just the search box; submits to the library page.
@@ -239,7 +239,7 @@ class HLMC_Frontend {
 		$source  = $plugin->source();
 		$base    = self::base_url();
 
-		$sidebar = in_array( $atts['sidebar'], array( 'none', 'cta', 'providers' ), true ) ? $atts['sidebar'] : 'none';
+		$sidebar = HLMC_Settings::normalize_sidebar( $atts['sidebar'] );
 		if ( 'home' === $request->mode ) {
 			$sidebar = 'none';
 		}
@@ -254,9 +254,15 @@ class HLMC_Frontend {
 		}
 
 		$match = null;
-		if ( 'providers' === $sidebar && 'article' === $request->mode && $request->article ) {
-			$match = HLMC_Providers::match( $request->article );
+		if ( 'article' === $request->mode && $request->article ) {
+			$match = HLMC_Care_Links::match( $request->article );
 		}
+
+		// Admins get a panel under each article listing its Mayo categories
+		// and which sidebar row (if any) matched, to make mapping easy.
+		$inspector = 'article' === $request->mode && $request->article
+			&& HLMC_Settings::get( 'show_inspector' )
+			&& current_user_can( 'manage_options' );
 
 		$args = array(
 			'request'  => $request,
@@ -264,7 +270,8 @@ class HLMC_Frontend {
 			'base_url' => $base,
 			'sidebar'  => $sidebar,
 			'featured' => $featured,
-			'match'    => $match,
+			'match'     => $match,
+			'inspector' => $inspector,
 			'settings' => HLMC_Settings::all(),
 		);
 

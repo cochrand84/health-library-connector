@@ -37,12 +37,14 @@ class HLMC_Settings {
 			'featured_count'  => 12,
 			'library_page_id' => 0,
 			'accent_color'    => '#003865',
-			'sidebar'         => 'none',  // 'none' | 'cta' | 'providers'.
+			'sidebar'         => 'none',  // 'none' | 'cta' | 'links'.
 			'cta_title'       => __( 'Find a Doctor', 'health-library-for-mayo-clinic' ),
 			'cta_text'        => __( 'Connect with a specialist who can help with your health concerns.', 'health-library-for-mayo-clinic' ),
 			'cta_button'      => __( 'Schedule an Appointment', 'health-library-for-mayo-clinic' ),
 			'cta_url'         => '',
-			'providers_json'  => '',
+			'links_provider_heading' => __( 'Find a Provider', 'health-library-for-mayo-clinic' ),
+			'links_services_heading' => __( 'Services We Offer', 'health-library-for-mayo-clinic' ),
+			'show_inspector'  => 1,
 		);
 	}
 
@@ -125,6 +127,17 @@ class HLMC_Settings {
 	}
 
 	/**
+	 * Sidebar mode. 'providers' is accepted as an older name for 'links'.
+	 *
+	 * @param string $value Raw value.
+	 * @return string 'none' | 'cta' | 'links'
+	 */
+	public static function normalize_sidebar( $value ) {
+		$value = 'providers' === $value ? 'links' : (string) $value;
+		return in_array( $value, array( 'none', 'cta', 'links' ), true ) ? $value : 'none';
+	}
+
+	/**
 	 * Sanitize the settings array on save.
 	 *
 	 * @param array $input Raw input.
@@ -162,26 +175,15 @@ class HLMC_Settings {
 		$color               = isset( $input['accent_color'] ) ? sanitize_hex_color( $input['accent_color'] ) : '';
 		$out['accent_color'] = $color ? $color : $defaults['accent_color'];
 
-		$sidebar        = isset( $input['sidebar'] ) ? $input['sidebar'] : 'none';
-		$out['sidebar'] = in_array( $sidebar, array( 'none', 'cta', 'providers' ), true ) ? $sidebar : 'none';
+		$out['sidebar'] = self::normalize_sidebar( isset( $input['sidebar'] ) ? $input['sidebar'] : 'none' );
 
-		foreach ( array( 'cta_title', 'cta_button' ) as $k ) {
+		foreach ( array( 'cta_title', 'cta_button', 'links_provider_heading', 'links_services_heading' ) as $k ) {
 			$out[ $k ] = isset( $input[ $k ] ) ? sanitize_text_field( wp_unslash( $input[ $k ] ) ) : $defaults[ $k ];
 		}
 		$out['cta_text'] = isset( $input['cta_text'] ) ? sanitize_textarea_field( wp_unslash( $input['cta_text'] ) ) : $defaults['cta_text'];
 		$out['cta_url']  = isset( $input['cta_url'] ) ? esc_url_raw( trim( $input['cta_url'] ) ) : '';
 
-		$json = isset( $input['providers_json'] ) ? trim( wp_unslash( $input['providers_json'] ) ) : '';
-		if ( '' === $json ) {
-			$out['providers_json'] = '';
-		} else {
-			$decoded = json_decode( $json, true );
-			if ( is_array( $decoded ) ) {
-				$out['providers_json'] = wp_json_encode( $decoded, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
-			} else {
-				add_settings_error( self::OPTION, 'hlmc_providers_json', __( 'Provider mapping was not valid JSON, so the previous value was kept.', 'health-library-for-mayo-clinic' ) );
-			}
-		}
+		$out['show_inspector'] = empty( $input['show_inspector'] ) ? 0 : 1;
 
 		// Changing the content source or credentials invalidates cached data.
 		if ( $out['mode'] !== $current['mode'] || $out['api_key'] !== $current['api_key'] || $out['base_url'] !== $current['base_url'] || $out['language'] !== $current['language'] ) {

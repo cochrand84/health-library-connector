@@ -4,7 +4,7 @@ Tags: health, medical, mayo clinic, health library, api
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -20,7 +20,8 @@ Health Library for Mayo Clinic lets organizations that license the Mayo Clinic H
 * Article images proxied and cached server-side
 * Caching capped at 48 hours, as the Mayo Clinic Syndication Guide requires
 * Canonical tag pointing at Mayo's original URL, update date, copyright and Terms of Use link
-* Optional sidebar: a call to action, or specialists matched to the article's topic
+* Optional sidebar: links to your own provider and service pages, matched to each article's topic — edit in a table or import from a spreadsheet (CSV)
+* Category inspector for administrators to see each article's Mayo topic codes
 * Works with any theme; every view can be overridden from your theme
 * Demo mode with bundled sample articles, so you can try it without credentials
 * WP-CLI: `wp health-library status|test|cache clear`
@@ -45,11 +46,19 @@ From Mayo Clinic Global Business Solutions as part of a Health Information Libra
 
 Copy any file from the plugin's `templates/` folder into `your-theme/health-library/` and edit it there.
 
+= How do I map topics to my own pages? =
+
+Settings → Health Library → Sidebar links. Download the CSV template, fill it in, and import it, or edit rows directly. While logged in as an administrator, each article shows its Mayo category codes and which row matched.
+
 = Does it work with Yoast SEO or Rank Math? =
 
 Yes. On article views the canonical URL and title are passed to those plugins.
 
 == Changelog ==
+
+= 0.2.0 =
+* Sidebar links: map Mayo topics to your own provider and service pages, with a table editor and CSV import/export.
+* Most-specific topic matching, default row, and an admin-only category inspector on articles.
 
 = 0.1.0 =
 * First release, converted from the standalone PHP prototype.

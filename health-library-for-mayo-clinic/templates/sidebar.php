@@ -1,6 +1,11 @@
 <?php
 /**
- * Sidebar: a generic call to action, or specialists matched to the article.
+ * Sidebar on search and article views.
+ *
+ * - sidebar="links": on articles, the care links mapped to the article's
+ *   Mayo topic ("Find a Provider" + "Services We Offer"); falls back to the
+ *   call to action when nothing is mapped, and on search results.
+ * - sidebar="cta": always the call to action.
  *
  * @var array $args See library.php.
  *
@@ -11,43 +16,38 @@ defined( 'ABSPATH' ) || exit;
 
 $hlmc_s     = $args['settings'];
 $hlmc_match = $args['match'];
-$hlmc_cta   = $hlmc_s['cta_url'] ? $hlmc_s['cta_url'] : '';
+$hlmc_row   = ( 'links' === $args['sidebar'] && $hlmc_match ) ? $hlmc_match['row'] : null;
 ?>
-<?php if ( 'providers' === $args['sidebar'] && $hlmc_match ) : ?>
-	<div class="hlmc-cta hlmc-cta-primary">
-		<h3>
-			<?php
-			/* translators: %s: specialty name */
-			printf( esc_html__( '%s specialists', 'health-library-for-mayo-clinic' ), esc_html( $hlmc_match['specialty'] ) );
-			?>
-		</h3>
-		<p><?php esc_html_e( 'Based on this article, these providers may be able to help.', 'health-library-for-mayo-clinic' ); ?></p>
-	</div>
-	<?php foreach ( $hlmc_match['providers'] as $hlmc_p ) : ?>
-		<div class="hlmc-cta hlmc-provider">
-			<h4><?php echo esc_html( $hlmc_p['name'] ?? '' ); ?></h4>
-			<?php if ( ! empty( $hlmc_p['title'] ) ) : ?>
-				<p class="hlmc-provider-title"><?php echo esc_html( $hlmc_p['title'] ); ?></p>
-			<?php endif; ?>
-			<?php if ( ! empty( $hlmc_p['phone'] ) ) : ?>
-				<p class="hlmc-provider-phone"><a href="tel:<?php echo esc_attr( preg_replace( '/[^0-9+]/', '', $hlmc_p['phone'] ) ); ?>"><?php echo esc_html( $hlmc_p['phone'] ); ?></a></p>
-			<?php endif; ?>
-			<?php
-			$hlmc_link = ! empty( $hlmc_p['url'] ) ? $hlmc_p['url'] : $hlmc_cta;
-			if ( $hlmc_link ) :
-				?>
-				<a class="hlmc-button hlmc-button-secondary" href="<?php echo esc_url( $hlmc_link ); ?>"><?php esc_html_e( 'Schedule appointment', 'health-library-for-mayo-clinic' ); ?></a>
-			<?php endif; ?>
+<?php if ( $hlmc_row ) : ?>
+
+	<?php if ( ! empty( $hlmc_row['provider'] ) ) : ?>
+		<div class="hlmc-cta hlmc-cta-primary hlmc-links-provider">
+			<h3><?php echo esc_html( $hlmc_s['links_provider_heading'] ); ?></h3>
+			<?php foreach ( $hlmc_row['provider'] as $hlmc_link ) : ?>
+				<a class="hlmc-button" href="<?php echo esc_url( $hlmc_link['url'] ); ?>"><?php echo esc_html( $hlmc_link['label'] ); ?></a>
+			<?php endforeach; ?>
 		</div>
-	<?php endforeach; ?>
+	<?php endif; ?>
+
+	<?php if ( ! empty( $hlmc_row['services'] ) ) : ?>
+		<div class="hlmc-cta hlmc-links-services">
+			<h3><?php echo esc_html( $hlmc_s['links_services_heading'] ); ?></h3>
+			<ul class="hlmc-link-list">
+				<?php foreach ( $hlmc_row['services'] as $hlmc_link ) : ?>
+					<li><a href="<?php echo esc_url( $hlmc_link['url'] ); ?>"><?php echo esc_html( $hlmc_link['label'] ); ?></a></li>
+				<?php endforeach; ?>
+			</ul>
+		</div>
+	<?php endif; ?>
+
 <?php else : ?>
 	<div class="hlmc-cta hlmc-cta-primary">
 		<h3><?php echo esc_html( $hlmc_s['cta_title'] ); ?></h3>
 		<?php if ( $hlmc_s['cta_text'] ) : ?>
 			<p><?php echo esc_html( $hlmc_s['cta_text'] ); ?></p>
 		<?php endif; ?>
-		<?php if ( $hlmc_cta ) : ?>
-			<a class="hlmc-button" href="<?php echo esc_url( $hlmc_cta ); ?>"><?php echo esc_html( $hlmc_s['cta_button'] ); ?></a>
+		<?php if ( $hlmc_s['cta_url'] ) : ?>
+			<a class="hlmc-button" href="<?php echo esc_url( $hlmc_s['cta_url'] ); ?>"><?php echo esc_html( $hlmc_s['cta_button'] ); ?></a>
 		<?php endif; ?>
 	</div>
 <?php endif; ?>

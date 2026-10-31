@@ -22,7 +22,7 @@ without leaving your site.
 - Server-side requests only; the API key never reaches the browser and can live in `wp-config.php`
 - Article images proxied and cached server-side (the image endpoint needs authentication)
 - License-friendly by default: cache capped at **48 hours**, canonical tag to Mayo's `originalUrl` (also passed to Yoast / Rank Math), "Last reviewed" date, © MFMER notice and Terms of Use link
-- Optional sidebar: a call to action, or **specialists matched to the article's topic** using Mayo's `mcvId` category codes
+- Optional sidebar: a call to action, or **links to your own provider and service pages matched to the article's topic**, edited in a table or imported from a spreadsheet
 - Theme-independent: inherits your theme's typography; every view can be overridden from your theme
 - Demo mode, WP-CLI commands, clean uninstall
 
@@ -51,31 +51,30 @@ define( 'HLMC_TRCKR',   'your-trckr-value' );
 ## Shortcode options
 
 ```
-[health_library sidebar="none|cta|providers" featured="12"]
+[health_library sidebar="none|cta|links" featured="12"]
 [health_library_search placeholder="Search health topics…"]
 ```
 
-## Specialist sidebar
+## Sidebar links
 
-Mayo article responses include a `meta.controlWords` tree of category nodes,
-each with an `mcvId`. Map the IDs you care about to a specialty, and each
-specialty to providers, in **Settings → Health Library → Specialty mapping**:
+On article pages the sidebar can link readers to your own pages for that
+topic: a **Find a Provider** link and a list of **Services We Offer**.
 
-```json
-{
-  "fallback": "Internal Medicine",
-  "specialties": { "1452": "Gastroenterology", "1104": "OB/GYN" },
-  "providers": {
-    "Gastroenterology": [
-      { "name": "Dr. Jane Doe", "title": "Gastroenterologist",
-        "phone": "(555) 555-0100", "url": "https://example.org/doctors/jane-doe" }
-    ]
-  }
-}
-```
+Mayo tags every article with category codes (`mcvId`s) that run from broad to
+specific, e.g. *Condition › Diagnosable condition `1092` › Pain NOS `1770` ›
+Gas and gas pains `2926`*. You map codes to links under **Settings → Health
+Library → Sidebar links**:
 
-Or supply it from code with the `hlmc_provider_map` filter (for example, from
-your provider directory).
+- Edit rows in the table (topic, one or more codes, provider and service links), reorder them, filter them
+- **Import / export CSV** — download the template, fill it in a spreadsheet, save as *CSV UTF-8*, import (merge or replace)
+- The **most specific** mapped code on an article wins, so generic codes like `1092` act as a catch-all; ties go to the higher row
+- A row with `*` as its code is the default when nothing matches
+- Administrators see a **category inspector** under each article listing its codes and which row matched — the easy way to find codes to map
+
+CSV columns: `mcv_ids, topic, provider_label, provider_url, service1_label, service1_url, …`
+(several codes in one cell separated by `;`; add `service4_*`, `provider2_*` … as needed).
+
+Rows can also be supplied from code with the `hlmc_care_links` filter.
 
 ## Customizing
 
@@ -84,7 +83,7 @@ Copy any file from `health-library-for-mayo-clinic/templates/` to
 (`--hlmc-accent`, `--hlmc-border`, …) scoped to `.hlmc`.
 
 Filters: `hlmc_source`, `hlmc_template`, `hlmc_allowed_html`,
-`hlmc_provider_map`, `hlmc_provider_match`, `hlmc_is_library_page`.
+`hlmc_care_links`, `hlmc_care_links_match`, `hlmc_is_library_page`.
 Action: `hlmc_cache_cleared`.
 
 ## WP-CLI

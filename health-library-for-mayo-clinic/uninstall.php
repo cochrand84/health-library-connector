@@ -10,6 +10,7 @@ defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
 global $wpdb;
 
 delete_option( 'hlmc_settings' );
+delete_option( 'hlmc_care_links' );
 
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 $wpdb->query(

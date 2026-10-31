@@ -1,0 +1,23 @@
+/* Settings → Health Library */
+.hlmc-help { list-style: disc; padding-left: 1.5em; max-width: 60em; }
+.hlmc-help li { margin-bottom: .35em; }
+.hlmc-links-toolbar { display: flex; gap: 1em; align-items: center; margin: 1em 0 .5em; }
+.hlmc-links-toolbar input[type="search"] { width: 22em; }
+.hlmc-count { color: #646970; }
+.hlmc-links-table { table-layout: fixed; }
+.hlmc-links-table td { vertical-align: top; }
+.hlmc-links-table .col-order { width: 3.5em; text-align: center; }
+.hlmc-links-table .col-topic { width: 14%; }
+.hlmc-links-table .col-ids { width: 13%; }
+.hlmc-links-table .col-actions { width: 5em; }
+.hlmc-links-table input[type="text"], .hlmc-links-table input[type="url"] { width: 100%; }
+.hlmc-num { display: block; font-weight: 600; }
+.hlmc-move .button-link { font-size: 11px; line-height: 1.4; padding: 0 2px; }
+.hlmc-link { display: grid; grid-template-columns: 1fr 1.4fr auto; gap: 4px; margin-bottom: 4px; }
+.hlmc-remove-link { color: #b32d2e; font-size: 16px; line-height: 28px; padding: 0 4px; }
+.hlmc-add-link { font-size: 12px; }
+.hlmc-row:nth-child(even) td { background: #f6f7f7; }
+.hlmc-io { display: flex; gap: .5em; flex-wrap: wrap; margin-bottom: 1em; }
+.hlmc-import { padding: 1em; background: #fff; border: 1px solid #c3c4c7; max-width: 46em; }
+.hlmc-import fieldset { margin: .5em 0 1em; }
+.hlmc-reset { margin-top: 2em; }

@@ -6,7 +6,16 @@
     "updateDate": "2026-05-22T00:00:00",
     "publicationDate": "2017-07-01T00:00:00",
     "controlWords": {
-      "category": []
+      "category": [
+        {
+          "title": "Lifestyle",
+          "mcvId": "1006",
+          "keyword": {
+            "title": "Sun safety (demo)",
+            "mcvId": "9008"
+          }
+        }
+      ]
     }
   },
   "body": {

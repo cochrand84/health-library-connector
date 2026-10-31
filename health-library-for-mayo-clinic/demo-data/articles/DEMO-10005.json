@@ -8,15 +8,31 @@
     "controlWords": {
       "category": [
         {
+          "title": "Condition",
+          "mcvId": "23457",
           "keyword": {
-            "value": "Intestine",
-            "mcvId": "1452"
+            "title": "Diagnosable condition",
+            "mcvId": "1092",
+            "keyword": {
+              "title": "Pain NOS",
+              "mcvId": "1770",
+              "keyword": {
+                "title": "Heartburn (demo)",
+                "mcvId": "9005"
+              }
+            }
           }
         },
         {
+          "title": "Anatomical structure",
+          "mcvId": "23451",
           "keyword": {
-            "value": "Gastrointestinal tract",
-            "mcvId": "138500"
+            "title": "Body system",
+            "mcvId": "23450",
+            "keyword": {
+              "title": "Digestive system",
+              "mcvId": "1137"
+            }
           }
         }
       ]

@@ -8,9 +8,11 @@
     "controlWords": {
       "category": [
         {
+          "title": "Lifestyle",
+          "mcvId": "1006",
           "keyword": {
-            "value": "Lifestyle",
-            "mcvId": "1006"
+            "title": "Sleep (demo)",
+            "mcvId": "9003"
           }
         }
       ]

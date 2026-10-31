@@ -3,7 +3,7 @@
  * Plugin Name:       Health Library for Mayo Clinic
  * Plugin URI:        https://github.com/cochrand84/health-library-connector
  * Description:       Display Mayo Clinic Health Information Library content on any WordPress site through the Mayo Clinic GBS Realtime (Content Delivery) API. Requires your own licensed API credentials from Mayo Clinic. Includes a demo mode with sample data.
- * Version:           0.1.0
+ * Version:           0.2.0
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            David Cochran
@@ -22,7 +22,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'HLMC_VERSION', '0.1.0' );
+define( 'HLMC_VERSION', '0.2.0' );
 define( 'HLMC_FILE', __FILE__ );
 define( 'HLMC_DIR', plugin_dir_path( __FILE__ ) );
 define( 'HLMC_URL', plugin_dir_url( __FILE__ ) );
@@ -39,7 +39,7 @@ require_once HLMC_DIR . 'includes/class-hlmc-settings.php';
 require_once HLMC_DIR . 'includes/class-hlmc-cache.php';
 require_once HLMC_DIR . 'includes/class-hlmc-api-source.php';
 require_once HLMC_DIR . 'includes/class-hlmc-demo-source.php';
-require_once HLMC_DIR . 'includes/class-hlmc-providers.php';
+require_once HLMC_DIR . 'includes/class-hlmc-care-links.php';
 require_once HLMC_DIR . 'includes/class-hlmc-image-proxy.php';
 require_once HLMC_DIR . 'includes/class-hlmc-request.php';
 require_once HLMC_DIR . 'includes/class-hlmc-frontend.php';

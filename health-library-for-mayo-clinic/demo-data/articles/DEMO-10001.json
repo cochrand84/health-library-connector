@@ -8,9 +8,15 @@
     "controlWords": {
       "category": [
         {
+          "title": "Condition",
+          "mcvId": "23457",
           "keyword": {
-            "value": "Diagnosable condition",
-            "mcvId": "1092"
+            "title": "Diagnosable condition",
+            "mcvId": "1092",
+            "keyword": {
+              "title": "Allergy (demo)",
+              "mcvId": "9001"
+            }
           }
         }
       ]

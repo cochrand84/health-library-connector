@@ -8,8 +8,10 @@
     "controlWords": {
       "category": [
         {
+          "title": "Lifestyle",
+          "mcvId": "1006",
           "keyword": {
-            "value": "Nutrition and healthy eating",
+            "title": "Nutrition and healthy eating",
             "mcvId": "1094"
           }
         }

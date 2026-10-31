@@ -17,6 +17,12 @@ class HLMC_Admin {
 		add_action( 'admin_post_hlmc_clear_cache', array( $this, 'handle_clear_cache' ) );
 		add_action( 'admin_post_hlmc_test_connection', array( $this, 'handle_test_connection' ) );
 		add_action( 'admin_post_hlmc_create_page', array( $this, 'handle_create_page' ) );
+		add_action( 'admin_post_hlmc_save_links', array( $this, 'handle_save_links' ) );
+		add_action( 'admin_post_hlmc_import_links', array( $this, 'handle_import_links' ) );
+		add_action( 'admin_post_hlmc_export_links', array( $this, 'handle_export_links' ) );
+		add_action( 'admin_post_hlmc_links_template', array( $this, 'handle_links_template' ) );
+		add_action( 'admin_post_hlmc_reset_links', array( $this, 'handle_reset_links' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'assets' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( HLMC_FILE ), array( $this, 'action_links' ) );
 	}
 
@@ -57,12 +63,15 @@ class HLMC_Admin {
 	 * @param string $code    Notice code.
 	 * @param string $message Message (optional).
 	 */
-	private function back( $code, $message = '' ) {
+	private function back( $code, $message = '', $tab = '' ) {
 		$url = add_query_arg(
-			array(
-				'page'        => self::PAGE,
-				'hlmc_notice' => $code,
-				'hlmc_msg'    => rawurlencode( $message ),
+			array_filter(
+				array(
+					'page'        => self::PAGE,
+					'tab'         => $tab,
+					'hlmc_notice' => $code,
+					'hlmc_msg'    => rawurlencode( $message ),
+				)
 			),
 			admin_url( 'options-general.php' )
 		);
@@ -141,18 +150,32 @@ class HLMC_Admin {
 		$trk_const  = HLMC_Settings::trckr_from_constant();
 		$has_key    = '' !== HLMC_Settings::api_key();
 		$page_id    = (int) $s['library_page_id'];
-		$providers  = '' !== $s['providers_json'] ? $s['providers_json'] : wp_json_encode( HLMC_Providers::example_map(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE );
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- display only.
 		$notice     = isset( $_GET['hlmc_notice'] ) ? sanitize_key( $_GET['hlmc_notice'] ) : '';
 		$notice_msg = isset( $_GET['hlmc_msg'] ) ? sanitize_text_field( rawurldecode( wp_unslash( $_GET['hlmc_msg'] ) ) ) : '';
+		$tab        = isset( $_GET['tab'] ) && 'links' === $_GET['tab'] ? 'links' : 'general';
 		// phpcs:enable
+		$tab_url    = admin_url( 'options-general.php?page=' . self::PAGE );
 		?>
 		<div class="wrap">
 			<h1><?php esc_html_e( 'Health Library for Mayo Clinic', 'health-library-for-mayo-clinic' ); ?></h1>
 
 			<?php if ( $notice && $notice_msg ) : ?>
-				<div class="notice notice-<?php echo 'error' === $notice ? 'error' : 'success'; ?> is-dismissible"><p><?php echo esc_html( $notice_msg ); ?></p></div>
+				<div class="notice notice-<?php echo 'error' === $notice ? 'error' : ( 'warning' === $notice ? 'warning' : 'success' ); ?> is-dismissible"><p><?php echo nl2br( esc_html( $notice_msg ) ); ?></p></div>
 			<?php endif; ?>
+
+			<nav class="nav-tab-wrapper">
+				<a href="<?php echo esc_url( $tab_url ); ?>" class="nav-tab <?php echo 'general' === $tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'General', 'health-library-for-mayo-clinic' ); ?></a>
+				<a href="<?php echo esc_url( $tab_url . '&tab=links' ); ?>" class="nav-tab <?php echo 'links' === $tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Sidebar links', 'health-library-for-mayo-clinic' ); ?></a>
+			</nav>
+
+			<?php
+			if ( 'links' === $tab ) {
+				$this->render_links_tab();
+				echo '</div>';
+				return;
+			}
+			?>
 
 			<?php if ( 'live' === $s['mode'] && ! $has_key ) : ?>
 				<div class="notice notice-warning"><p><?php esc_html_e( 'Live mode is selected but no API key is set, so demo content is being shown.', 'health-library-for-mayo-clinic' ); ?></p></div>
@@ -265,11 +288,20 @@ class HLMC_Admin {
 					<tr>
 						<th scope="row"><?php esc_html_e( 'Show on search and article views', 'health-library-for-mayo-clinic' ); ?></th>
 						<td>
+							<?php $sidebar = HLMC_Settings::normalize_sidebar( $s['sidebar'] ); ?>
 							<fieldset>
-								<label><input type="radio" name="<?php echo esc_attr( $this->name( 'sidebar' ) ); ?>" value="none" <?php checked( $s['sidebar'], 'none' ); ?>> <?php esc_html_e( 'No sidebar', 'health-library-for-mayo-clinic' ); ?></label><br>
-								<label><input type="radio" name="<?php echo esc_attr( $this->name( 'sidebar' ) ); ?>" value="cta" <?php checked( $s['sidebar'], 'cta' ); ?>> <?php esc_html_e( 'Call to action (below)', 'health-library-for-mayo-clinic' ); ?></label><br>
-								<label><input type="radio" name="<?php echo esc_attr( $this->name( 'sidebar' ) ); ?>" value="providers" <?php checked( $s['sidebar'], 'providers' ); ?>> <?php esc_html_e( 'Specialists matched to the article’s topic', 'health-library-for-mayo-clinic' ); ?></label>
+								<label><input type="radio" name="<?php echo esc_attr( $this->name( 'sidebar' ) ); ?>" value="none" <?php checked( $sidebar, 'none' ); ?>> <?php esc_html_e( 'No sidebar', 'health-library-for-mayo-clinic' ); ?></label><br>
+								<label><input type="radio" name="<?php echo esc_attr( $this->name( 'sidebar' ) ); ?>" value="cta" <?php checked( $sidebar, 'cta' ); ?>> <?php esc_html_e( 'Call to action (below) only', 'health-library-for-mayo-clinic' ); ?></label><br>
+								<label><input type="radio" name="<?php echo esc_attr( $this->name( 'sidebar' ) ); ?>" value="links" <?php checked( $sidebar, 'links' ); ?>> <?php esc_html_e( 'Links matched to the article’s topic, falling back to the call to action', 'health-library-for-mayo-clinic' ); ?></label>
 							</fieldset>
+							<p class="description"><a href="<?php echo esc_url( $tab_url . '&tab=links' ); ?>"><?php esc_html_e( 'Edit the topic → link mapping', 'health-library-for-mayo-clinic' ); ?></a></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="hlmc-lph"><?php esc_html_e( 'Link headings', 'health-library-for-mayo-clinic' ); ?></label></th>
+						<td>
+							<p><input type="text" id="hlmc-lph" class="regular-text" name="<?php echo esc_attr( $this->name( 'links_provider_heading' ) ); ?>" value="<?php echo esc_attr( $s['links_provider_heading'] ); ?>"> <span class="description"><?php esc_html_e( 'above the provider link(s)', 'health-library-for-mayo-clinic' ); ?></span></p>
+							<p><input type="text" class="regular-text" name="<?php echo esc_attr( $this->name( 'links_services_heading' ) ); ?>" value="<?php echo esc_attr( $s['links_services_heading'] ); ?>"> <span class="description"><?php esc_html_e( 'above the service links', 'health-library-for-mayo-clinic' ); ?></span></p>
 						</td>
 					</tr>
 					<tr>
@@ -279,16 +311,13 @@ class HLMC_Admin {
 							<p><textarea class="large-text" rows="2" name="<?php echo esc_attr( $this->name( 'cta_text' ) ); ?>" placeholder="<?php esc_attr_e( 'Text', 'health-library-for-mayo-clinic' ); ?>"><?php echo esc_textarea( $s['cta_text'] ); ?></textarea></p>
 							<p><input type="text" class="regular-text" name="<?php echo esc_attr( $this->name( 'cta_button' ) ); ?>" value="<?php echo esc_attr( $s['cta_button'] ); ?>" placeholder="<?php esc_attr_e( 'Button label', 'health-library-for-mayo-clinic' ); ?>"></p>
 							<p><input type="url" class="regular-text code" name="<?php echo esc_attr( $this->name( 'cta_url' ) ); ?>" value="<?php echo esc_attr( $s['cta_url'] ); ?>" placeholder="https://"></p>
-							<p class="description"><?php esc_html_e( 'The URL is also used for provider “Schedule appointment” buttons that have no URL of their own.', 'health-library-for-mayo-clinic' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Shown on search results, and on articles with no mapped topic.', 'health-library-for-mayo-clinic' ); ?></p>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="hlmc-providers"><?php esc_html_e( 'Specialty mapping (JSON)', 'health-library-for-mayo-clinic' ); ?></label></th>
+						<th scope="row"><?php esc_html_e( 'Category inspector', 'health-library-for-mayo-clinic' ); ?></th>
 						<td>
-							<textarea id="hlmc-providers" class="large-text code" rows="14" name="<?php echo esc_attr( $this->name( 'providers_json' ) ); ?>"><?php echo esc_textarea( (string) $providers ); ?></textarea>
-							<p class="description">
-								<?php echo wp_kses( __( 'Maps Mayo <code>mcvId</code> category IDs (from <code>meta.controlWords</code> in an article response) to a specialty, and each specialty to providers. The pre-filled example uses fictional placeholder providers — replace them before going live.', 'health-library-for-mayo-clinic' ), array( 'code' => array() ) ); ?>
-							</p>
+							<label><input type="checkbox" name="<?php echo esc_attr( $this->name( 'show_inspector' ) ); ?>" value="1" <?php checked( ! empty( $s['show_inspector'] ) ); ?>> <?php esc_html_e( 'Show administrators a panel under each article listing its Mayo categories and which sidebar row matched', 'health-library-for-mayo-clinic' ); ?></label>
 						</td>
 					</tr>
 				</table>
@@ -323,5 +352,229 @@ class HLMC_Admin {
 			</p>
 		</div>
 		<?php
+	}
+
+	/* ------------------------------------------------------------------
+	 * Sidebar links tab
+	 * ------------------------------------------------------------------ */
+
+	/**
+	 * @param string $hook Admin page hook.
+	 */
+	public function assets( $hook ) {
+		if ( 'settings_page_' . self::PAGE !== $hook ) {
+			return;
+		}
+		wp_enqueue_script( 'hlmc-admin-links', HLMC_URL . 'assets/js/admin-links.js', array(), HLMC_VERSION, true );
+		wp_enqueue_style( 'hlmc-admin', HLMC_URL . 'assets/css/admin.css', array(), HLMC_VERSION );
+	}
+
+	private function render_links_tab() {
+		$rows     = HLMC_Care_Links::rows();
+		$is_saved = HLMC_Care_Links::has_saved_rows();
+		$sidebar  = HLMC_Settings::normalize_sidebar( HLMC_Settings::get( 'sidebar' ) );
+		$post_url = admin_url( 'admin-post.php' );
+		?>
+		<p class="hlmc-intro">
+			<?php esc_html_e( 'When someone reads an article, the sidebar shows links to your own pages for that topic. Each row lists one or more Mayo category IDs and the links to show for them.', 'health-library-for-mayo-clinic' ); ?>
+		</p>
+		<ul class="hlmc-help">
+			<li><?php echo wp_kses( __( '<strong>Finding IDs:</strong> open any article on your library page while logged in as an administrator. A yellow panel under the article lists its categories and IDs, and which row matched.', 'health-library-for-mayo-clinic' ), array( 'strong' => array() ) ); ?></li>
+			<li><?php echo wp_kses( __( '<strong>Which row wins:</strong> categories run from broad (“Diagnosable condition”) to specific (“Gas and gas pains”). The most specific mapped ID wins; ties go to the row higher in this list.', 'health-library-for-mayo-clinic' ), array( 'strong' => array() ) ); ?></li>
+			<li><?php echo wp_kses( __( '<strong>Default:</strong> put <code>*</code> in the IDs of one row to use it when nothing else matches.', 'health-library-for-mayo-clinic' ), array( 'strong' => array(), 'code' => array() ) ); ?></li>
+		</ul>
+
+		<?php if ( 'links' !== $sidebar ) : ?>
+			<div class="notice notice-warning inline"><p>
+				<?php esc_html_e( 'The sidebar is not set to show these links. Choose “Links matched to the article’s topic” on the General tab (or use [health_library sidebar="links"]).', 'health-library-for-mayo-clinic' ); ?>
+			</p></div>
+		<?php endif; ?>
+		<?php if ( ! $is_saved && $rows ) : ?>
+			<div class="notice notice-info inline"><p>
+				<?php esc_html_e( 'These are example rows for demo mode. Edit and save them, or import your own.', 'health-library-for-mayo-clinic' ); ?>
+			</p></div>
+		<?php endif; ?>
+
+		<form method="post" action="<?php echo esc_url( $post_url ); ?>" id="hlmc-links-form">
+			<input type="hidden" name="action" value="hlmc_save_links">
+			<input type="hidden" name="rows_json" id="hlmc-rows-json" value="">
+			<?php wp_nonce_field( 'hlmc_save_links' ); ?>
+
+			<div class="hlmc-links-toolbar">
+				<input type="search" id="hlmc-links-filter" placeholder="<?php esc_attr_e( 'Filter by topic, ID or link…', 'health-library-for-mayo-clinic' ); ?>">
+				<span class="hlmc-count" id="hlmc-links-count"></span>
+			</div>
+
+			<table class="widefat hlmc-links-table">
+				<thead>
+					<tr>
+						<th class="col-order">#</th>
+						<th class="col-topic"><?php esc_html_e( 'Topic', 'health-library-for-mayo-clinic' ); ?></th>
+						<th class="col-ids"><?php esc_html_e( 'Mayo category IDs', 'health-library-for-mayo-clinic' ); ?></th>
+						<th class="col-links"><?php echo esc_html( HLMC_Settings::get( 'links_provider_heading' ) ); ?></th>
+						<th class="col-links"><?php echo esc_html( HLMC_Settings::get( 'links_services_heading' ) ); ?></th>
+						<th class="col-actions"><span class="screen-reader-text"><?php esc_html_e( 'Actions', 'health-library-for-mayo-clinic' ); ?></span></th>
+					</tr>
+				</thead>
+				<tbody id="hlmc-links-body"></tbody>
+			</table>
+			<script type="application/json" id="hlmc-links-data"><?php echo wp_json_encode( $rows, JSON_HEX_TAG | JSON_HEX_AMP | JSON_UNESCAPED_SLASHES ); ?></script>
+
+			<p>
+				<button type="button" class="button" id="hlmc-add-row">+ <?php esc_html_e( 'Add row', 'health-library-for-mayo-clinic' ); ?></button>
+			</p>
+			<?php submit_button( __( 'Save links', 'health-library-for-mayo-clinic' ) ); ?>
+		</form>
+
+		<hr>
+		<h2><?php esc_html_e( 'Import and export', 'health-library-for-mayo-clinic' ); ?></h2>
+		<p><?php echo wp_kses( __( 'Use a spreadsheet: download the template, fill it in, and save it from Excel as <strong>CSV UTF-8</strong>. Put several IDs in one cell separated by semicolons. Add more link columns by continuing the pattern (<code>service4_label</code>, <code>service4_url</code>, <code>provider2_label</code>…).', 'health-library-for-mayo-clinic' ), array( 'strong' => array(), 'code' => array() ) ); ?></p>
+
+		<div class="hlmc-io">
+			<form method="post" action="<?php echo esc_url( $post_url ); ?>">
+				<input type="hidden" name="action" value="hlmc_links_template">
+				<?php wp_nonce_field( 'hlmc_links_template' ); ?>
+				<?php submit_button( __( 'Download template', 'health-library-for-mayo-clinic' ), 'secondary', 'submit', false ); ?>
+			</form>
+			<form method="post" action="<?php echo esc_url( $post_url ); ?>">
+				<input type="hidden" name="action" value="hlmc_export_links">
+				<?php wp_nonce_field( 'hlmc_export_links' ); ?>
+				<?php submit_button( __( 'Export current links (CSV)', 'health-library-for-mayo-clinic' ), 'secondary', 'submit', false, $rows ? array() : array( 'disabled' => 'disabled' ) ); ?>
+			</form>
+		</div>
+
+		<form method="post" action="<?php echo esc_url( $post_url ); ?>" enctype="multipart/form-data" class="hlmc-import">
+			<input type="hidden" name="action" value="hlmc_import_links">
+			<?php wp_nonce_field( 'hlmc_import_links' ); ?>
+			<p><input type="file" name="hlmc_csv" accept=".csv,text/csv" required></p>
+			<fieldset>
+				<label><input type="radio" name="mode" value="merge" checked> <?php esc_html_e( 'Add and update: rows with the same IDs are replaced, new rows are added', 'health-library-for-mayo-clinic' ); ?></label><br>
+				<label><input type="radio" name="mode" value="replace"> <?php esc_html_e( 'Replace everything with the file', 'health-library-for-mayo-clinic' ); ?></label>
+			</fieldset>
+			<?php submit_button( __( 'Import CSV', 'health-library-for-mayo-clinic' ), 'secondary', 'submit', false ); ?>
+		</form>
+
+		<?php if ( $is_saved ) : ?>
+			<form method="post" action="<?php echo esc_url( $post_url ); ?>" class="hlmc-reset">
+				<input type="hidden" name="action" value="hlmc_reset_links">
+				<?php wp_nonce_field( 'hlmc_reset_links' ); ?>
+				<label><input type="checkbox" name="confirm" value="1" required> <?php esc_html_e( 'Delete all sidebar links', 'health-library-for-mayo-clinic' ); ?></label>
+				<?php submit_button( __( 'Delete', 'health-library-for-mayo-clinic' ), 'delete', 'submit', false ); ?>
+			</form>
+		<?php endif; ?>
+		<?php
+	}
+
+	/** Permission + nonce check for link handlers. */
+	private function guard( $action ) {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'Sorry, you are not allowed to do that.', 'health-library-for-mayo-clinic' ) );
+		}
+		check_admin_referer( $action );
+	}
+
+	public function handle_save_links() {
+		$this->guard( 'hlmc_save_links' );
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- decoded then sanitized row by row in HLMC_Care_Links::clean_row().
+		$json = isset( $_POST['rows_json'] ) ? wp_unslash( $_POST['rows_json'] ) : '';
+		$rows = json_decode( (string) $json, true );
+		if ( ! is_array( $rows ) ) {
+			$this->back( 'error', __( 'Nothing was saved: the form data was not received. Is JavaScript enabled?', 'health-library-for-mayo-clinic' ), 'links' );
+		}
+		$before = count( $rows );
+		HLMC_Care_Links::save( $rows );
+		$after = count( HLMC_Care_Links::rows() );
+		$msg   = sprintf(
+			/* translators: %d: number of rows */
+			_n( 'Saved %d row.', 'Saved %d rows.', $after, 'health-library-for-mayo-clinic' ),
+			$after
+		);
+		if ( $after < $before ) {
+			$msg .= ' ' . sprintf(
+				/* translators: %d: number of rows */
+				_n( '%d incomplete row (no IDs or no link URL) was dropped.', '%d incomplete rows (no IDs or no link URL) were dropped.', $before - $after, 'health-library-for-mayo-clinic' ),
+				$before - $after
+			);
+		}
+		$this->back( $after < $before ? 'warning' : 'ok', $msg, 'links' );
+	}
+
+	public function handle_import_links() {
+		$this->guard( 'hlmc_import_links' );
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+		$file = isset( $_FILES['hlmc_csv'] ) ? $_FILES['hlmc_csv'] : null;
+		if ( ! $file || UPLOAD_ERR_OK !== (int) $file['error'] || ! is_uploaded_file( $file['tmp_name'] ) ) {
+			$this->back( 'error', __( 'Choose a CSV file to import.', 'health-library-for-mayo-clinic' ), 'links' );
+		}
+		if ( $file['size'] > 2 * MB_IN_BYTES ) {
+			$this->back( 'error', __( 'That file is larger than 2 MB.', 'health-library-for-mayo-clinic' ), 'links' );
+		}
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+		$parsed = HLMC_Care_Links::from_csv( (string) file_get_contents( $file['tmp_name'] ) );
+		if ( empty( $parsed['rows'] ) ) {
+			$this->back( 'error', implode( "\n", array_merge( array( __( 'No rows were imported.', 'health-library-for-mayo-clinic' ) ), array_slice( $parsed['errors'], 0, 20 ) ) ), 'links' );
+		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified in guard().
+		$mode = isset( $_POST['mode'] ) && 'replace' === $_POST['mode'] ? 'replace' : 'merge';
+		$rows = 'replace' === $mode || ! HLMC_Care_Links::has_saved_rows()
+			? $parsed['rows']
+			: HLMC_Care_Links::merge( HLMC_Care_Links::rows(), $parsed['rows'] );
+		HLMC_Care_Links::save( $rows );
+
+		$msg = sprintf(
+			/* translators: 1: rows imported, 2: total rows */
+			__( 'Imported %1$d rows. The table now has %2$d rows.', 'health-library-for-mayo-clinic' ),
+			count( $parsed['rows'] ),
+			count( HLMC_Care_Links::rows() )
+		);
+		if ( $parsed['errors'] ) {
+			$msg .= "\n" . implode( "\n", array_slice( $parsed['errors'], 0, 20 ) );
+		}
+		$this->back( $parsed['errors'] ? 'warning' : 'ok', $msg, 'links' );
+	}
+
+	/**
+	 * @param string $filename Download name.
+	 * @param string $csv      CSV text.
+	 */
+	private function send_csv( $filename, $csv ) {
+		nocache_headers();
+		header( 'Content-Type: text/csv; charset=utf-8' );
+		header( 'Content-Disposition: attachment; filename="' . sanitize_file_name( $filename ) . '"' );
+		echo $csv; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- CSV download.
+		exit;
+	}
+
+	public function handle_export_links() {
+		$this->guard( 'hlmc_export_links' );
+		$this->send_csv( 'health-library-sidebar-links-' . gmdate( 'Y-m-d' ) . '.csv', HLMC_Care_Links::to_csv( HLMC_Care_Links::rows() ) );
+	}
+
+	public function handle_links_template() {
+		$this->guard( 'hlmc_links_template' );
+		$example = array(
+			array(
+				'ids'      => array( '1452', '2926', '138500' ),
+				'topic'    => 'Gastroenterology',
+				'provider' => array( array( 'label' => 'Gastroenterology', 'url' => 'https://example.org/providers/gastroenterology/' ) ),
+				'services' => array(
+					array( 'label' => 'Lab Services', 'url' => 'https://example.org/lab-services/' ),
+					array( 'label' => 'Diagnostic Imaging', 'url' => 'https://example.org/diagnostic-imaging/' ),
+				),
+			),
+			array(
+				'ids'      => array( '*' ),
+				'topic'    => 'Default (no match)',
+				'provider' => array( array( 'label' => 'Find a Doctor', 'url' => 'https://example.org/find-a-doctor/' ) ),
+				'services' => array(),
+			),
+		);
+		$this->send_csv( 'health-library-sidebar-links-template.csv', HLMC_Care_Links::to_csv( $example ) );
+	}
+
+	public function handle_reset_links() {
+		$this->guard( 'hlmc_reset_links' );
+		HLMC_Care_Links::reset();
+		$this->back( 'ok', __( 'Sidebar links deleted.', 'health-library-for-mayo-clinic' ), 'links' );
 	}
 }

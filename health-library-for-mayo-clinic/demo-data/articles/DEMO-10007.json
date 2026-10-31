@@ -8,15 +8,15 @@
     "controlWords": {
       "category": [
         {
+          "title": "Lifestyle",
+          "mcvId": "1006",
           "keyword": {
-            "value": "Physical activity",
-            "mcvId": "127048"
-          }
-        },
-        {
-          "keyword": {
-            "value": "Fitness",
-            "mcvId": "1090"
+            "title": "Fitness",
+            "mcvId": "1090",
+            "keyword": {
+              "title": "Physical activity",
+              "mcvId": "127048"
+            }
           }
         }
       ]

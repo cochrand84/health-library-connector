@@ -8,9 +8,15 @@
     "controlWords": {
       "category": [
         {
+          "title": "Condition",
+          "mcvId": "23457",
           "keyword": {
-            "value": "Pain NOS",
-            "mcvId": "1770"
+            "title": "Diagnosable condition",
+            "mcvId": "1092",
+            "keyword": {
+              "title": "Pain NOS",
+              "mcvId": "1770"
+            }
           }
         }
       ]
