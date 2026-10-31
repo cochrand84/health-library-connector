@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "contentType": "Disease",
+    "docId": "DEMO-10002",
+    "originalUrl": "",
+    "updateDate": "2026-08-30T00:00:00",
+    "publicationDate": "2023-11-15T00:00:00",
+    "controlWords": {
+      "category": [
+        {
+          "keyword": {
+            "value": "Diagnosable condition",
+            "mcvId": "1092"
+          }
+        }
+      ]
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Overview",
+        "html": [
+          "<p>The common cold is a viral infection of the nose and throat. Most people recover in about a week to 10 days.</p>"
+        ]
+      },
+      {
+        "sectionHead": "Symptoms",
+        "html": [
+          "<ul><li>Runny or stuffy nose</li><li>Sore throat</li><li>Cough</li><li>Mild body aches or a low-grade fever</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "Prevention",
+        "html": [
+          "<ul><li>Wash hands often with soap and water</li><li>Avoid touching your eyes, nose and mouth</li><li>Cover coughs and sneezes</li><li>Stay home when sick</li></ul>"
+        ],
+        "popupMedia": [
+          {
+            "image": {
+              "id": "GUID-5a7e2b90-3c11-4d2e-8f40-2b9c7d6e0a02",
+              "alt": "Illustration of hands being washed under running water",
+              "caption": "Handwashing for at least 20 seconds helps reduce the spread of many viruses.",
+              "title": "Illustration of hands being washed under running water",
+              "width": 640,
+              "height": 360
+            }
+          }
+        ]
+      },
+      {
+        "sectionHead": "When to see a doctor",
+        "html": [
+          "<p>Seek care for a high or long-lasting fever, trouble breathing, severe sore throat, or symptoms that get worse instead of better.</p>"
+        ]
+      }
+    ]
+  },
+  "title": "Common cold (demo)",
+  "abstract": "Sample article: an overview of the common cold, how it spreads, and practical comfort measures.",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}

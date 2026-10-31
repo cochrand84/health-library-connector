@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "contentType": "Healthy Lifestyle",
+    "docId": "DEMO-10008",
+    "originalUrl": "",
+    "updateDate": "2026-05-22T00:00:00",
+    "publicationDate": "2017-07-01T00:00:00",
+    "controlWords": {
+      "category": []
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Overview",
+        "html": [
+          "<p>Ultraviolet (UV) light from the sun can burn skin and, over time, damage it. A few simple habits go a long way.</p>"
+        ]
+      },
+      {
+        "sectionHead": "Everyday habits",
+        "html": [
+          "<ul><li>Use a broad-spectrum sunscreen and reapply as directed</li><li>Seek shade during midday hours</li><li>Wear a hat, sunglasses and protective clothing</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "Check your skin",
+        "html": [
+          "<p>Ask a health care professional about any new spot or a mole that changes in size, shape or color.</p>"
+        ]
+      }
+    ]
+  },
+  "title": "Sun protection basics (demo)",
+  "abstract": "Sample article: everyday ways to protect your skin from the sun.",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}

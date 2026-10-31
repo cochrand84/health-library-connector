@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "contentType": "Healthy Lifestyle",
+    "docId": "DEMO-10003",
+    "originalUrl": "",
+    "updateDate": "2026-10-02T00:00:00",
+    "publicationDate": "2022-06-20T00:00:00",
+    "controlWords": {
+      "category": [
+        {
+          "keyword": {
+            "value": "Lifestyle",
+            "mcvId": "1006"
+          }
+        }
+      ]
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Why sleep matters",
+        "html": [
+          "<p>Regular, good-quality sleep supports mood, concentration and overall health. Most adults do best with seven or more hours a night.</p>"
+        ],
+        "popupMedia": [
+          {
+            "image": {
+              "id": "GUID-9c1b4e77-2a3d-4f6a-b812-4e5d6c7b0a03",
+              "alt": "Illustration of a crescent moon over a calm bedroom window",
+              "caption": "A cool, dark, quiet room can make it easier to fall asleep.",
+              "title": "Illustration of a crescent moon over a calm bedroom window",
+              "width": 640,
+              "height": 360
+            }
+          }
+        ]
+      },
+      {
+        "sectionHead": "Habits that help",
+        "html": [
+          "<ul><li>Keep a consistent sleep and wake time, even on weekends</li><li>Limit caffeine later in the day</li><li>Put screens away before bed</li><li>Build a short wind-down routine</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "When to get help",
+        "html": [
+          "<p>Talk with a health care professional if trouble sleeping lasts for weeks, or if you snore loudly or feel very sleepy during the day.</p>"
+        ]
+      }
+    ]
+  },
+  "title": "Better sleep habits (demo)",
+  "abstract": "Sample article: simple routines that support a good night's sleep.",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}

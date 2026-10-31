@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "contentType": "Disease",
+    "docId": "DEMO-10001",
+    "originalUrl": "",
+    "updateDate": "2026-09-12T00:00:00",
+    "publicationDate": "2024-03-01T00:00:00",
+    "controlWords": {
+      "category": [
+        {
+          "keyword": {
+            "value": "Diagnosable condition",
+            "mcvId": "1092"
+          }
+        }
+      ]
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Overview",
+        "html": [
+          "<p>Seasonal allergies happen when the immune system reacts to airborne substances such as tree, grass or weed pollen. Symptoms often come and go with the seasons.</p>"
+        ],
+        "popupMedia": [
+          {
+            "image": {
+              "id": "GUID-0d3f6c2a-1b44-4c55-9a10-6f2e8d1c0a01",
+              "alt": "Illustration of pollen grains drifting from a flowering plant",
+              "caption": "Pollen counts tend to be highest on warm, dry, windy days.",
+              "title": "Illustration of pollen grains drifting from a flowering plant",
+              "width": 640,
+              "height": 360
+            }
+          }
+        ]
+      },
+      {
+        "sectionHead": "Symptoms",
+        "html": [
+          "<ul><li>Sneezing and a runny or stuffy nose</li><li>Itchy, watery eyes</li><li>Itchy throat or ears</li><li>Tiredness from poor sleep</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "Self-care",
+        "html": [
+          "<ul><li>Check local pollen forecasts and limit time outdoors on high-count days</li><li>Keep windows closed during peak season</li><li>Shower and change clothes after spending time outside</li><li>Ask a pharmacist about over-the-counter options</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "When to see a doctor",
+        "html": [
+          "<p>Talk with a health care professional if symptoms interfere with sleep or daily activities, last for months, or come with wheezing or shortness of breath.</p>"
+        ]
+      }
+    ]
+  },
+  "title": "Seasonal allergies (demo)",
+  "abstract": "<p>Sample article: what seasonal allergies are, common triggers, and everyday ways people manage symptoms.</p>",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}

@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "contentType": "Article",
+    "docId": "DEMO-10007",
+    "originalUrl": "",
+    "updateDate": "2026-10-10T00:00:00",
+    "publicationDate": "2018-04-12T00:00:00",
+    "controlWords": {
+      "category": [
+        {
+          "keyword": {
+            "value": "Physical activity",
+            "mcvId": "127048"
+          }
+        },
+        {
+          "keyword": {
+            "value": "Fitness",
+            "mcvId": "1090"
+          }
+        }
+      ]
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Getting started",
+        "html": [
+          "<p>Walking is an easy way to be more active. Start with short walks and build up gradually.</p>"
+        ],
+        "popupMedia": [
+          {
+            "image": {
+              "id": "GUID-3e8a1d55-6b2c-4a9e-9d33-7c1a2b3c0a07",
+              "alt": "Illustration of a walking path through a park",
+              "caption": "Choose a safe, comfortable route and supportive shoes.",
+              "title": "Illustration of a walking path through a park",
+              "width": 640,
+              "height": 360
+            }
+          }
+        ]
+      },
+      {
+        "sectionHead": "Make it a habit",
+        "html": [
+          "<ul><li>Schedule walks like appointments</li><li>Walk with a friend or pet</li><li>Track your progress</li><li>Vary your route to keep it interesting</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "Safety",
+        "html": [
+          "<p>If you have a heart condition or other health concerns, check with a health care professional before starting a new exercise program.</p>"
+        ]
+      }
+    ]
+  },
+  "title": "Walking for fitness (demo)",
+  "abstract": "Sample article: how to start and stick with a walking routine.",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}

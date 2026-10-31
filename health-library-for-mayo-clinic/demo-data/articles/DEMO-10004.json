@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "contentType": "Healthy Lifestyle",
+    "docId": "DEMO-10004",
+    "originalUrl": "",
+    "updateDate": "2026-07-18T00:00:00",
+    "publicationDate": "2021-05-04T00:00:00",
+    "controlWords": {
+      "category": [
+        {
+          "keyword": {
+            "value": "Nutrition and healthy eating",
+            "mcvId": "1094"
+          }
+        }
+      ]
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Overview",
+        "html": [
+          "<p>Your body uses water to regulate temperature, cushion joints and carry nutrients. Fluid needs vary with activity, climate and health.</p>"
+        ]
+      },
+      {
+        "sectionHead": "Tips",
+        "html": [
+          "<ul><li>Keep a refillable water bottle nearby</li><li>Drink more during hot weather and exercise</li><li>Fruits and vegetables also provide water</li><li>Pale yellow urine is a common sign of good hydration</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "Signs of dehydration",
+        "html": [
+          "<p>Thirst, dark urine, dizziness and fatigue can be signs you need more fluids. Severe symptoms need prompt medical care.</p>"
+        ]
+      }
+    ]
+  },
+  "title": "Staying hydrated (demo)",
+  "abstract": "Sample article: why fluids matter and easy ways to drink enough during the day.",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}

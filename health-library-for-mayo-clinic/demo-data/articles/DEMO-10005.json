@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "contentType": "Symptom",
+    "docId": "DEMO-10005",
+    "originalUrl": "",
+    "updateDate": "2026-09-25T00:00:00",
+    "publicationDate": "2020-02-10T00:00:00",
+    "controlWords": {
+      "category": [
+        {
+          "keyword": {
+            "value": "Intestine",
+            "mcvId": "1452"
+          }
+        },
+        {
+          "keyword": {
+            "value": "Gastrointestinal tract",
+            "mcvId": "138500"
+          }
+        }
+      ]
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Overview",
+        "html": [
+          "<p>Heartburn is a burning feeling in the chest, often after eating, that can move up toward the throat. It happens when stomach acid flows back into the esophagus.</p>"
+        ]
+      },
+      {
+        "sectionHead": "Common triggers",
+        "html": [
+          "<ul><li>Large or late-night meals</li><li>Spicy, fatty or fried foods</li><li>Alcohol and caffeine</li><li>Lying down soon after eating</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "When to see a doctor",
+        "html": [
+          "<p>See a health care professional if heartburn happens often, makes swallowing difficult, or comes with weight loss. <strong>Chest pain with shortness of breath or pain in the arm or jaw needs emergency care.</strong></p>"
+        ]
+      }
+    ]
+  },
+  "title": "Heartburn (demo)",
+  "abstract": "<p>Sample article: what heartburn feels like, common triggers and when it may need attention.</p>",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}

@@ -1,0 +1,156 @@
+[
+  {
+    "contentId": "DEMO-10001",
+    "contentType": "Disease",
+    "lang": "en",
+    "title": "Seasonal allergies (demo)",
+    "abstract": [
+      "Sample article: what seasonal allergies are, common triggers, and everyday ways people manage symptoms."
+    ],
+    "updateDate": "2026-09-12T00:00:00Z",
+    "publicationDate": "2024-03-01T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "hay fever",
+      "pollen",
+      "sneezing",
+      "allergy",
+      "itchy eyes"
+    ]
+  },
+  {
+    "contentId": "DEMO-10002",
+    "contentType": "Disease",
+    "lang": "en",
+    "title": "Common cold (demo)",
+    "abstract": [
+      "Sample article: an overview of the common cold, how it spreads, and practical comfort measures."
+    ],
+    "updateDate": "2026-08-30T00:00:00Z",
+    "publicationDate": "2023-11-15T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "cold",
+      "virus",
+      "cough",
+      "sore throat",
+      "congestion"
+    ]
+  },
+  {
+    "contentId": "DEMO-10003",
+    "contentType": "Healthy Lifestyle",
+    "lang": "en",
+    "title": "Better sleep habits (demo)",
+    "abstract": [
+      "Sample article: simple routines that support a good night's sleep."
+    ],
+    "updateDate": "2026-10-02T00:00:00Z",
+    "publicationDate": "2022-06-20T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "sleep",
+      "insomnia",
+      "rest",
+      "bedtime",
+      "routine"
+    ]
+  },
+  {
+    "contentId": "DEMO-10004",
+    "contentType": "Healthy Lifestyle",
+    "lang": "en",
+    "title": "Staying hydrated (demo)",
+    "abstract": [
+      "Sample article: why fluids matter and easy ways to drink enough during the day."
+    ],
+    "updateDate": "2026-07-18T00:00:00Z",
+    "publicationDate": "2021-05-04T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "water",
+      "hydration",
+      "fluids",
+      "dehydration",
+      "nutrition"
+    ]
+  },
+  {
+    "contentId": "DEMO-10005",
+    "contentType": "Symptom",
+    "lang": "en",
+    "title": "Heartburn (demo)",
+    "abstract": [
+      "Sample article: what heartburn feels like, common triggers and when it may need attention."
+    ],
+    "updateDate": "2026-09-25T00:00:00Z",
+    "publicationDate": "2020-02-10T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "heartburn",
+      "acid reflux",
+      "indigestion",
+      "stomach",
+      "digestive"
+    ]
+  },
+  {
+    "contentId": "DEMO-10006",
+    "contentType": "Symptom",
+    "lang": "en",
+    "title": "Low back pain (demo)",
+    "abstract": [
+      "Sample article: an overview of everyday low back pain and steps that often help."
+    ],
+    "updateDate": "2026-06-05T00:00:00Z",
+    "publicationDate": "2019-09-30T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "back pain",
+      "spine",
+      "muscle",
+      "strain",
+      "posture",
+      "pain"
+    ]
+  },
+  {
+    "contentId": "DEMO-10007",
+    "contentType": "Article",
+    "lang": "en",
+    "title": "Walking for fitness (demo)",
+    "abstract": [
+      "Sample article: how to start and stick with a walking routine."
+    ],
+    "updateDate": "2026-10-10T00:00:00Z",
+    "publicationDate": "2018-04-12T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "walking",
+      "exercise",
+      "fitness",
+      "activity",
+      "steps",
+      "aerobic"
+    ]
+  },
+  {
+    "contentId": "DEMO-10008",
+    "contentType": "Healthy Lifestyle",
+    "lang": "en",
+    "title": "Sun protection basics (demo)",
+    "abstract": [
+      "Sample article: everyday ways to protect your skin from the sun."
+    ],
+    "updateDate": "2026-05-22T00:00:00Z",
+    "publicationDate": "2017-07-01T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "sunscreen",
+      "sunburn",
+      "skin",
+      "uv",
+      "sun"
+    ]
+  }
+]

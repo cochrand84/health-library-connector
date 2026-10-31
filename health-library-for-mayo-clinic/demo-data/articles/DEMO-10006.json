@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "contentType": "Symptom",
+    "docId": "DEMO-10006",
+    "originalUrl": "",
+    "updateDate": "2026-06-05T00:00:00",
+    "publicationDate": "2019-09-30T00:00:00",
+    "controlWords": {
+      "category": [
+        {
+          "keyword": {
+            "value": "Pain NOS",
+            "mcvId": "1770"
+          }
+        }
+      ]
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Overview",
+        "html": [
+          "<p>Low back pain is very common. It often follows a strain from lifting, twisting or long periods of sitting, and usually improves within a few weeks.</p>"
+        ]
+      },
+      {
+        "sectionHead": "Self-care",
+        "html": [
+          "<ul><li>Stay gently active rather than resting in bed</li><li>Apply heat or cold for comfort</li><li>Pay attention to posture when sitting and lifting</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "When to see a doctor",
+        "html": [
+          "<p>Get care promptly if back pain follows a fall or injury, comes with numbness or weakness in the legs, or with changes in bladder or bowel control.</p>"
+        ]
+      }
+    ]
+  },
+  "title": "Low back pain (demo)",
+  "abstract": "Sample article: an overview of everyday low back pain and steps that often help.",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}
