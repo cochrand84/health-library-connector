@@ -114,4 +114,4 @@ from the working sessions it was built in (timestamps are approximate).
 
 ## License
 
-GPL-2.0-or-later. See [LICENSE](LICENSE).
+GPL-3.0-or-later. See [LICENSE](LICENSE).

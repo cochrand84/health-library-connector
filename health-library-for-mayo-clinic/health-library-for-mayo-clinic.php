@@ -1,15 +1,15 @@
 <?php
 /**
  * Plugin Name:       Health Library for Mayo Clinic
- * Plugin URI:        https://github.com/davidcochran/mayoplugin
+ * Plugin URI:        https://github.com/cochrand84/health-library-connector
  * Description:       Display Mayo Clinic Health Information Library content on any WordPress site through the Mayo Clinic GBS Realtime (Content Delivery) API. Requires your own licensed API credentials from Mayo Clinic. Includes a demo mode with sample data.
  * Version:           0.1.0
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            David Cochran
  * Author URI:        https://davidcochran.us
- * License:           GPL-2.0-or-later
- * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * License:           GPL-3.0-or-later
+ * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain:       health-library-for-mayo-clinic
  * Domain Path:       /languages
  *
