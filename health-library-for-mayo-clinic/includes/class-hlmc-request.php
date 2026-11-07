@@ -81,6 +81,9 @@ class HLMC_Request {
 
 		if ( 'article' === $this->mode ) {
 			$result = $this->source->get_content( $this->content_id );
+			if ( ! is_wp_error( $result ) ) {
+				$result = hlmc_normalize_article( $result );
+			}
 			if ( is_wp_error( $result ) || empty( $result['body'] ) ) {
 				$this->error = __( 'The requested article could not be loaded. Please try again or search below.', 'health-library-for-mayo-clinic' );
 				$this->mode  = 'home';

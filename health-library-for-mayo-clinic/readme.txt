@@ -4,7 +4,7 @@ Tags: health, medical, mayo clinic, health library, api
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.0
+Stable tag: 0.2.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -56,6 +56,9 @@ Settings → Health Library → Sidebar links. Download the CSV template, fill i
 Yes. On article views the canonical URL and title are passed to those plugins.
 
 == Changelog ==
+
+= 0.2.1 =
+* Fix: "Topic" content (IDs starting with ABT-) that appears in search results now opens instead of showing an error.
 
 = 0.2.0 =
 * Sidebar links: map Mayo topics to your own provider and service pages, with a table editor and CSV import/export.

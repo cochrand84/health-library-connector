@@ -124,6 +124,80 @@ function hlmc_format_date( $iso ) {
 }
 
 /**
+ * Bring every Mayo content shape into the article layout the templates use.
+ *
+ * Most content types (Disease, Symptom, Article, Answer...) arrive with
+ * `body.section[]`. "Topic" content (IDs like ABT-...) arrives instead with
+ * `topicBody.concept[]` ({conceptName, section:{html}}) and a `description`.
+ * Convert that into `body.section[]` and use the description as the abstract.
+ *
+ * @param mixed $article Decoded API response.
+ * @return array Article, or an empty array when it has no displayable body.
+ */
+function hlmc_normalize_article( $article ) {
+	if ( ! is_array( $article ) ) {
+		return array();
+	}
+	if ( ! empty( $article['body']['section'] ) ) {
+		return $article;
+	}
+
+	$concepts = $article['topicBody']['concept'] ?? array();
+	if ( ! is_array( $concepts ) || ! $concepts ) {
+		return array();
+	}
+	if ( isset( $concepts['conceptName'] ) || isset( $concepts['section'] ) ) {
+		$concepts = array( $concepts ); // A single concept, not a list.
+	}
+
+	$description = trim( wp_strip_all_tags( (string) ( $article['description'] ?? '' ) ) );
+	$sections    = array();
+	foreach ( $concepts as $concept ) {
+		if ( ! is_array( $concept ) ) {
+			continue;
+		}
+		$name  = (string) ( $concept['conceptName'] ?? '' );
+		$parts = $concept['section'] ?? array();
+		if ( isset( $parts['html'] ) || isset( $parts['popupMedia'] ) ) {
+			$parts = array( $parts );
+		}
+		$html  = '';
+		$media = array();
+		foreach ( (array) $parts as $part ) {
+			if ( ! is_array( $part ) ) {
+				continue;
+			}
+			$chunk = $part['html'] ?? '';
+			$html .= is_array( $chunk ) ? implode( '', array_map( 'strval', $chunk ) ) : (string) $chunk;
+			if ( ! empty( $part['popupMedia'] ) && is_array( $part['popupMedia'] ) ) {
+				$media = array_merge( $media, $part['popupMedia'] );
+			}
+		}
+		// The "Description" concept repeats the description shown as the abstract.
+		if ( 'description' === strtolower( $name ) && '' !== $description && trim( wp_strip_all_tags( $html ) ) === $description ) {
+			continue;
+		}
+		if ( '' === trim( $html ) && ! $media ) {
+			continue;
+		}
+		$sections[] = array(
+			'sectionHead' => $name,
+			'html'        => $html,
+			'popupMedia'  => $media,
+		);
+	}
+	if ( ! $sections ) {
+		return array();
+	}
+
+	$article['body'] = array( 'section' => $sections );
+	if ( empty( $article['abstract'] ) && '' !== $description ) {
+		$article['abstract'] = $description;
+	}
+	return $article;
+}
+
+/**
  * URL of the proxied image.
  *
  * @param string $guid Image GUID.
