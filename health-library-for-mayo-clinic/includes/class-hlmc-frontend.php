@@ -9,6 +9,11 @@
  *   [health_library_search]   Just the search box; submits to the library page.
  *     placeholder="Search health topics…"
  *
+ *   [health_library_topics]   A row of topic buttons linking into the library.
+ *     heading="Popular topics"      Optional heading above the buttons.
+ *     limit="6"                     Show at most this many (0 = all).
+ *     topics="Label|terms; Label|CON-12345678"   Use this list instead of the saved one.
+ *
  * @package HealthLibraryForMayoClinic
  */
 
@@ -18,6 +23,7 @@ class HLMC_Frontend {
 
 	const SHORTCODE        = 'health_library';
 	const SEARCH_SHORTCODE = 'health_library_search';
+	const TOPICS_SHORTCODE = 'health_library_topics';
 
 	/** @var bool Whether the current main query is a library page. */
 	private $is_library_page = false;
@@ -28,6 +34,7 @@ class HLMC_Frontend {
 	public function __construct() {
 		add_shortcode( self::SHORTCODE, array( $this, 'render_library' ) );
 		add_shortcode( self::SEARCH_SHORTCODE, array( $this, 'render_search_form' ) );
+		add_shortcode( self::TOPICS_SHORTCODE, array( $this, 'render_topics' ) );
 
 		add_action( 'wp', array( $this, 'detect_library_page' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
@@ -306,6 +313,55 @@ class HLMC_Frontend {
 			)
 		);
 		echo '</div>';
+		return (string) ob_get_clean();
+	}
+
+	/**
+	 * [health_library_topics]
+	 *
+	 * @param array|string $atts Shortcode attributes.
+	 * @return string
+	 */
+	public function render_topics( $atts ) {
+		$atts = shortcode_atts(
+			array(
+				'heading' => '',
+				'limit'   => 0,
+				'topics'  => '',
+			),
+			$atts,
+			self::TOPICS_SHORTCODE
+		);
+
+		$topics = '' !== trim( (string) $atts['topics'] )
+			? HLMC_Topics::parse( str_replace( ';', "\n", (string) $atts['topics'] ) )
+			: HLMC_Topics::all();
+		$limit  = absint( $atts['limit'] );
+		if ( $limit > 0 ) {
+			$topics = array_slice( $topics, 0, $limit );
+		}
+		if ( ! $topics ) {
+			return '';
+		}
+
+		$this->enqueue_assets();
+		$base  = self::library_url();
+		$items = array();
+		foreach ( $topics as $topic ) {
+			$items[] = array(
+				'label' => $topic['label'],
+				'url'   => HLMC_Topics::url( $topic, $base ),
+			);
+		}
+
+		ob_start();
+		hlmc_template(
+			'topics',
+			array(
+				'heading' => sanitize_text_field( (string) $atts['heading'] ),
+				'items'   => $items,
+			)
+		);
 		return (string) ob_get_clean();
 	}
 }

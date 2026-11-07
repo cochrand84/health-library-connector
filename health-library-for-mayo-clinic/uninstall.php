@@ -11,6 +11,7 @@ global $wpdb;
 
 delete_option( 'hlmc_settings' );
 delete_option( 'hlmc_care_links' );
+delete_option( 'hlmc_topics' );
 
 // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 $wpdb->query(

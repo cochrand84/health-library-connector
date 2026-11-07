@@ -4,7 +4,7 @@ Tags: health, medical, mayo clinic, health library, api
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.2.1
+Stable tag: 0.3.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -16,6 +16,7 @@ Health Library for Mayo Clinic lets organizations that license the Mayo Clinic H
 
 * Search, article and landing views from a single `[health_library]` shortcode
 * `[health_library_search]` search box for headers, sidebars or the home page
+* `[health_library_topics]` buttons for common topics, each opening a search or a specific article
 * Server-side API calls — your API key never reaches the browser
 * Article images proxied and cached server-side
 * Caching capped at 48 hours, as Mayo Clinic's syndication terms require
@@ -47,6 +48,10 @@ From Mayo Clinic Global Business Solutions as part of a Health Information Libra
 
 Copy any file from the plugin's `templates/` folder into `your-theme/health-library/` and edit it there.
 
+= How do I add topic buttons to my home page? =
+
+Edit the list under Settings → Health Library → Topic buttons, then add `[health_library_topics]` where you want them, usually next to `[health_library_search]`. The Shortcodes & help tab lists every option.
+
 = How do I map topics to my own pages? =
 
 Settings → Health Library → Sidebar links. Download the CSV template, fill it in, and import it, or edit rows directly. While logged in as an administrator, each article shows its Mayo category codes and which row matched.
@@ -56,6 +61,10 @@ Settings → Health Library → Sidebar links. Download the CSV template, fill i
 Yes. On article views the canonical URL and title are passed to those plugins.
 
 == Changelog ==
+
+= 0.3.0 =
+* New `[health_library_topics]` shortcode: buttons for common topics, edited under Settings → Health Library → Topic buttons.
+* New Shortcodes & help tab documenting every shortcode, link parameter and customization option.
 
 = 0.2.1 =
 * Fix: "Topic" content (IDs starting with ABT-) that appears in search results now opens instead of showing an error.

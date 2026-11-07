@@ -45,6 +45,8 @@ class HLMC_Admin {
 		return $links;
 	}
 
+	const TOPICS_GROUP = 'health-library-topics';
+
 	public function register() {
 		register_setting(
 			self::PAGE,
@@ -52,6 +54,15 @@ class HLMC_Admin {
 			array(
 				'type'              => 'array',
 				'sanitize_callback' => array( 'HLMC_Settings', 'sanitize' ),
+				'show_in_rest'      => false,
+			)
+		);
+		register_setting(
+			self::TOPICS_GROUP,
+			HLMC_Topics::OPTION,
+			array(
+				'type'              => 'array',
+				'sanitize_callback' => array( 'HLMC_Topics', 'sanitize_option' ),
 				'show_in_rest'      => false,
 			)
 		);
@@ -153,7 +164,8 @@ class HLMC_Admin {
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- display only.
 		$notice     = isset( $_GET['hlmc_notice'] ) ? sanitize_key( $_GET['hlmc_notice'] ) : '';
 		$notice_msg = isset( $_GET['hlmc_msg'] ) ? sanitize_text_field( rawurldecode( wp_unslash( $_GET['hlmc_msg'] ) ) ) : '';
-		$tab        = isset( $_GET['tab'] ) && 'links' === $_GET['tab'] ? 'links' : 'general';
+		$tab        = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'general';
+		$tab        = in_array( $tab, array( 'general', 'links', 'topics', 'help' ), true ) ? $tab : 'general';
 		// phpcs:enable
 		$tab_url    = admin_url( 'options-general.php?page=' . self::PAGE );
 		?>
@@ -167,11 +179,19 @@ class HLMC_Admin {
 			<nav class="nav-tab-wrapper">
 				<a href="<?php echo esc_url( $tab_url ); ?>" class="nav-tab <?php echo 'general' === $tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'General', 'health-library-for-mayo-clinic' ); ?></a>
 				<a href="<?php echo esc_url( $tab_url . '&tab=links' ); ?>" class="nav-tab <?php echo 'links' === $tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Sidebar links', 'health-library-for-mayo-clinic' ); ?></a>
+				<a href="<?php echo esc_url( $tab_url . '&tab=topics' ); ?>" class="nav-tab <?php echo 'topics' === $tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Topic buttons', 'health-library-for-mayo-clinic' ); ?></a>
+				<a href="<?php echo esc_url( $tab_url . '&tab=help' ); ?>" class="nav-tab <?php echo 'help' === $tab ? 'nav-tab-active' : ''; ?>"><?php esc_html_e( 'Shortcodes &amp; help', 'health-library-for-mayo-clinic' ); ?></a>
 			</nav>
 
 			<?php
-			if ( 'links' === $tab ) {
-				$this->render_links_tab();
+			if ( 'general' !== $tab ) {
+				if ( 'links' === $tab ) {
+					$this->render_links_tab();
+				} elseif ( 'topics' === $tab ) {
+					$this->render_topics_tab();
+				} else {
+					$this->render_help_tab();
+				}
 				echo '</div>';
 				return;
 			}
@@ -182,7 +202,8 @@ class HLMC_Admin {
 			<?php endif; ?>
 
 			<p>
-				<?php esc_html_e( 'Add [health_library] to any page to show the library. Use [health_library_search] for a search box elsewhere (header, sidebar, home page).', 'health-library-for-mayo-clinic' ); ?>
+				<?php esc_html_e( 'Add [health_library] to any page to show the library. Use [health_library_search] for a search box and [health_library_topics] for topic buttons anywhere else (home page, header, sidebar).', 'health-library-for-mayo-clinic' ); ?>
+				<a href="<?php echo esc_url( $tab_url . '&tab=help' ); ?>"><?php esc_html_e( 'All shortcodes and options', 'health-library-for-mayo-clinic' ); ?></a> &middot;
 				<?php if ( $page_id && get_post_status( $page_id ) ) : ?>
 					<a href="<?php echo esc_url( get_permalink( $page_id ) ); ?>" target="_blank"><?php esc_html_e( 'View library page', 'health-library-for-mayo-clinic' ); ?> &rarr;</a>
 				<?php endif; ?>
@@ -350,6 +371,176 @@ class HLMC_Admin {
 			<p class="description" style="margin-top:2em">
 				<?php esc_html_e( 'This plugin is an independent project and is not affiliated with or endorsed by Mayo Clinic. You are responsible for complying with the terms of your Mayo Clinic content license, including attribution, canonical tags and caching limits.', 'health-library-for-mayo-clinic' ); ?>
 			</p>
+		</div>
+		<?php
+	}
+
+	/* ------------------------------------------------------------------
+	 * Topic buttons tab
+	 * ------------------------------------------------------------------ */
+
+	private function render_topics_tab() {
+		$topics   = HLMC_Topics::all();
+		$is_saved = HLMC_Topics::has_saved();
+		$base     = HLMC_Frontend::library_url();
+		?>
+		<p class="hlmc-intro">
+			<?php echo wp_kses( __( 'Buttons for common topics, shown wherever you place <code>[health_library_topics]</code> (for example on the home page next to <code>[health_library_search]</code>). Each button opens a search or a specific article in the library.', 'health-library-for-mayo-clinic' ), array( 'code' => array() ) ); ?>
+		</p>
+		<ul class="hlmc-help">
+			<li><?php echo wp_kses( __( 'One topic per line: <code>Button label | what it opens</code>.', 'health-library-for-mayo-clinic' ), array( 'code' => array() ) ); ?></li>
+			<li><?php echo wp_kses( __( '<strong>Search:</strong> <code>Heart attack | heart attack</code> opens search results for “heart attack”. If the label and the search are the same, the label alone is enough: <code>Asthma</code>.', 'health-library-for-mayo-clinic' ), array( 'code' => array(), 'strong' => array() ) ); ?></li>
+			<li><?php echo wp_kses( __( '<strong>Article:</strong> <code>Colonoscopy | CON-20373087</code> opens that article directly. The ID is the <code>mayo-id</code> value in an article’s address.', 'health-library-for-mayo-clinic' ), array( 'code' => array(), 'strong' => array() ) ); ?></li>
+			<li><?php esc_html_e( 'Buttons appear in this order. Lines starting with # are ignored.', 'health-library-for-mayo-clinic' ); ?></li>
+		</ul>
+
+		<?php if ( ! $is_saved ) : ?>
+			<div class="notice notice-info inline"><p><?php esc_html_e( 'This is the starter list. Edit and save it to use your own.', 'health-library-for-mayo-clinic' ); ?></p></div>
+		<?php endif; ?>
+
+		<form method="post" action="options.php">
+			<?php settings_fields( self::TOPICS_GROUP ); ?>
+			<p>
+				<label for="hlmc-topics-text" class="screen-reader-text"><?php esc_html_e( 'Topics', 'health-library-for-mayo-clinic' ); ?></label>
+				<textarea id="hlmc-topics-text" class="large-text code" rows="12" name="<?php echo esc_attr( HLMC_Topics::OPTION ); ?>"><?php echo esc_textarea( HLMC_Topics::to_text( $topics ) ); ?></textarea>
+			</p>
+			<?php submit_button( __( 'Save topics', 'health-library-for-mayo-clinic' ) ); ?>
+		</form>
+
+		<?php if ( $topics ) : ?>
+			<h2><?php esc_html_e( 'Preview', 'health-library-for-mayo-clinic' ); ?></h2>
+			<p class="description"><?php esc_html_e( 'Your theme styles the real buttons; this shows the order and where each one goes.', 'health-library-for-mayo-clinic' ); ?></p>
+			<ul class="hlmc-topics-preview">
+				<?php foreach ( $topics as $topic ) : ?>
+					<li>
+						<a href="<?php echo esc_url( HLMC_Topics::url( $topic, $base ) ); ?>" target="_blank"><?php echo esc_html( $topic['label'] ); ?></a>
+						<span class="description">
+							<?php
+							echo esc_html(
+								HLMC_Topics::is_content_id( $topic['target'] )
+									/* translators: %s: content ID */
+									? sprintf( __( 'article %s', 'health-library-for-mayo-clinic' ), $topic['target'] )
+									/* translators: %s: search terms */
+									: sprintf( __( 'search “%s”', 'health-library-for-mayo-clinic' ), $topic['target'] )
+							);
+							?>
+						</span>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		<?php endif; ?>
+		<?php
+	}
+
+	/* ------------------------------------------------------------------
+	 * Shortcodes & help tab
+	 * ------------------------------------------------------------------ */
+
+	/**
+	 * @param string $code Shortcode example.
+	 */
+	private function code_box( $code ) {
+		printf(
+			'<input type="text" class="large-text code hlmc-copy" readonly value="%s" onfocus="this.select()" aria-label="%s">',
+			esc_attr( $code ),
+			esc_attr__( 'Shortcode (select to copy)', 'health-library-for-mayo-clinic' )
+		);
+	}
+
+	/**
+	 * @param array $rows List of [ attribute, values, description ].
+	 */
+	private function attr_table( array $rows ) {
+		?>
+		<table class="widefat striped hlmc-attr-table">
+			<thead><tr>
+				<th><?php esc_html_e( 'Option', 'health-library-for-mayo-clinic' ); ?></th>
+				<th><?php esc_html_e( 'Values', 'health-library-for-mayo-clinic' ); ?></th>
+				<th><?php esc_html_e( 'What it does', 'health-library-for-mayo-clinic' ); ?></th>
+			</tr></thead>
+			<tbody>
+				<?php foreach ( $rows as $row ) : ?>
+					<tr><td><code><?php echo esc_html( $row[0] ); ?></code></td><td><?php echo esc_html( $row[1] ); ?></td><td><?php echo esc_html( $row[2] ); ?></td></tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+		<?php
+	}
+
+	private function render_help_tab() {
+		$tab_url = admin_url( 'options-general.php?page=' . self::PAGE );
+		?>
+		<div class="hlmc-doc">
+			<p class="hlmc-intro"><?php esc_html_e( 'Shortcodes work in the block editor (Shortcode block), classic editor, most page builders (look for a “Shortcode” or “Text” element), and widget areas. Select a box below to copy it.', 'health-library-for-mayo-clinic' ); ?></p>
+
+			<h2><code>[health_library]</code> &mdash; <?php esc_html_e( 'the library', 'health-library-for-mayo-clinic' ); ?></h2>
+			<p><?php esc_html_e( 'The full library: a landing view with search and featured articles, search results, and articles. Put it on one page and choose that page as the Library page on the General tab.', 'health-library-for-mayo-clinic' ); ?></p>
+			<?php $this->code_box( '[health_library]' ); ?>
+			<?php $this->code_box( '[health_library sidebar="links" featured="6"]' ); ?>
+			<?php
+			$this->attr_table(
+				array(
+					array( 'sidebar', 'none, cta, links', __( 'Sidebar on search and article views. Defaults to the General tab setting. “links” uses the Sidebar links tab.', 'health-library-for-mayo-clinic' ) ),
+					array( 'featured', '0–50', __( 'How many featured articles the landing view shows. 0 hides them.', 'health-library-for-mayo-clinic' ) ),
+				)
+			);
+			?>
+
+			<h2><code>[health_library_search]</code> &mdash; <?php esc_html_e( 'search box', 'health-library-for-mayo-clinic' ); ?></h2>
+			<p><?php esc_html_e( 'Just the search box, for the home page, a header or a sidebar. Searches open on the Library page.', 'health-library-for-mayo-clinic' ); ?></p>
+			<?php $this->code_box( '[health_library_search placeholder="Search conditions, symptoms, tests…"]' ); ?>
+			<?php
+			$this->attr_table(
+				array(
+					array( 'placeholder', __( 'any text', 'health-library-for-mayo-clinic' ), __( 'Hint text shown in the empty box.', 'health-library-for-mayo-clinic' ) ),
+				)
+			);
+			?>
+
+			<h2><code>[health_library_topics]</code> &mdash; <?php esc_html_e( 'topic buttons', 'health-library-for-mayo-clinic' ); ?></h2>
+			<p>
+				<?php esc_html_e( 'A row of buttons for common topics. Each opens a search or a specific article on the Library page.', 'health-library-for-mayo-clinic' ); ?>
+				<a href="<?php echo esc_url( $tab_url . '&tab=topics' ); ?>"><?php esc_html_e( 'Edit the list on the Topic buttons tab.', 'health-library-for-mayo-clinic' ); ?></a>
+			</p>
+			<?php $this->code_box( '[health_library_topics]' ); ?>
+			<?php $this->code_box( '[health_library_topics heading="Popular topics" limit="6"]' ); ?>
+			<?php $this->code_box( '[health_library_topics topics="Heart attack|heart attack; Colonoscopy|CON-20373087"]' ); ?>
+			<?php
+			$this->attr_table(
+				array(
+					array( 'heading', __( 'any text', 'health-library-for-mayo-clinic' ), __( 'Optional heading above the buttons.', 'health-library-for-mayo-clinic' ) ),
+					array( 'limit', '0–50', __( 'Show only the first N topics. 0 shows all.', 'health-library-for-mayo-clinic' ) ),
+					array( 'topics', 'Label|search; Label|ID', __( 'Use this list instead of the saved one, e.g. a different set on a service-line page. Separate topics with semicolons.', 'health-library-for-mayo-clinic' ) ),
+				)
+			);
+			?>
+
+			<h2><?php esc_html_e( 'Linking to the library yourself', 'health-library-for-mayo-clinic' ); ?></h2>
+			<p><?php esc_html_e( 'Buttons and menu items can link straight into the library page with these address parameters:', 'health-library-for-mayo-clinic' ); ?></p>
+			<?php
+			$lib = HLMC_Frontend::library_url();
+			$this->attr_table(
+				array(
+					array( 'mayo-q', __( 'search terms', 'health-library-for-mayo-clinic' ), add_query_arg( 'mayo-q', 'colonoscopy', $lib ) ),
+					array( 'mayo-id', __( 'content ID', 'health-library-for-mayo-clinic' ), add_query_arg( 'mayo-id', 'CON-20373087', $lib ) ),
+					array( 'mayo-page', __( 'page number', 'health-library-for-mayo-clinic' ), __( 'Page of search results, with mayo-q.', 'health-library-for-mayo-clinic' ) ),
+				)
+			);
+			?>
+
+			<h2><?php esc_html_e( 'Changing the layout', 'health-library-for-mayo-clinic' ); ?></h2>
+			<p><?php echo wp_kses( __( 'Colors: set the accent color on the General tab, or override the <code>--hlmc-*</code> CSS custom properties in your theme. Markup: copy any file from the plugin’s <code>templates/</code> folder into <code>your-theme/health-library/</code> and edit it there; your copy is used instead and survives plugin updates.', 'health-library-for-mayo-clinic' ), array( 'code' => array() ) ); ?></p>
+
+			<h2><?php esc_html_e( 'Command line (WP-CLI)', 'health-library-for-mayo-clinic' ); ?></h2>
+			<?php
+			$this->attr_table(
+				array(
+					array( 'wp health-library status', '', __( 'Mode, whether an API key is set, library page, sidebar and topic settings.', 'health-library-for-mayo-clinic' ) ),
+					array( 'wp health-library test', '', __( 'Check the connection to the Mayo Clinic API.', 'health-library-for-mayo-clinic' ) ),
+					array( 'wp health-library cache clear', '', __( 'Empty the content and image cache.', 'health-library-for-mayo-clinic' ) ),
+				)
+			);
+			?>
 		</div>
 		<?php
 	}

@@ -188,8 +188,27 @@
 	white-space: nowrap;
 }
 
+/* Topic buttons ([health_library_topics]) */
+.hlmc-topics-wrap { margin-block: 1rem; }
+.hlmc-topics-heading { margin: 0 0 .6rem; font-size: 1.05em; }
+.hlmc-topics { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; margin: 0; padding: 0; }
+.hlmc-topics li { margin: 0; padding: 0; }
+.hlmc-topics a {
+	display: inline-block;
+	padding: .35rem .9rem;
+	border: 1px solid var(--hlmc-border);
+	border-radius: 999px;
+	background: #fff;
+	color: var(--hlmc-accent);
+	font-size: .92em;
+	line-height: 1.4;
+	text-decoration: none;
+}
+.hlmc-topics a:hover { border-color: var(--hlmc-accent); background: var(--hlmc-accent); color: var(--hlmc-accent-contrast); }
+
 @media (prefers-color-scheme: dark) {
 	.hlmc-search input[type="search"] { background: transparent; }
+	.hlmc-topics a { background: transparent; }
 }
 
 /* Care links */

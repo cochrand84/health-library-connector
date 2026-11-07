@@ -19,6 +19,7 @@ without leaving your site.
 
 - `[health_library]` — landing page with featured topics, search with paging, and article pages, all from one shortcode on any page
 - `[health_library_search]` — a search box for your header, sidebar or home page
+- `[health_library_topics]` — a row of buttons for common topics (each opens a search or a specific article), edited in Settings
 - Server-side requests only; the API key never reaches the browser and can live in `wp-config.php`
 - Article images proxied and cached server-side (the image endpoint needs authentication)
 - License-friendly by default: cache capped at **48 hours**, canonical tag to Mayo's `originalUrl` (also passed to Yoast / Rank Math), "Last reviewed" date, © MFMER notice and Terms of Use link
@@ -53,7 +54,11 @@ define( 'HLMC_TRCKR',   'your-trckr-value' );
 ```
 [health_library sidebar="none|cta|links" featured="12"]
 [health_library_search placeholder="Search health topics…"]
+[health_library_topics heading="Popular topics" limit="6"]
+[health_library_topics topics="Heart attack|heart attack; Colonoscopy|CON-20373087"]
 ```
+
+Edit the saved topic list under **Settings → Health Library → Topic buttons**, one per line as `Label | search terms` or `Label | CONTENT-ID`. The **Shortcodes & help** tab in the same screen documents every option.
 
 ## Sidebar links
 
