@@ -14,8 +14,20 @@
             "title": "Diagnosable condition",
             "mcvId": "1092",
             "keyword": {
-              "title": "Allergy (demo)",
+              "title": "Allergy",
               "mcvId": "9001"
+            }
+          }
+        },
+        {
+          "title": "Anatomical structure",
+          "mcvId": "23451",
+          "keyword": {
+            "title": "Body system",
+            "mcvId": "23450",
+            "keyword": {
+              "title": "Respiratory system",
+              "mcvId": "9201"
             }
           }
         }
@@ -33,9 +45,9 @@
           {
             "image": {
               "id": "GUID-0d3f6c2a-1b44-4c55-9a10-6f2e8d1c0a01",
-              "alt": "Illustration of pollen grains drifting from a flowering plant",
+              "alt": "Illustration of pollen drifting from a flowering plant",
               "caption": "Pollen counts tend to be highest on warm, dry, windy days.",
-              "title": "Illustration of pollen grains drifting from a flowering plant",
+              "title": "Illustration of pollen drifting from a flowering plant",
               "width": 640,
               "height": 360
             }
@@ -51,7 +63,7 @@
       {
         "sectionHead": "Self-care",
         "html": [
-          "<ul><li>Check local pollen forecasts and limit time outdoors on high-count days</li><li>Keep windows closed during peak season</li><li>Shower and change clothes after spending time outside</li><li>Ask a pharmacist about over-the-counter options</li></ul>"
+          "<ul><li>Check local pollen forecasts and limit time outdoors on high-count days</li><li>Keep windows closed during peak season</li><li>Shower and change clothes after time outside</li><li>Ask a pharmacist about over-the-counter options</li></ul>"
         ]
       },
       {
@@ -62,8 +74,8 @@
       }
     ]
   },
-  "title": "Seasonal allergies (demo)",
-  "abstract": "<p>Sample article: what seasonal allergies are, common triggers, and everyday ways people manage symptoms.</p>",
+  "title": "Seasonal allergies",
+  "abstract": "<p>What seasonal allergies are, common triggers, and everyday ways people manage symptoms.</p>",
   "encoding": "UTF-8",
   "language": "en",
   "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."

@@ -1,0 +1,74 @@
+{
+  "meta": {
+    "contentType": "Test",
+    "docId": "DEMO-10016",
+    "originalUrl": "",
+    "updateDate": "2026-10-01T00:00:00",
+    "publicationDate": "2013-10-01T00:00:00",
+    "controlWords": {
+      "category": [
+        {
+          "title": "Condition",
+          "mcvId": "23457",
+          "keyword": {
+            "title": "Diagnosable condition",
+            "mcvId": "1092",
+            "keyword": {
+              "title": "Cancer",
+              "mcvId": "2082",
+              "keyword": {
+                "title": "Breast cancer",
+                "mcvId": "2375"
+              }
+            }
+          }
+        },
+        {
+          "title": "Tests and procedures",
+          "mcvId": "9301",
+          "keyword": {
+            "title": "Imaging",
+            "mcvId": "9304",
+            "keyword": {
+              "title": "Mammography",
+              "mcvId": "9305"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Overview",
+        "html": [
+          "<p>A mammogram is an X-ray picture of the breast. Screening mammograms can find breast cancer early, often before it can be felt.</p>"
+        ]
+      },
+      {
+        "sectionHead": "When to start",
+        "html": [
+          "<p>Recommendations vary with age and risk. Talk with your care team about when to begin screening and how often to repeat it.</p>"
+        ]
+      },
+      {
+        "sectionHead": "Preparing",
+        "html": [
+          "<ul><li>Schedule it for a time when your breasts are least tender</li><li>Skip deodorant, powder or lotion under your arms that day</li><li>Bring prior mammogram results if you had them elsewhere</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "After the test",
+        "html": [
+          "<p>A radiologist reviews the images. Being called back for more pictures is common and usually does not mean cancer.</p>"
+        ]
+      }
+    ]
+  },
+  "title": "Mammogram",
+  "abstract": "How screening mammograms work and how to prepare for one.",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}

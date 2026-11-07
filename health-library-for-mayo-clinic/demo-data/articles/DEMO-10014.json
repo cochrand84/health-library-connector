@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "contentType": "Disease",
+    "docId": "DEMO-10014",
+    "originalUrl": "",
+    "updateDate": "2026-09-18T00:00:00",
+    "publicationDate": "2015-01-26T00:00:00",
+    "controlWords": {
+      "category": [
+        {
+          "title": "Condition",
+          "mcvId": "23457",
+          "keyword": {
+            "title": "Diagnosable condition",
+            "mcvId": "1092",
+            "keyword": {
+              "title": "Lung disease",
+              "mcvId": "9108",
+              "keyword": {
+                "title": "Pneumonia",
+                "mcvId": "9110"
+              }
+            }
+          }
+        },
+        {
+          "title": "Anatomical structure",
+          "mcvId": "23451",
+          "keyword": {
+            "title": "Body system",
+            "mcvId": "23450",
+            "keyword": {
+              "title": "Respiratory system",
+              "mcvId": "9201"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Overview",
+        "html": [
+          "<p>Pneumonia is an infection that inflames the air sacs in one or both lungs. It can be caused by bacteria, viruses or fungi and ranges from mild to life-threatening.</p>"
+        ]
+      },
+      {
+        "sectionHead": "Common symptoms",
+        "html": [
+          "<ul><li>Cough, which may bring up mucus</li><li>Fever and chills</li><li>Shortness of breath</li><li>Chest pain when breathing or coughing</li><li>Confusion in older adults</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "Higher risk",
+        "html": [
+          "<ul><li>Adults 65 and older and young children</li><li>People with chronic heart or lung conditions</li><li>People who smoke or have weakened immune systems</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "Prevention",
+        "html": [
+          "<p>Vaccines can help prevent some types of pneumonia. Ask your care team which vaccines are right for you.</p>"
+        ]
+      },
+      {
+        "sectionHead": "When to get help",
+        "html": [
+          "<p>Seek care for trouble breathing, chest pain, a persistent fever, or a cough with pus.</p>"
+        ]
+      }
+    ]
+  },
+  "title": "Pneumonia",
+  "abstract": "What pneumonia is, who is at higher risk, and signs that need medical care.",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}

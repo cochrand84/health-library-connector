@@ -27,7 +27,7 @@
       {
         "sectionHead": "Getting started",
         "html": [
-          "<p>Walking is an easy way to be more active. Start with short walks and build up gradually.</p>"
+          "<p>Walking is an easy way to be more active. Start with short walks and build up gradually toward about 150 minutes a week.</p>"
         ],
         "popupMedia": [
           {
@@ -56,8 +56,8 @@
       }
     ]
   },
-  "title": "Walking for fitness (demo)",
-  "abstract": "Sample article: how to start and stick with a walking routine.",
+  "title": "Walking for fitness",
+  "abstract": "How to start and stick with a walking routine.",
   "encoding": "UTF-8",
   "language": "en",
   "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."

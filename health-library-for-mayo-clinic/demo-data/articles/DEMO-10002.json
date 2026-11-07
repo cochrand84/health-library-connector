@@ -14,8 +14,20 @@
             "title": "Diagnosable condition",
             "mcvId": "1092",
             "keyword": {
-              "title": "Respiratory infection (demo)",
+              "title": "Respiratory infection",
               "mcvId": "9002"
+            }
+          }
+        },
+        {
+          "title": "Anatomical structure",
+          "mcvId": "23451",
+          "keyword": {
+            "title": "Body system",
+            "mcvId": "23450",
+            "keyword": {
+              "title": "Respiratory system",
+              "mcvId": "9201"
             }
           }
         }
@@ -46,7 +58,7 @@
             "image": {
               "id": "GUID-5a7e2b90-3c11-4d2e-8f40-2b9c7d6e0a02",
               "alt": "Illustration of hands being washed under running water",
-              "caption": "Handwashing for at least 20 seconds helps reduce the spread of many viruses.",
+              "caption": "Washing for at least 20 seconds helps reduce the spread of many viruses.",
               "title": "Illustration of hands being washed under running water",
               "width": 640,
               "height": 360
@@ -57,13 +69,13 @@
       {
         "sectionHead": "When to see a doctor",
         "html": [
-          "<p>Seek care for a high or long-lasting fever, trouble breathing, severe sore throat, or symptoms that get worse instead of better.</p>"
+          "<p>Seek care for a high or long-lasting fever, trouble breathing, a severe sore throat, or symptoms that get worse instead of better.</p>"
         ]
       }
     ]
   },
-  "title": "Common cold (demo)",
-  "abstract": "Sample article: an overview of the common cold, how it spreads, and practical comfort measures.",
+  "title": "Common cold",
+  "abstract": "An overview of the common cold, how it spreads, and practical comfort measures.",
   "encoding": "UTF-8",
   "language": "en",
   "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."

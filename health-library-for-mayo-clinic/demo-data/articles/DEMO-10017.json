@@ -1,0 +1,82 @@
+{
+  "meta": {
+    "contentType": "Procedure",
+    "docId": "DEMO-10017",
+    "originalUrl": "",
+    "updateDate": "2026-07-29T00:00:00",
+    "publicationDate": "2014-06-17T00:00:00",
+    "controlWords": {
+      "category": [
+        {
+          "title": "Tests and procedures",
+          "mcvId": "9301",
+          "keyword": {
+            "title": "Surgery",
+            "mcvId": "9306",
+            "keyword": {
+              "title": "Joint replacement",
+              "mcvId": "9307"
+            }
+          }
+        },
+        {
+          "title": "Anatomical structure",
+          "mcvId": "23451",
+          "keyword": {
+            "title": "Body system",
+            "mcvId": "23450",
+            "keyword": {
+              "title": "Musculoskeletal system",
+              "mcvId": "9202"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Overview",
+        "html": [
+          "<p>Knee replacement surgery replaces damaged parts of the knee joint with metal and plastic parts. It is most often done for severe arthritis pain that has not improved with other treatments.</p>"
+        ],
+        "popupMedia": [
+          {
+            "image": {
+              "id": "GUID-8d4b3e5f-6a7c-4d8e-af90-1b2c3d4e5f13",
+              "alt": "Illustration of a knee joint",
+              "caption": "Physical therapy is a key part of recovery.",
+              "title": "Illustration of a knee joint",
+              "width": 640,
+              "height": 360
+            }
+          }
+        ]
+      },
+      {
+        "sectionHead": "Who may benefit",
+        "html": [
+          "<ul><li>Knee pain that limits walking or climbing stairs</li><li>Pain at rest, day or night</li><li>Stiffness or swelling that has not responded to medicine, therapy or injections</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "Recovery",
+        "html": [
+          "<p>Most people walk with help the day of or after surgery. Physical therapy continues for several weeks. Full recovery can take several months.</p>"
+        ]
+      },
+      {
+        "sectionHead": "Questions to ask",
+        "html": [
+          "<ul><li>What are my non-surgical options?</li><li>What will recovery look like for me?</li><li>How should I prepare my home?</li></ul>"
+        ]
+      }
+    ]
+  },
+  "title": "Knee replacement",
+  "abstract": "Who may benefit from knee replacement and what recovery usually involves.",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}

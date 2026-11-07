@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "contentType": "Disease",
+    "docId": "DEMO-10013",
+    "originalUrl": "",
+    "updateDate": "2026-09-30T00:00:00",
+    "publicationDate": "2016-11-08T00:00:00",
+    "controlWords": {
+      "category": [
+        {
+          "title": "Condition",
+          "mcvId": "23457",
+          "keyword": {
+            "title": "Diagnosable condition",
+            "mcvId": "1092",
+            "keyword": {
+              "title": "Lung disease",
+              "mcvId": "9108",
+              "keyword": {
+                "title": "Asthma",
+                "mcvId": "9109"
+              }
+            }
+          }
+        },
+        {
+          "title": "Anatomical structure",
+          "mcvId": "23451",
+          "keyword": {
+            "title": "Body system",
+            "mcvId": "23450",
+            "keyword": {
+              "title": "Respiratory system",
+              "mcvId": "9201"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Overview",
+        "html": [
+          "<p>Asthma is a long-term condition in which the airways become swollen and narrow, making it harder to breathe. Symptoms can be mild or severe and often come in flare-ups.</p>"
+        ],
+        "popupMedia": [
+          {
+            "image": {
+              "id": "GUID-7c3a2d4e-5f6b-4c7d-9e8f-0a1b2c3d4e12",
+              "alt": "Illustration of a pair of lungs",
+              "caption": "An asthma action plan explains what to do on good days and during flare-ups.",
+              "title": "Illustration of a pair of lungs",
+              "width": 640,
+              "height": 360
+            }
+          }
+        ]
+      },
+      {
+        "sectionHead": "Common triggers",
+        "html": [
+          "<ul><li>Colds and other respiratory infections</li><li>Pollen, dust, mold and pet dander</li><li>Smoke and air pollution</li><li>Exercise or cold air</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "Living with asthma",
+        "html": [
+          "<ul><li>Work with your care team on an asthma action plan</li><li>Use controller and rescue medicines as directed</li><li>Know and avoid your triggers</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "When to get help",
+        "html": [
+          "<p><strong>Call 911</strong> if breathing is very difficult, lips or fingernails look bluish, or a rescue inhaler is not helping.</p>"
+        ]
+      }
+    ]
+  },
+  "title": "Asthma",
+  "abstract": "An overview of asthma, common triggers, and how an action plan helps.",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}

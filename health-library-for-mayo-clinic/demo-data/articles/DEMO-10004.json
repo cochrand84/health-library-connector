@@ -35,13 +35,13 @@
       {
         "sectionHead": "Signs of dehydration",
         "html": [
-          "<p>Thirst, dark urine, dizziness and fatigue can be signs you need more fluids. Severe symptoms need prompt medical care.</p>"
+          "<p>Thirst, dark urine, dizziness and fatigue can be signs you need more fluids. Confusion, fainting or a rapid heartbeat need prompt medical care.</p>"
         ]
       }
     ]
   },
-  "title": "Staying hydrated (demo)",
-  "abstract": "Sample article: why fluids matter and easy ways to drink enough during the day.",
+  "title": "Staying hydrated",
+  "abstract": "Why fluids matter and easy ways to drink enough during the day.",
   "encoding": "UTF-8",
   "language": "en",
   "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."

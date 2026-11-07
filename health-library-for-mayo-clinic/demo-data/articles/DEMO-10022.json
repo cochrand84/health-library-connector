@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "contentType": "Healthy Lifestyle",
+    "docId": "DEMO-10022",
+    "originalUrl": "",
+    "updateDate": "2026-09-02T00:00:00",
+    "publicationDate": "2017-02-14T00:00:00",
+    "controlWords": {
+      "category": [
+        {
+          "title": "Lifestyle",
+          "mcvId": "1006",
+          "keyword": {
+            "title": "Nutrition and healthy eating",
+            "mcvId": "1094"
+          }
+        },
+        {
+          "title": "Anatomical structure",
+          "mcvId": "23451",
+          "keyword": {
+            "title": "Body system",
+            "mcvId": "23450",
+            "keyword": {
+              "title": "Cardiovascular system",
+              "mcvId": "1145"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Overview",
+        "html": [
+          "<p>What you eat affects blood pressure, cholesterol and weight. Small, steady changes add up.</p>"
+        ],
+        "popupMedia": [
+          {
+            "image": {
+              "id": "GUID-af6d5a7b-8c9e-4fa0-81b2-3d4e5f6a7b15",
+              "alt": "Illustration of a plate with vegetables, grains and protein",
+              "caption": "Try to fill half your plate with vegetables and fruit.",
+              "title": "Illustration of a plate with vegetables, grains and protein",
+              "width": 640,
+              "height": 360
+            }
+          }
+        ]
+      },
+      {
+        "sectionHead": "Build your plate",
+        "html": [
+          "<ul><li>Vegetables and fruit at most meals</li><li>Whole grains instead of refined grains</li><li>Fish, beans, nuts and lean proteins</li><li>Healthy fats such as olive oil</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "Limit",
+        "html": [
+          "<ul><li>Sodium and highly processed foods</li><li>Sugary drinks and sweets</li><li>Fried foods and fatty cuts of meat</li></ul>"
+        ]
+      }
+    ]
+  },
+  "title": "Heart-healthy eating",
+  "abstract": "Simple food choices that support heart health.",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}

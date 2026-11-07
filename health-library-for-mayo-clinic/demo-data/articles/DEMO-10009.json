@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "contentType": "Disease",
+    "docId": "DEMO-10009",
+    "originalUrl": "",
+    "updateDate": "2026-10-21T00:00:00",
+    "publicationDate": "2016-03-14T00:00:00",
+    "controlWords": {
+      "category": [
+        {
+          "title": "Condition",
+          "mcvId": "23457",
+          "keyword": {
+            "title": "Diagnosable condition",
+            "mcvId": "1092",
+            "keyword": {
+              "title": "Metabolic disorder",
+              "mcvId": "9101",
+              "keyword": {
+                "title": "Type 2 diabetes",
+                "mcvId": "9102"
+              }
+            }
+          }
+        },
+        {
+          "title": "Anatomical structure",
+          "mcvId": "23451",
+          "keyword": {
+            "title": "Body system",
+            "mcvId": "23450",
+            "keyword": {
+              "title": "Endocrine system",
+              "mcvId": "9205"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Overview",
+        "html": [
+          "<p>Type 2 diabetes is a long-term condition in which the body does not use insulin well, so sugar (glucose) builds up in the blood. Over time, high blood sugar can affect the heart, kidneys, eyes and nerves.</p>"
+        ]
+      },
+      {
+        "sectionHead": "Common signs",
+        "html": [
+          "<ul><li>Increased thirst and urination</li><li>Fatigue</li><li>Blurred vision</li><li>Slow-healing sores</li><li>Many people have no symptoms at first</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "Testing",
+        "html": [
+          "<p>A simple blood test, such as an A1C test, can check for diabetes and prediabetes. Ask your primary care provider how often you should be screened.</p>"
+        ]
+      },
+      {
+        "sectionHead": "Managing diabetes",
+        "html": [
+          "<ul><li>Healthy eating and regular physical activity</li><li>Checking blood sugar as your care team recommends</li><li>Medications when needed</li><li>Regular eye, foot and kidney checks</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "When to get help",
+        "html": [
+          "<p>Seek urgent care for very high or very low blood sugar readings, confusion, vomiting, or trouble staying awake.</p>"
+        ]
+      }
+    ]
+  },
+  "title": "Type 2 diabetes",
+  "abstract": "How type 2 diabetes affects blood sugar, common signs, and how it is usually managed.",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}

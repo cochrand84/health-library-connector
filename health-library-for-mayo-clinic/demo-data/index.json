@@ -1,126 +1,89 @@
 [
   {
-    "contentId": "DEMO-10001",
-    "contentType": "Disease",
-    "lang": "en",
-    "title": "Seasonal allergies (demo)",
-    "abstract": [
-      "Sample article: what seasonal allergies are, common triggers, and everyday ways people manage symptoms."
-    ],
-    "updateDate": "2026-09-12T00:00:00Z",
-    "publicationDate": "2024-03-01T00:00:00Z",
-    "alternativeIdentifiers": [],
-    "keywords": [
-      "hay fever",
-      "pollen",
-      "sneezing",
-      "allergy",
-      "itchy eyes"
-    ]
-  },
-  {
-    "contentId": "DEMO-10002",
-    "contentType": "Disease",
-    "lang": "en",
-    "title": "Common cold (demo)",
-    "abstract": [
-      "Sample article: an overview of the common cold, how it spreads, and practical comfort measures."
-    ],
-    "updateDate": "2026-08-30T00:00:00Z",
-    "publicationDate": "2023-11-15T00:00:00Z",
-    "alternativeIdentifiers": [],
-    "keywords": [
-      "cold",
-      "virus",
-      "cough",
-      "sore throat",
-      "congestion"
-    ]
-  },
-  {
-    "contentId": "DEMO-10003",
-    "contentType": "Healthy Lifestyle",
-    "lang": "en",
-    "title": "Better sleep habits (demo)",
-    "abstract": [
-      "Sample article: simple routines that support a good night's sleep."
-    ],
-    "updateDate": "2026-10-02T00:00:00Z",
-    "publicationDate": "2022-06-20T00:00:00Z",
-    "alternativeIdentifiers": [],
-    "keywords": [
-      "sleep",
-      "insomnia",
-      "rest",
-      "bedtime",
-      "routine"
-    ]
-  },
-  {
-    "contentId": "DEMO-10004",
-    "contentType": "Healthy Lifestyle",
-    "lang": "en",
-    "title": "Staying hydrated (demo)",
-    "abstract": [
-      "Sample article: why fluids matter and easy ways to drink enough during the day."
-    ],
-    "updateDate": "2026-07-18T00:00:00Z",
-    "publicationDate": "2021-05-04T00:00:00Z",
-    "alternativeIdentifiers": [],
-    "keywords": [
-      "water",
-      "hydration",
-      "fluids",
-      "dehydration",
-      "nutrition"
-    ]
-  },
-  {
-    "contentId": "DEMO-10005",
+    "contentId": "DEMO-10011",
     "contentType": "Symptom",
     "lang": "en",
-    "title": "Heartburn (demo)",
+    "title": "Heart attack warning signs",
     "abstract": [
-      "Sample article: what heartburn feels like, common triggers and when it may need attention."
+      "Know the warning signs of a heart attack and what to do right away."
     ],
-    "updateDate": "2026-09-25T00:00:00Z",
-    "publicationDate": "2020-02-10T00:00:00Z",
+    "updateDate": "2026-10-28T00:00:00Z",
+    "publicationDate": "2014-02-11T00:00:00Z",
     "alternativeIdentifiers": [],
     "keywords": [
-      "heartburn",
-      "acid reflux",
-      "indigestion",
-      "stomach",
-      "digestive"
+      "heart attack",
+      "chest pain",
+      "cardiac",
+      "emergency",
+      "911"
     ]
   },
   {
-    "contentId": "DEMO-10006",
+    "contentId": "DEMO-10012",
     "contentType": "Symptom",
     "lang": "en",
-    "title": "Low back pain (demo)",
+    "title": "Stroke warning signs",
     "abstract": [
-      "Sample article: an overview of everyday low back pain and steps that often help."
+      "Use BE FAST to spot the signs of a stroke and get help quickly."
     ],
-    "updateDate": "2026-06-05T00:00:00Z",
-    "publicationDate": "2019-09-30T00:00:00Z",
+    "updateDate": "2026-10-28T00:00:00Z",
+    "publicationDate": "2014-05-20T00:00:00Z",
     "alternativeIdentifiers": [],
     "keywords": [
-      "back pain",
-      "spine",
-      "muscle",
-      "strain",
-      "posture",
-      "pain"
+      "stroke",
+      "be fast",
+      "face drooping",
+      "brain",
+      "emergency",
+      "911"
+    ]
+  },
+  {
+    "contentId": "DEMO-10009",
+    "contentType": "Disease",
+    "lang": "en",
+    "title": "Type 2 diabetes",
+    "abstract": [
+      "How type 2 diabetes affects blood sugar, common signs, and how it is usually managed."
+    ],
+    "updateDate": "2026-10-21T00:00:00Z",
+    "publicationDate": "2016-03-14T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "diabetes",
+      "blood sugar",
+      "glucose",
+      "a1c",
+      "insulin",
+      "prediabetes"
+    ]
+  },
+  {
+    "contentId": "DEMO-10019",
+    "contentType": "Article",
+    "lang": "en",
+    "title": "Prenatal care: the first trimester",
+    "abstract": [
+      "What to expect from prenatal visits and healthy habits early in pregnancy."
+    ],
+    "updateDate": "2026-10-15T00:00:00Z",
+    "publicationDate": "2012-07-03T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "pregnancy",
+      "prenatal",
+      "first trimester",
+      "obstetrics",
+      "ob/gyn"
     ]
   },
   {
     "contentId": "DEMO-10007",
     "contentType": "Article",
     "lang": "en",
-    "title": "Walking for fitness (demo)",
+    "title": "Walking for fitness",
     "abstract": [
-      "Sample article: how to start and stick with a walking routine."
+      "How to start and stick with a walking routine."
     ],
     "updateDate": "2026-10-10T00:00:00Z",
     "publicationDate": "2018-04-12T00:00:00Z",
@@ -135,12 +98,317 @@
     ]
   },
   {
+    "contentId": "DEMO-10021",
+    "contentType": "Article",
+    "lang": "en",
+    "title": "Cardiac rehabilitation",
+    "abstract": [
+      "How a supervised cardiac rehab program helps people recover after a heart event."
+    ],
+    "updateDate": "2026-10-09T00:00:00Z",
+    "publicationDate": "2015-11-30T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "cardiac rehab",
+      "heart",
+      "recovery",
+      "exercise",
+      "heart attack"
+    ]
+  },
+  {
+    "contentId": "DEMO-10010",
+    "contentType": "Disease",
+    "lang": "en",
+    "title": "High blood pressure",
+    "abstract": [
+      "What blood pressure numbers mean and everyday steps that help keep them in a healthy range."
+    ],
+    "updateDate": "2026-10-05T00:00:00Z",
+    "publicationDate": "2015-08-02T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "blood pressure",
+      "hypertension",
+      "heart",
+      "stroke",
+      "salt",
+      "sodium"
+    ]
+  },
+  {
+    "contentId": "DEMO-10003",
+    "contentType": "Healthy Lifestyle",
+    "lang": "en",
+    "title": "Better sleep habits",
+    "abstract": [
+      "Simple routines that support a good night's sleep."
+    ],
+    "updateDate": "2026-10-02T00:00:00Z",
+    "publicationDate": "2022-06-20T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "sleep",
+      "insomnia",
+      "rest",
+      "bedtime",
+      "routine"
+    ]
+  },
+  {
+    "contentId": "DEMO-10016",
+    "contentType": "Test",
+    "lang": "en",
+    "title": "Mammogram",
+    "abstract": [
+      "How screening mammograms work and how to prepare for one."
+    ],
+    "updateDate": "2026-10-01T00:00:00Z",
+    "publicationDate": "2013-10-01T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "mammogram",
+      "breast cancer",
+      "screening",
+      "imaging",
+      "breast"
+    ]
+  },
+  {
+    "contentId": "DEMO-10013",
+    "contentType": "Disease",
+    "lang": "en",
+    "title": "Asthma",
+    "abstract": [
+      "An overview of asthma, common triggers, and how an action plan helps."
+    ],
+    "updateDate": "2026-09-30T00:00:00Z",
+    "publicationDate": "2016-11-08T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "asthma",
+      "wheezing",
+      "inhaler",
+      "breathing",
+      "lungs"
+    ]
+  },
+  {
+    "contentId": "DEMO-10005",
+    "contentType": "Symptom",
+    "lang": "en",
+    "title": "Heartburn",
+    "abstract": [
+      "What heartburn feels like, common triggers and when it may need attention."
+    ],
+    "updateDate": "2026-09-25T00:00:00Z",
+    "publicationDate": "2020-02-10T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "heartburn",
+      "acid reflux",
+      "indigestion",
+      "stomach",
+      "digestive",
+      "gerd"
+    ]
+  },
+  {
+    "contentId": "DEMO-10014",
+    "contentType": "Disease",
+    "lang": "en",
+    "title": "Pneumonia",
+    "abstract": [
+      "What pneumonia is, who is at higher risk, and signs that need medical care."
+    ],
+    "updateDate": "2026-09-18T00:00:00Z",
+    "publicationDate": "2015-01-26T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "pneumonia",
+      "lung infection",
+      "cough",
+      "fever",
+      "vaccine"
+    ]
+  },
+  {
+    "contentId": "DEMO-10001",
+    "contentType": "Disease",
+    "lang": "en",
+    "title": "Seasonal allergies",
+    "abstract": [
+      "What seasonal allergies are, common triggers, and everyday ways people manage symptoms."
+    ],
+    "updateDate": "2026-09-12T00:00:00Z",
+    "publicationDate": "2024-03-01T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "hay fever",
+      "pollen",
+      "sneezing",
+      "allergy",
+      "itchy eyes"
+    ]
+  },
+  {
+    "contentId": "DEMO-10018",
+    "contentType": "Disease",
+    "lang": "en",
+    "title": "Kidney stones",
+    "abstract": [
+      "What kidney stones are, common symptoms, and steps that may help prevent them."
+    ],
+    "updateDate": "2026-09-08T00:00:00Z",
+    "publicationDate": "2015-04-21T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "kidney stones",
+      "flank pain",
+      "urinary",
+      "kidney"
+    ]
+  },
+  {
+    "contentId": "DEMO-10022",
+    "contentType": "Healthy Lifestyle",
+    "lang": "en",
+    "title": "Heart-healthy eating",
+    "abstract": [
+      "Simple food choices that support heart health."
+    ],
+    "updateDate": "2026-09-02T00:00:00Z",
+    "publicationDate": "2017-02-14T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "diet",
+      "nutrition",
+      "heart healthy",
+      "cholesterol",
+      "food"
+    ]
+  },
+  {
+    "contentId": "DEMO-10002",
+    "contentType": "Disease",
+    "lang": "en",
+    "title": "Common cold",
+    "abstract": [
+      "An overview of the common cold, how it spreads, and practical comfort measures."
+    ],
+    "updateDate": "2026-08-30T00:00:00Z",
+    "publicationDate": "2023-11-15T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "cold",
+      "virus",
+      "cough",
+      "sore throat",
+      "congestion"
+    ]
+  },
+  {
+    "contentId": "DEMO-10020",
+    "contentType": "Disease",
+    "lang": "en",
+    "title": "Migraine",
+    "abstract": [
+      "Common migraine symptoms, triggers, and when a headache needs urgent care."
+    ],
+    "updateDate": "2026-08-22T00:00:00Z",
+    "publicationDate": "2016-09-12T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "migraine",
+      "headache",
+      "aura",
+      "neurology"
+    ]
+  },
+  {
+    "contentId": "DEMO-10015",
+    "contentType": "Test",
+    "lang": "en",
+    "title": "Colonoscopy",
+    "abstract": [
+      "Why a colonoscopy is done, how to prepare, and what to expect."
+    ],
+    "updateDate": "2026-08-14T00:00:00Z",
+    "publicationDate": "2013-09-09T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "colonoscopy",
+      "colon cancer",
+      "screening",
+      "polyps",
+      "colorectal"
+    ]
+  },
+  {
+    "contentId": "DEMO-10017",
+    "contentType": "Procedure",
+    "lang": "en",
+    "title": "Knee replacement",
+    "abstract": [
+      "Who may benefit from knee replacement and what recovery usually involves."
+    ],
+    "updateDate": "2026-07-29T00:00:00Z",
+    "publicationDate": "2014-06-17T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "knee replacement",
+      "arthritis",
+      "joint",
+      "orthopedics",
+      "surgery"
+    ]
+  },
+  {
+    "contentId": "DEMO-10004",
+    "contentType": "Healthy Lifestyle",
+    "lang": "en",
+    "title": "Staying hydrated",
+    "abstract": [
+      "Why fluids matter and easy ways to drink enough during the day."
+    ],
+    "updateDate": "2026-07-18T00:00:00Z",
+    "publicationDate": "2021-05-04T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "water",
+      "hydration",
+      "fluids",
+      "dehydration",
+      "nutrition"
+    ]
+  },
+  {
+    "contentId": "DEMO-10006",
+    "contentType": "Symptom",
+    "lang": "en",
+    "title": "Low back pain",
+    "abstract": [
+      "An overview of everyday low back pain and steps that often help."
+    ],
+    "updateDate": "2026-06-05T00:00:00Z",
+    "publicationDate": "2019-09-30T00:00:00Z",
+    "alternativeIdentifiers": [],
+    "keywords": [
+      "back pain",
+      "spine",
+      "muscle",
+      "strain",
+      "posture",
+      "pain"
+    ]
+  },
+  {
     "contentId": "DEMO-10008",
     "contentType": "Healthy Lifestyle",
     "lang": "en",
-    "title": "Sun protection basics (demo)",
+    "title": "Sun protection basics",
     "abstract": [
-      "Sample article: everyday ways to protect your skin from the sun."
+      "Everyday ways to protect your skin from the sun."
     ],
     "updateDate": "2026-05-22T00:00:00Z",
     "publicationDate": "2017-07-01T00:00:00Z",

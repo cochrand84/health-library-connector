@@ -1,0 +1,74 @@
+{
+  "meta": {
+    "contentType": "Disease",
+    "docId": "DEMO-10018",
+    "originalUrl": "",
+    "updateDate": "2026-09-08T00:00:00",
+    "publicationDate": "2015-04-21T00:00:00",
+    "controlWords": {
+      "category": [
+        {
+          "title": "Condition",
+          "mcvId": "23457",
+          "keyword": {
+            "title": "Diagnosable condition",
+            "mcvId": "1092",
+            "keyword": {
+              "title": "Pain NOS",
+              "mcvId": "1770",
+              "keyword": {
+                "title": "Kidney stones",
+                "mcvId": "9111"
+              }
+            }
+          }
+        },
+        {
+          "title": "Anatomical structure",
+          "mcvId": "23451",
+          "keyword": {
+            "title": "Body system",
+            "mcvId": "23450",
+            "keyword": {
+              "title": "Urinary system",
+              "mcvId": "9204"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Overview",
+        "html": [
+          "<p>Kidney stones are hard deposits of minerals and salts that form inside the kidneys. Small stones may pass on their own; larger ones may need treatment.</p>"
+        ]
+      },
+      {
+        "sectionHead": "Common symptoms",
+        "html": [
+          "<ul><li>Severe pain in the side and back, below the ribs</li><li>Pain that spreads to the lower belly or groin</li><li>Pink, red or brown urine</li><li>Nausea and vomiting</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "Prevention",
+        "html": [
+          "<ul><li>Drink enough water throughout the day</li><li>Limit salt</li><li>Ask your care team whether diet changes make sense for your stone type</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "When to get help",
+        "html": [
+          "<p>Seek care right away for pain so severe you cannot sit still, pain with fever and chills, or trouble passing urine.</p>"
+        ]
+      }
+    ]
+  },
+  "title": "Kidney stones",
+  "abstract": "What kidney stones are, common symptoms, and steps that may help prevent them.",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}

@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "contentType": "Disease",
+    "docId": "DEMO-10010",
+    "originalUrl": "",
+    "updateDate": "2026-10-05T00:00:00",
+    "publicationDate": "2015-08-02T00:00:00",
+    "controlWords": {
+      "category": [
+        {
+          "title": "Condition",
+          "mcvId": "23457",
+          "keyword": {
+            "title": "Diagnosable condition",
+            "mcvId": "1092",
+            "keyword": {
+              "title": "Vascular disease",
+              "mcvId": "9103",
+              "keyword": {
+                "title": "Hypertension",
+                "mcvId": "9104"
+              }
+            }
+          }
+        },
+        {
+          "title": "Anatomical structure",
+          "mcvId": "23451",
+          "keyword": {
+            "title": "Body system",
+            "mcvId": "23450",
+            "keyword": {
+              "title": "Cardiovascular system",
+              "mcvId": "1145"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Overview",
+        "html": [
+          "<p>Blood pressure is the force of blood pushing against artery walls. When it stays high, the heart works harder and the risk of heart attack, stroke and kidney disease goes up.</p>"
+        ],
+        "popupMedia": [
+          {
+            "image": {
+              "id": "GUID-6b2f1c3d-4e5a-4b6c-8d7e-9f0a1b2c3d11",
+              "alt": "Illustration of a heart with a pulse line",
+              "caption": "High blood pressure often has no symptoms, so regular checks matter.",
+              "title": "Illustration of a heart with a pulse line",
+              "width": 640,
+              "height": 360
+            }
+          }
+        ]
+      },
+      {
+        "sectionHead": "Know your numbers",
+        "html": [
+          "<p>A reading has two numbers, such as 120/80. Your care team will explain what your readings mean and what target is right for you.</p>"
+        ]
+      },
+      {
+        "sectionHead": "Everyday steps",
+        "html": [
+          "<ul><li>Limit salt (sodium) and processed foods</li><li>Stay active most days of the week</li><li>Limit alcohol and avoid tobacco</li><li>Take medicines as prescribed</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "When to get help",
+        "html": [
+          "<p><strong>Call 911</strong> for a very high reading with chest pain, shortness of breath, back pain, numbness or weakness, vision changes, or difficulty speaking.</p>"
+        ]
+      }
+    ]
+  },
+  "title": "High blood pressure",
+  "abstract": "What blood pressure numbers mean and everyday steps that help keep them in a healthy range.",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}

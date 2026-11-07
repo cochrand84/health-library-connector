@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "contentType": "Test",
+    "docId": "DEMO-10015",
+    "originalUrl": "",
+    "updateDate": "2026-08-14T00:00:00",
+    "publicationDate": "2013-09-09T00:00:00",
+    "controlWords": {
+      "category": [
+        {
+          "title": "Tests and procedures",
+          "mcvId": "9301",
+          "keyword": {
+            "title": "Endoscopy",
+            "mcvId": "9302",
+            "keyword": {
+              "title": "Colonoscopy",
+              "mcvId": "9303"
+            }
+          }
+        },
+        {
+          "title": "Anatomical structure",
+          "mcvId": "23451",
+          "keyword": {
+            "title": "Gastrointestinal tract",
+            "mcvId": "138500",
+            "keyword": {
+              "title": "Intestine",
+              "mcvId": "1452"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Overview",
+        "html": [
+          "<p>A colonoscopy uses a thin, flexible tube with a camera to look inside the colon and rectum. It can find and often remove polyps before they turn into cancer.</p>"
+        ]
+      },
+      {
+        "sectionHead": "Why it is done",
+        "html": [
+          "<ul><li>Colorectal cancer screening, often starting at age 45 for people at average risk</li><li>Looking into bleeding, pain or changes in bowel habits</li><li>Follow-up after earlier findings</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "Preparing",
+        "html": [
+          "<p>Your bowel needs to be empty. You will get instructions for a clear-liquid diet and a bowel prep the day before. Plan for someone to drive you home.</p>"
+        ]
+      },
+      {
+        "sectionHead": "After the test",
+        "html": [
+          "<p>Most people go home the same day. Mild bloating or gas is common. Call your care team for severe pain, fever or heavy bleeding.</p>"
+        ]
+      }
+    ]
+  },
+  "title": "Colonoscopy",
+  "abstract": "Why a colonoscopy is done, how to prepare, and what to expect.",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}

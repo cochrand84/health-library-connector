@@ -1,0 +1,70 @@
+{
+  "meta": {
+    "contentType": "Article",
+    "docId": "DEMO-10019",
+    "originalUrl": "",
+    "updateDate": "2026-10-15T00:00:00",
+    "publicationDate": "2012-07-03T00:00:00",
+    "controlWords": {
+      "category": [
+        {
+          "title": "Pregnancy",
+          "mcvId": "1104",
+          "keyword": {
+            "title": "Pregnancy week by week",
+            "mcvId": "1898",
+            "keyword": {
+              "title": "First trimester",
+              "mcvId": "9112"
+            }
+          }
+        },
+        {
+          "title": "Anatomical structure",
+          "mcvId": "23451",
+          "keyword": {
+            "title": "Body system",
+            "mcvId": "23450",
+            "keyword": {
+              "title": "Reproductive system",
+              "mcvId": "2041"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Overview",
+        "html": [
+          "<p>Regular prenatal care helps you and your care team keep track of your health and your baby's development. Your first visit is usually scheduled around 8 weeks of pregnancy.</p>"
+        ]
+      },
+      {
+        "sectionHead": "Early visits",
+        "html": [
+          "<ul><li>Health history and physical exam</li><li>Blood and urine tests</li><li>Estimating your due date</li><li>Discussing screening tests</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "Healthy habits",
+        "html": [
+          "<ul><li>Take a prenatal vitamin with folic acid</li><li>Avoid alcohol, tobacco and recreational drugs</li><li>Ask before starting or stopping any medicine</li><li>Rest and stay hydrated</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "When to call",
+        "html": [
+          "<p>Call your care team for heavy bleeding, severe belly pain, high fever, or severe vomiting that keeps you from keeping fluids down.</p>"
+        ]
+      }
+    ]
+  },
+  "title": "Prenatal care: the first trimester",
+  "abstract": "What to expect from prenatal visits and healthy habits early in pregnancy.",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}

@@ -17,7 +17,7 @@
               "title": "Pain NOS",
               "mcvId": "1770",
               "keyword": {
-                "title": "Heartburn (demo)",
+                "title": "Heartburn",
                 "mcvId": "9005"
               }
             }
@@ -55,13 +55,13 @@
       {
         "sectionHead": "When to see a doctor",
         "html": [
-          "<p>See a health care professional if heartburn happens often, makes swallowing difficult, or comes with weight loss. <strong>Chest pain with shortness of breath or pain in the arm or jaw needs emergency care.</strong></p>"
+          "<p>See a health care professional if heartburn happens more than twice a week, makes swallowing difficult, or comes with weight loss. <strong>Chest pain with shortness of breath, sweating, or pain in the arm or jaw can be a heart attack. Call 911.</strong></p>"
         ]
       }
     ]
   },
-  "title": "Heartburn (demo)",
-  "abstract": "<p>Sample article: what heartburn feels like, common triggers and when it may need attention.</p>",
+  "title": "Heartburn",
+  "abstract": "<p>What heartburn feels like, common triggers and when it may need attention.</p>",
   "encoding": "UTF-8",
   "language": "en",
   "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."

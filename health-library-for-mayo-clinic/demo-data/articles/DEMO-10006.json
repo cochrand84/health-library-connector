@@ -18,6 +18,18 @@
               "mcvId": "1770"
             }
           }
+        },
+        {
+          "title": "Anatomical structure",
+          "mcvId": "23451",
+          "keyword": {
+            "title": "Body system",
+            "mcvId": "23450",
+            "keyword": {
+              "title": "Musculoskeletal system",
+              "mcvId": "9202"
+            }
+          }
         }
       ]
     }
@@ -39,13 +51,13 @@
       {
         "sectionHead": "When to see a doctor",
         "html": [
-          "<p>Get care promptly if back pain follows a fall or injury, comes with numbness or weakness in the legs, or with changes in bladder or bowel control.</p>"
+          "<p>Get care promptly if back pain follows a fall or injury, comes with numbness or weakness in the legs, fever, or changes in bladder or bowel control.</p>"
         ]
       }
     ]
   },
-  "title": "Low back pain (demo)",
-  "abstract": "Sample article: an overview of everyday low back pain and steps that often help.",
+  "title": "Low back pain",
+  "abstract": "An overview of everyday low back pain and steps that often help.",
   "encoding": "UTF-8",
   "language": "en",
   "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."

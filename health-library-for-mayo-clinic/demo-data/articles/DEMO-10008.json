@@ -11,7 +11,7 @@
           "title": "Lifestyle",
           "mcvId": "1006",
           "keyword": {
-            "title": "Sun safety (demo)",
+            "title": "Sun safety",
             "mcvId": "9008"
           }
         }
@@ -40,8 +40,8 @@
       }
     ]
   },
-  "title": "Sun protection basics (demo)",
-  "abstract": "Sample article: everyday ways to protect your skin from the sun.",
+  "title": "Sun protection basics",
+  "abstract": "Everyday ways to protect your skin from the sun.",
   "encoding": "UTF-8",
   "language": "en",
   "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."

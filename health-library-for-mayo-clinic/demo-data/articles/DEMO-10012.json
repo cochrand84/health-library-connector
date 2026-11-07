@@ -1,0 +1,68 @@
+{
+  "meta": {
+    "contentType": "Symptom",
+    "docId": "DEMO-10012",
+    "originalUrl": "",
+    "updateDate": "2026-10-28T00:00:00",
+    "publicationDate": "2014-05-20T00:00:00",
+    "controlWords": {
+      "category": [
+        {
+          "title": "Condition",
+          "mcvId": "23457",
+          "keyword": {
+            "title": "Diagnosable condition",
+            "mcvId": "1092",
+            "keyword": {
+              "title": "Cerebrovascular disease",
+              "mcvId": "9106",
+              "keyword": {
+                "title": "Stroke",
+                "mcvId": "9107"
+              }
+            }
+          }
+        },
+        {
+          "title": "Anatomical structure",
+          "mcvId": "23451",
+          "keyword": {
+            "title": "Body system",
+            "mcvId": "23450",
+            "keyword": {
+              "title": "Nervous system",
+              "mcvId": "9203"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Call 911",
+        "html": [
+          "<p><strong>A stroke is an emergency. Call 911 right away and note the time symptoms started.</strong> Some treatments only work if given within hours.</p>"
+        ]
+      },
+      {
+        "sectionHead": "BE FAST",
+        "html": [
+          "<ul><li><strong>B</strong>alance: sudden loss of balance or coordination</li><li><strong>E</strong>yes: sudden vision loss or double vision</li><li><strong>F</strong>ace: one side of the face droops</li><li><strong>A</strong>rms: one arm drifts down or is weak</li><li><strong>S</strong>peech: slurred or strange speech</li><li><strong>T</strong>ime: call 911 now</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "Lower your risk",
+        "html": [
+          "<ul><li>Keep blood pressure under control</li><li>Do not smoke</li><li>Manage diabetes and cholesterol</li><li>Stay physically active</li></ul>"
+        ]
+      }
+    ]
+  },
+  "title": "Stroke warning signs",
+  "abstract": "Use BE FAST to spot the signs of a stroke and get help quickly.",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}

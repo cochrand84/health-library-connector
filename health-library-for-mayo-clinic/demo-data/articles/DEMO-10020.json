@@ -1,0 +1,78 @@
+{
+  "meta": {
+    "contentType": "Disease",
+    "docId": "DEMO-10020",
+    "originalUrl": "",
+    "updateDate": "2026-08-22T00:00:00",
+    "publicationDate": "2016-09-12T00:00:00",
+    "controlWords": {
+      "category": [
+        {
+          "title": "Condition",
+          "mcvId": "23457",
+          "keyword": {
+            "title": "Diagnosable condition",
+            "mcvId": "1092",
+            "keyword": {
+              "title": "Pain NOS",
+              "mcvId": "1770",
+              "keyword": {
+                "title": "Headache disorder",
+                "mcvId": "9113",
+                "keyword": {
+                  "title": "Migraine",
+                  "mcvId": "9114"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Anatomical structure",
+          "mcvId": "23451",
+          "keyword": {
+            "title": "Body system",
+            "mcvId": "23450",
+            "keyword": {
+              "title": "Nervous system",
+              "mcvId": "9203"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "body": {
+    "section": [
+      {
+        "sectionHead": "Overview",
+        "html": [
+          "<p>A migraine is a headache that can cause throbbing pain, usually on one side of the head, often with nausea and sensitivity to light and sound. Attacks can last hours to days.</p>"
+        ]
+      },
+      {
+        "sectionHead": "Common triggers",
+        "html": [
+          "<ul><li>Stress</li><li>Changes in sleep</li><li>Skipped meals</li><li>Hormonal changes</li><li>Certain foods or drinks</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "Managing migraines",
+        "html": [
+          "<ul><li>Keep a headache diary to spot triggers</li><li>Rest in a quiet, dark room during an attack</li><li>Talk with your care team about treatment and prevention options</li></ul>"
+        ]
+      },
+      {
+        "sectionHead": "When to get help",
+        "html": [
+          "<p><strong>Get emergency care</strong> for a sudden, severe \"worst ever\" headache, or a headache with fever, stiff neck, confusion, weakness, or trouble speaking.</p>"
+        ]
+      }
+    ]
+  },
+  "title": "Migraine",
+  "abstract": "Common migraine symptoms, triggers, and when a headache needs urgent care.",
+  "encoding": "UTF-8",
+  "language": "en",
+  "_demo": "Placeholder content written for the Health Library plugin demo. Not Mayo Clinic content. Not medical advice."
+}
