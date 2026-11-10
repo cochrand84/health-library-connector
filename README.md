@@ -24,7 +24,7 @@ without leaving your site.
 - Article images proxied and cached server-side (the image endpoint needs authentication)
 - License-friendly by default: cache capped at **48 hours**, canonical tag to Mayo's `originalUrl` (also passed to Yoast / Rank Math), "Last reviewed" date, © MFMER notice and Terms of Use link
 - Optional sidebar: a call to action, or **links to your own provider and service pages matched to the article's topic**, edited in a table or imported from a spreadsheet
-- Theme-independent: inherits your theme's typography; every view can be overridden from your theme
+- Matches your theme: fonts, text and links come from the theme, and the accent color can be linked to one of the theme's palette colors; every view can be overridden from your theme
 - Demo mode, WP-CLI commands, clean uninstall
 
 ## Screenshots
@@ -42,7 +42,7 @@ See [CHANGELOG.md](CHANGELOG.md) for what changed in each version.
 
 ## Install
 
-1. Download `health-library-connector.zip` from [Releases](../../releases), or copy the `health-library-connector/` folder into `wp-content/plugins/`.
+1. Download `health-library-connector.zip` from [Releases](../../releases) (or, until a release is published, copy the `health-library-connector/` folder into `wp-content/plugins/`).
 2. Activate it, then go to **Settings → Health Library** and click **Create library page**.
 3. You'll see demo content. To go live, choose **Live**, add your credentials, save, and click **Test API connection**.
 
