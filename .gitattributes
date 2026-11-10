@@ -1,0 +1,15 @@
+# Keep the repo root installable as a WordPress plugin.
+# Everything below is left out of GitHub's "Download ZIP" / "Source code"
+# archives and the release zip (git archive honours export-ignore).
+/.github            export-ignore
+/.gitattributes     export-ignore
+/.gitignore         export-ignore
+/docs               export-ignore
+/prototype          export-ignore
+/README.md          export-ignore
+/CHANGELOG.md       export-ignore
+
+# Normalise line endings so zips built anywhere match.
+* text=auto eol=lf
+*.png binary
+*.jpg binary

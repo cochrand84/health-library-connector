@@ -3,6 +3,15 @@
 All notable changes to Health Library Connector. Versions follow
 [Semantic Versioning](https://semver.org/); dates are the commit dates.
 
+## 0.4.1 — 2026-11-10
+
+### Fixed
+- **Installing from a GitHub download.** The plugin now lives at the
+  repository root, so GitHub's *Download ZIP* and release *Source code*
+  archives upload through **Plugins → Add New → Upload Plugin** instead of
+  failing with "No valid plugins were found". The prototype, screenshots and
+  repo-only files are left out of every download.
+
 ## 0.4.0 — 2026-11-10
 
 ### Added

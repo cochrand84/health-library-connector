@@ -4,7 +4,7 @@ Tags: health, medical, mayo clinic, health library, api
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.4.0
+Stable tag: 0.4.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -77,6 +77,9 @@ Settings → Health Library → Sidebar links. Download the CSV template, fill i
 Yes. On article views the canonical URL and title are passed to those plugins.
 
 == Changelog ==
+
+= 0.4.1 =
+* Packaging: the plugin now sits at the repository root, so GitHub downloads install directly.
 
 = 0.4.0 =
 * The accent color can now come from your theme's color palette and follows the theme when it changes. New "Layout only" option leaves all styling to the theme.

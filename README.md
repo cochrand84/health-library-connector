@@ -42,7 +42,7 @@ See [CHANGELOG.md](CHANGELOG.md) for what changed in each version.
 
 ## Install
 
-1. Download `health-library-connector.zip` from [Releases](../../releases) (or, until a release is published, copy the `health-library-connector/` folder into `wp-content/plugins/`).
+1. Download `health-library-connector.zip` from [Releases](../../releases) and upload it under **Plugins → Add New → Upload Plugin**. (GitHub's green **Code → Download ZIP** also installs, but the folder will be named `health-library-connector-main`; the release zip keeps the correct folder name for updates.)
 2. Activate it, then go to **Settings → Health Library** and click **Create library page**.
 3. You'll see demo content. To go live, choose **Live**, add your credentials, save, and click **Test API connection**.
 
@@ -131,7 +131,7 @@ The same article in two different themes, with no plugin settings changed:
 
 ## Customizing
 
-Copy any file from `health-library-connector/templates/` to
+Copy any file from the plugin's `templates/` to
 `your-theme/health-library/` and edit it. Spacing and colors use CSS custom
 properties (`--hlmc-accent`, `--hlmc-border`, `--hlmc-gap`, …) scoped to
 `.hlmc`. `health-library-layout.css` is always loaded;
@@ -161,8 +161,9 @@ Check the required attribution wording and override
 
 | Path | What it is |
 |------|------------|
-| `health-library-connector/` | The plugin |
-| `prototype/` | The original standalone PHP prototype the plugin grew out of — reference only, **not for deployment** |
+| repo root | The plugin itself — the root is the plugin folder, so GitHub's zips install directly |
+| `docs/` | Screenshots for this README (left out of downloads) |
+| `prototype/` | The original standalone PHP prototype the plugin grew out of — reference only, **not for deployment**; left out of downloads |
 
 The early commits are the prototype's development history, reconstructed
 from the working sessions it was built in (timestamps are approximate).
