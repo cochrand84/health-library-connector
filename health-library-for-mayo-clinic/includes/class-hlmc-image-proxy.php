@@ -32,7 +32,7 @@ class HLMC_Image_Proxy {
 		}
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$guid = hlmc_sanitize_guid( wp_unslash( $_GET[ self::QUERY_VAR ] ) );
+		$guid = hlmc_sanitize_guid( sanitize_text_field( wp_unslash( $_GET[ self::QUERY_VAR ] ) ) );
 		if ( '' === $guid ) {
 			status_header( 400 );
 			nocache_headers();

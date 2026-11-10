@@ -28,8 +28,6 @@ final class HLMC_Plugin {
 	}
 
 	private function boot() {
-		load_plugin_textdomain( 'health-library-for-mayo-clinic', false, dirname( plugin_basename( HLMC_FILE ) ) . '/languages' );
-
 		HLMC_Image_Proxy::init();
 		new HLMC_Frontend();
 

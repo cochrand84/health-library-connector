@@ -310,7 +310,8 @@ class HLMC_Care_Links {
 	 */
 	public static function to_csv( array $rows ) {
 		$header = self::csv_header( $rows );
-		$fh     = fopen( 'php://temp', 'r+' );
+		// In-memory stream (php://temp), not the filesystem: fputcsv() handles CSV quoting.
+		$fh     = fopen( 'php://temp', 'r+' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
 		fputcsv( $fh, $header, ',', '"', '' );
 		foreach ( $rows as $r ) {
 			$line = array( implode( '; ', $r['ids'] ), $r['topic'] );
@@ -325,7 +326,7 @@ class HLMC_Care_Links {
 		}
 		rewind( $fh );
 		$csv = stream_get_contents( $fh );
-		fclose( $fh );
+		fclose( $fh ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 		return "\xEF\xBB\xBF" . $csv;
 	}
 
@@ -343,8 +344,9 @@ class HLMC_Care_Links {
 		$lines  = preg_split( '/\r\n|\r|\n/', $csv );
 		$first  = (string) ( $lines[0] ?? '' );
 		$delim  = substr_count( $first, ';' ) > substr_count( $first, ',' ) ? ';' : ',';
-		$fh     = fopen( 'php://temp', 'r+' );
-		fwrite( $fh, $csv );
+		// In-memory stream (php://temp), not the filesystem: fgetcsv() handles quoted multi-line cells.
+		$fh     = fopen( 'php://temp', 'r+' ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
+		fwrite( $fh, $csv ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fwrite
 		rewind( $fh );
 
 		$rows   = array();
@@ -358,7 +360,7 @@ class HLMC_Care_Links {
 		);
 
 		if ( ! in_array( 'mcv_ids', $header, true ) ) {
-			fclose( $fh );
+			fclose( $fh ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 			return array(
 				'rows'   => array(),
 				'errors' => array( __( 'The first row must be the header row from the template (it needs an mcv_ids column).', 'health-library-for-mayo-clinic' ) ),
@@ -410,7 +412,7 @@ class HLMC_Care_Links {
 			}
 			$rows[] = $row;
 		}
-		fclose( $fh );
+		fclose( $fh ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 
 		return array(
 			'rows'   => $rows,

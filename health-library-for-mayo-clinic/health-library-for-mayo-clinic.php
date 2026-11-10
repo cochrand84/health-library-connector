@@ -11,7 +11,6 @@
  * License:           GPL-3.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain:       health-library-for-mayo-clinic
- * Domain Path:       /languages
  *
  * This plugin is an independent project. It is not affiliated with,
  * endorsed by, or sponsored by Mayo Clinic. "Mayo Clinic" is a trademark

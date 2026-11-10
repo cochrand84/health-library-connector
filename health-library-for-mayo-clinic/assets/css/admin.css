@@ -27,6 +27,6 @@
 .hlmc-doc { max-width: 60em; }
 .hlmc-doc h2 { margin-top: 2em; }
 .hlmc-doc h2 code { font-size: 1em; }
-.hlmc-copy { margin-bottom: .4em; background: #f6f7f7; }
+.hlmc-copy { margin-bottom: .4em; background: #f6f7f7; user-select: all; -webkit-user-select: all; }
 .hlmc-attr-table { margin: .6em 0 1em; }
 .hlmc-attr-table td:first-child { white-space: nowrap; width: 1%; }

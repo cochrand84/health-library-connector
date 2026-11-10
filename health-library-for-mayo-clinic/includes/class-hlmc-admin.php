@@ -75,13 +75,21 @@ class HLMC_Admin {
 	 * @param string $message Message (optional).
 	 */
 	private function back( $code, $message = '', $tab = '' ) {
+		// The message travels in a short-lived per-user transient, not the URL,
+		// so a crafted link can't put arbitrary text on this screen.
+		set_transient(
+			'hlmc_notice_' . get_current_user_id(),
+			array(
+				'code'    => $code,
+				'message' => $message,
+			),
+			MINUTE_IN_SECONDS
+		);
 		$url = add_query_arg(
 			array_filter(
 				array(
-					'page'        => self::PAGE,
-					'tab'         => $tab,
-					'hlmc_notice' => $code,
-					'hlmc_msg'    => rawurlencode( $message ),
+					'page' => self::PAGE,
+					'tab'  => $tab,
 				)
 			),
 			admin_url( 'options-general.php' )
@@ -162,11 +170,15 @@ class HLMC_Admin {
 		$has_key    = '' !== HLMC_Settings::api_key();
 		$page_id    = (int) $s['library_page_id'];
 		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- display only.
-		$notice     = isset( $_GET['hlmc_notice'] ) ? sanitize_key( $_GET['hlmc_notice'] ) : '';
-		$notice_msg = isset( $_GET['hlmc_msg'] ) ? sanitize_text_field( rawurldecode( wp_unslash( $_GET['hlmc_msg'] ) ) ) : '';
-		$tab        = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'general';
+		$tab        = isset( $_GET['tab'] ) ? sanitize_key( wp_unslash( $_GET['tab'] ) ) : 'general';
 		$tab        = in_array( $tab, array( 'general', 'links', 'topics', 'help' ), true ) ? $tab : 'general';
 		// phpcs:enable
+		$flash      = get_transient( 'hlmc_notice_' . get_current_user_id() );
+		$notice     = is_array( $flash ) ? sanitize_key( (string) $flash['code'] ) : '';
+		$notice_msg = is_array( $flash ) ? sanitize_textarea_field( (string) $flash['message'] ) : '';
+		if ( $flash ) {
+			delete_transient( 'hlmc_notice_' . get_current_user_id() );
+		}
 		$tab_url    = admin_url( 'options-general.php?page=' . self::PAGE );
 		?>
 		<div class="wrap">
@@ -278,7 +290,7 @@ class HLMC_Admin {
 								array(
 									'name'              => esc_attr( $this->name( 'library_page_id' ) ),
 									'id'                => 'hlmc-page',
-									'selected'          => $page_id,
+									'selected'          => absint( $page_id ),
 									'show_option_none'  => esc_html__( '— Select —', 'health-library-for-mayo-clinic' ),
 									'option_none_value' => '0',
 								)
@@ -441,7 +453,7 @@ class HLMC_Admin {
 	 */
 	private function code_box( $code ) {
 		printf(
-			'<input type="text" class="large-text code hlmc-copy" readonly value="%s" onfocus="this.select()" aria-label="%s">',
+			'<input type="text" class="large-text code hlmc-copy" readonly value="%s" aria-label="%s">',
 			esc_attr( $code ),
 			esc_attr__( 'Shortcode (select to copy)', 'health-library-for-mayo-clinic' )
 		);
@@ -666,7 +678,7 @@ class HLMC_Admin {
 
 	public function handle_save_links() {
 		$this->guard( 'hlmc_save_links' );
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- decoded then sanitized row by row in HLMC_Care_Links::clean_row().
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- nonce checked in guard(); JSON is decoded then sanitized row by row in HLMC_Care_Links::clean_row().
 		$json = isset( $_POST['rows_json'] ) ? wp_unslash( $_POST['rows_json'] ) : '';
 		$rows = json_decode( (string) $json, true );
 		if ( ! is_array( $rows ) ) {
@@ -692,7 +704,7 @@ class HLMC_Admin {
 
 	public function handle_import_links() {
 		$this->guard( 'hlmc_import_links' );
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput -- nonce checked in guard(); the upload is size-checked and parsed/sanitized by HLMC_Care_Links::from_csv().
 		$file = isset( $_FILES['hlmc_csv'] ) ? $_FILES['hlmc_csv'] : null;
 		if ( ! $file || UPLOAD_ERR_OK !== (int) $file['error'] || ! is_uploaded_file( $file['tmp_name'] ) ) {
 			$this->back( 'error', __( 'Choose a CSV file to import.', 'health-library-for-mayo-clinic' ), 'links' );
