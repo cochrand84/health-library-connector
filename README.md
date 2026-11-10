@@ -1,4 +1,4 @@
-# Health Library for Mayo Clinic — WordPress plugin
+# Health Library Connector — WordPress plugin
 
 Display the **Mayo Clinic Health Information Library** on any WordPress site,
 inside your own theme, using your organization's licensed Mayo Clinic
@@ -29,7 +29,7 @@ without leaving your site.
 
 ## Install
 
-1. Download `health-library-for-mayo-clinic.zip` from [Releases](../../releases), or copy the `health-library-for-mayo-clinic/` folder into `wp-content/plugins/`.
+1. Download `health-library-connector.zip` from [Releases](../../releases), or copy the `health-library-connector/` folder into `wp-content/plugins/`.
 2. Activate it, then go to **Settings → Health Library** and click **Create library page**.
 3. You'll see demo content. To go live, choose **Live**, add your credentials, save, and click **Test API connection**.
 
@@ -96,7 +96,7 @@ nginx you can add `location ^~ /wp-content/uploads/hlmc-cache/ { deny all; }`.
 
 ## Customizing
 
-Copy any file from `health-library-for-mayo-clinic/templates/` to
+Copy any file from `health-library-connector/templates/` to
 `your-theme/health-library/` and edit it. Colors use CSS custom properties
 (`--hlmc-accent`, `--hlmc-border`, …) scoped to `.hlmc`.
 
@@ -124,7 +124,7 @@ Check the required attribution wording and override
 
 | Path | What it is |
 |------|------------|
-| `health-library-for-mayo-clinic/` | The plugin |
+| `health-library-connector/` | The plugin |
 | `prototype/` | The original standalone PHP prototype the plugin grew out of — reference only, **not for deployment** |
 
 The early commits are the prototype's development history, reconstructed

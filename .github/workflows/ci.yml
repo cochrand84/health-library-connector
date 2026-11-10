@@ -22,9 +22,9 @@ jobs:
           php-version: ${{ matrix.php }}
           tools: none
       - name: PHP syntax check
-        run: find health-library-for-mayo-clinic -name '*.php' -print0 | xargs -0 -n1 php -l
+        run: find health-library-connector -name '*.php' -print0 | xargs -0 -n1 php -l
       - name: Demo data is valid JSON
-        run: for f in $(find health-library-for-mayo-clinic/demo-data -name '*.json'); do php -r 'json_decode(file_get_contents($argv[1]), false, 512, JSON_THROW_ON_ERROR);' "$f" || exit 1; done
+        run: for f in $(find health-library-connector/demo-data -name '*.json'); do php -r 'json_decode(file_get_contents($argv[1]), false, 512, JSON_THROW_ON_ERROR);' "$f" || exit 1; done
 
   release:
     if: startsWith(github.ref, 'refs/tags/v')
@@ -35,8 +35,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build plugin zip
-        run: zip -r health-library-for-mayo-clinic.zip health-library-for-mayo-clinic
+        run: zip -r health-library-connector.zip health-library-connector
       - uses: softprops/action-gh-release@v2
         with:
-          files: health-library-for-mayo-clinic.zip
+          files: health-library-connector.zip
           generate_release_notes: true
