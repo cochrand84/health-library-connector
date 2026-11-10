@@ -1,5 +1,5 @@
 === Health Library Connector ===
-Contributors: davidcochran
+Contributors: cochrand84
 Tags: health, medical, mayo clinic, health library, api
 Requires at least: 6.0
 Tested up to: 7.1
