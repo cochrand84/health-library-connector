@@ -37,6 +37,9 @@ class HLMC_Settings {
 			'featured_count'  => 12,
 			'library_page_id' => 0,
 			'accent_color'    => '#003865',
+			'color_source'    => 'theme',   // 'theme' | 'custom'.
+			'theme_color'     => '',        // Palette slug; '' = suggest one.
+			'style_level'     => 'full',    // 'full' | 'layout'.
 			'sidebar'         => 'none',  // 'none' | 'cta' | 'links'.
 			'cta_title'       => __( 'Find a Doctor', 'health-library-connector' ),
 			'cta_text'        => __( 'Connect with a specialist who can help with your health concerns.', 'health-library-connector' ),
@@ -174,6 +177,9 @@ class HLMC_Settings {
 
 		$color               = isset( $input['accent_color'] ) ? sanitize_hex_color( $input['accent_color'] ) : '';
 		$out['accent_color'] = $color ? $color : $defaults['accent_color'];
+		$out['color_source'] = ( isset( $input['color_source'] ) && 'custom' === $input['color_source'] ) ? 'custom' : 'theme';
+		$out['theme_color']  = isset( $input['theme_color'] ) ? sanitize_key( $input['theme_color'] ) : '';
+		$out['style_level']  = ( isset( $input['style_level'] ) && 'layout' === $input['style_level'] ) ? 'layout' : 'full';
 
 		$out['sidebar'] = self::normalize_sidebar( isset( $input['sidebar'] ) ? $input['sidebar'] : 'none' );
 

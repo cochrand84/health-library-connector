@@ -36,5 +36,5 @@ $hlmc_field_id = wp_unique_id( 'hlmc-q-' );
 		placeholder="<?php echo esc_attr( $args['placeholder'] ); ?>"
 		required
 	>
-	<button type="submit"><?php esc_html_e( 'Search', 'health-library-connector' ); ?></button>
+	<button type="submit" class="hlmc-search-submit wp-element-button"><?php esc_html_e( 'Search', 'health-library-connector' ); ?></button>
 </form>

@@ -4,7 +4,7 @@ Tags: health, medical, mayo clinic, health library, api
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.3.0
+Stable tag: 0.4.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -24,7 +24,8 @@ Health Library Connector lets organizations that license the Mayo Clinic Health 
 * Canonical tag pointing at Mayo's original URL, update date, copyright and Terms of Use link
 * Optional sidebar: links to your own provider and service pages, matched to each article's topic — edit in a table or import from a spreadsheet (CSV)
 * Category inspector for administrators to see each article's Mayo topic codes
-* Works with any theme; every view can be overridden from your theme
+* Matches your theme: fonts, text and links come from the theme, and the accent color can be linked to one of the theme's own palette colors (or switch to layout-only and style everything yourself)
+* Every view can be overridden from your theme
 * Demo mode with bundled sample articles, so you can try it without credentials
 * WP-CLI: `wp health-library status|test|cache clear`
 
@@ -55,6 +56,10 @@ Your use of the content is also governed by your own license agreement with Mayo
 
 From Mayo Clinic Global Business Solutions as part of a Health Information Library content license.
 
+= Will it match my theme? =
+
+Yes. Fonts, text and link colors always come from your theme. Under Settings → Health Library you can link the accent color (buttons, badges, the sidebar box) to one of your theme's palette colors, so it follows the theme if the theme changes, or set a custom color. Choose "Layout only" to turn off the plugin's cards and buttons entirely and style everything in your theme.
+
 = Can I change the layout? =
 
 Copy any file from the plugin's `templates/` folder into `your-theme/health-library/` and edit it there.
@@ -72,6 +77,10 @@ Settings → Health Library → Sidebar links. Download the CSV template, fill i
 Yes. On article views the canonical URL and title are passed to those plugins.
 
 == Changelog ==
+
+= 0.4.0 =
+* The accent color can now come from your theme's color palette and follows the theme when it changes. New "Layout only" option leaves all styling to the theme.
+* Buttons carry the theme's button class (`wp-element-button`).
 
 = 0.3.0 =
 * New `[health_library_topics]` shortcode: buttons for common topics, edited under Settings → Health Library → Topic buttons.

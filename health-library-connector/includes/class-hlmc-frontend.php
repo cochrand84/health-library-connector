@@ -95,14 +95,13 @@ class HLMC_Frontend {
 		if ( $this->assets_enqueued ) {
 			return;
 		}
-		if ( ! wp_style_is( 'hlmc', 'registered' ) ) {
-			wp_register_style( 'hlmc', HLMC_URL . 'assets/css/health-library.css', array(), HLMC_VERSION );
+		wp_enqueue_style( 'hlmc-layout', HLMC_URL . 'assets/css/health-library-layout.css', array(), HLMC_VERSION );
+		$handle = 'hlmc-layout';
+		if ( HLMC_Style::full() ) {
+			wp_enqueue_style( 'hlmc', HLMC_URL . 'assets/css/health-library.css', array( 'hlmc-layout' ), HLMC_VERSION );
+			$handle = 'hlmc';
 		}
-		wp_enqueue_style( 'hlmc' );
-		$accent = sanitize_hex_color( (string) HLMC_Settings::get( 'accent_color' ) );
-		if ( $accent ) {
-			wp_add_inline_style( 'hlmc', '.hlmc{--hlmc-accent:' . $accent . ';}' );
-		}
+		wp_add_inline_style( $handle, HLMC_Style::inline_css() );
 		$this->assets_enqueued = true;
 	}
 

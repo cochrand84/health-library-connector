@@ -310,9 +310,45 @@ class HLMC_Admin {
 							<p class="description"><?php esc_html_e( 'Shown on the landing view before a search. 0 hides them.', 'health-library-connector' ); ?></p>
 						</td>
 					</tr>
+					<?php
+					$hlmc_palette = HLMC_Style::theme_palette();
+					$hlmc_accent  = HLMC_Style::accent();
+					$hlmc_source  = 'custom' === $s['color_source'] ? 'custom' : 'theme';
+					?>
 					<tr>
-						<th scope="row"><label for="hlmc-accent"><?php esc_html_e( 'Accent color', 'health-library-connector' ); ?></label></th>
-						<td><input type="text" id="hlmc-accent" class="small-text" pattern="#[0-9A-Fa-f]{6}" name="<?php echo esc_attr( $this->name( 'accent_color' ) ); ?>" value="<?php echo esc_attr( $s['accent_color'] ); ?>"> <span style="display:inline-block;width:1.5em;height:1.5em;vertical-align:middle;border-radius:3px;background:<?php echo esc_attr( $s['accent_color'] ); ?>"></span></td>
+						<th scope="row"><?php esc_html_e( 'Accent color', 'health-library-connector' ); ?></th>
+						<td>
+							<p class="description hlmc-look-intro"><?php esc_html_e( 'Fonts, text and link colors always come from your theme. The accent color is used for buttons, badges and the sidebar box.', 'health-library-connector' ); ?></p>
+							<fieldset>
+								<label><input type="radio" name="<?php echo esc_attr( $this->name( 'color_source' ) ); ?>" value="theme" <?php checked( $hlmc_source, 'theme' ); ?> <?php disabled( empty( $hlmc_palette ) ); ?>> <?php esc_html_e( 'Use a color from my theme', 'health-library-connector' ); ?></label>
+								<?php if ( $hlmc_palette ) : ?>
+									<div class="hlmc-swatches">
+										<?php foreach ( $hlmc_palette as $hlmc_c ) : ?>
+											<label class="hlmc-swatch" title="<?php echo esc_attr( $hlmc_c['color'] ); ?>">
+												<input type="radio" name="<?php echo esc_attr( $this->name( 'theme_color' ) ); ?>" value="<?php echo esc_attr( $hlmc_c['slug'] ); ?>" <?php checked( $hlmc_accent['from_theme'] && $hlmc_accent['slug'] === $hlmc_c['slug'] ); ?>>
+												<span class="hlmc-swatch-chip" style="background:<?php echo esc_attr( $hlmc_c['color'] ); ?>"></span>
+												<span><?php echo esc_html( $hlmc_c['name'] ); ?></span>
+											</label>
+										<?php endforeach; ?>
+									</div>
+									<p class="description"><?php esc_html_e( 'Linked to the theme: if the theme’s color changes, the library follows.', 'health-library-connector' ); ?></p>
+								<?php else : ?>
+									<p class="description"><?php esc_html_e( 'Your theme doesn’t publish a color palette, so the custom color below is used.', 'health-library-connector' ); ?></p>
+								<?php endif; ?>
+								<label><input type="radio" name="<?php echo esc_attr( $this->name( 'color_source' ) ); ?>" value="custom" <?php checked( $hlmc_source, 'custom' ); ?>> <?php esc_html_e( 'Use a custom color', 'health-library-connector' ); ?></label>
+								<input type="text" id="hlmc-accent" class="small-text" pattern="#[0-9A-Fa-f]{6}" aria-label="<?php esc_attr_e( 'Custom accent color', 'health-library-connector' ); ?>" name="<?php echo esc_attr( $this->name( 'accent_color' ) ); ?>" value="<?php echo esc_attr( $s['accent_color'] ); ?>">
+								<span class="hlmc-swatch-chip" style="background:<?php echo esc_attr( $s['accent_color'] ); ?>"></span>
+							</fieldset>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Plugin styling', 'health-library-connector' ); ?></th>
+						<td>
+							<fieldset>
+								<label><input type="radio" name="<?php echo esc_attr( $this->name( 'style_level' ) ); ?>" value="full" <?php checked( 'layout' !== $s['style_level'] ); ?>> <?php esc_html_e( 'Cards, buttons and topic chips in the accent color (recommended)', 'health-library-connector' ); ?></label><br>
+								<label><input type="radio" name="<?php echo esc_attr( $this->name( 'style_level' ) ); ?>" value="layout" <?php checked( 'layout', $s['style_level'] ); ?>> <?php esc_html_e( 'Layout only: leave buttons, borders and colors entirely to my theme or custom CSS', 'health-library-connector' ); ?></label>
+							</fieldset>
+						</td>
 					</tr>
 				</table>
 
@@ -541,7 +577,7 @@ class HLMC_Admin {
 			?>
 
 			<h2><?php esc_html_e( 'Changing the layout', 'health-library-connector' ); ?></h2>
-			<p><?php echo wp_kses( __( 'Colors: set the accent color on the General tab, or override the <code>--hlmc-*</code> CSS custom properties in your theme. Markup: copy any file from the plugin’s <code>templates/</code> folder into <code>your-theme/health-library/</code> and edit it there; your copy is used instead and survives plugin updates.', 'health-library-connector' ), array( 'code' => array() ) ); ?></p>
+			<p><?php echo wp_kses( __( 'Colors: fonts, text and links always follow your theme. On the General tab, pick one of your theme’s palette colors (or a custom color) for buttons and badges, or switch “Plugin styling” to layout only and style everything in your theme. You can also override the <code>--hlmc-*</code> CSS custom properties. Markup: copy any file from the plugin’s <code>templates/</code> folder into <code>your-theme/health-library/</code> and edit it there; your copy is used instead and survives plugin updates.', 'health-library-connector' ), array( 'code' => array() ) ); ?></p>
 
 			<h2><?php esc_html_e( 'Command line (WP-CLI)', 'health-library-connector' ); ?></h2>
 			<?php

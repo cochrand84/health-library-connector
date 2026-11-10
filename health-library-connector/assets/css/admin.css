@@ -30,3 +30,8 @@
 .hlmc-copy { margin-bottom: .4em; background: #f6f7f7; user-select: all; -webkit-user-select: all; }
 .hlmc-attr-table { margin: .6em 0 1em; }
 .hlmc-attr-table td:first-child { white-space: nowrap; width: 1%; }
+.hlmc-swatches { display: flex; flex-wrap: wrap; gap: 6px 14px; margin: .4em 0 .3em 1.6em; }
+.hlmc-swatch { display: inline-flex; align-items: center; gap: 5px; }
+.hlmc-swatch-chip { display: inline-block; width: 1.4em; height: 1.4em; border-radius: 3px; border: 1px solid rgba(0,0,0,.2); vertical-align: middle; }
+.hlmc-look-intro { margin-bottom: .6em !important; }
+#hlmc-accent { width: 7.5em; }

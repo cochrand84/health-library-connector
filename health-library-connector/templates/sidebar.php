@@ -24,7 +24,7 @@ $hlmc_row   = ( 'links' === $args['sidebar'] && $hlmc_match ) ? $hlmc_match['row
 		<div class="hlmc-cta hlmc-cta-primary hlmc-links-provider">
 			<h3><?php echo esc_html( $hlmc_s['links_provider_heading'] ); ?></h3>
 			<?php foreach ( $hlmc_row['provider'] as $hlmc_link ) : ?>
-				<a class="hlmc-button" href="<?php echo esc_url( $hlmc_link['url'] ); ?>"><?php echo esc_html( $hlmc_link['label'] ); ?></a>
+				<a class="hlmc-button wp-element-button" href="<?php echo esc_url( $hlmc_link['url'] ); ?>"><?php echo esc_html( $hlmc_link['label'] ); ?></a>
 			<?php endforeach; ?>
 		</div>
 	<?php endif; ?>
@@ -47,7 +47,7 @@ $hlmc_row   = ( 'links' === $args['sidebar'] && $hlmc_match ) ? $hlmc_match['row
 			<p><?php echo esc_html( $hlmc_s['cta_text'] ); ?></p>
 		<?php endif; ?>
 		<?php if ( $hlmc_s['cta_url'] ) : ?>
-			<a class="hlmc-button" href="<?php echo esc_url( $hlmc_s['cta_url'] ); ?>"><?php echo esc_html( $hlmc_s['cta_button'] ); ?></a>
+			<a class="hlmc-button wp-element-button" href="<?php echo esc_url( $hlmc_s['cta_url'] ); ?>"><?php echo esc_html( $hlmc_s['cta_button'] ); ?></a>
 		<?php endif; ?>
 	</div>
 <?php endif; ?>

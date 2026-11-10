@@ -27,6 +27,19 @@ without leaving your site.
 - Theme-independent: inherits your theme's typography; every view can be overridden from your theme
 - Demo mode, WP-CLI commands, clean uninstall
 
+## Screenshots
+
+| | |
+|---|---|
+| ![Home page with search box and topic buttons](docs/screenshots/01-home-search-and-topics.png)<br>`[health_library_search]` and `[health_library_topics]` on a home page | ![Search results](docs/screenshots/02-search-results.png)<br>Search results with the call-to-action sidebar |
+| ![Settings: General](docs/screenshots/05-settings-general.png)<br>Settings: content source, display and theme colors | ![Settings: Sidebar links](docs/screenshots/06-settings-sidebar-links.png)<br>Sidebar links: map topics to your own pages, or import a CSV |
+| ![Settings: Topic buttons](docs/screenshots/07-settings-topic-buttons.png)<br>Topic buttons | ![Settings: Shortcodes & help](docs/screenshots/08-settings-shortcodes-help.png)<br>Built-in shortcode reference |
+
+Screenshots use the plugin's demo mode, whose sample articles are original
+placeholder text, not Mayo Clinic content.
+
+See [CHANGELOG.md](CHANGELOG.md) for what changed in each version.
+
 ## Install
 
 1. Download `health-library-connector.zip` from [Releases](../../releases), or copy the `health-library-connector/` folder into `wp-content/plugins/`.
@@ -94,11 +107,35 @@ Cached images are stored in `wp-content/uploads/hlmc-cache/` under
 unguessable names. Apache is also blocked by an `.htaccess` file there; on
 nginx you can add `location ^~ /wp-content/uploads/hlmc-cache/ { deny all; }`.
 
+## Matching your theme
+
+The library is built to look like part of your site, not a widget dropped
+into it:
+
+- **Fonts, text and link colors always come from your theme.** The plugin's
+  stylesheet never sets them.
+- **Accent color from the theme.** Buttons, badges and the sidebar box use
+  one of your theme's own palette colors (Settings → Health Library), output
+  as `var(--wp--preset--color--<slug>)`, so if the theme's color changes the
+  library follows. Works with block themes and with classic themes that
+  register an editor color palette. A custom hex color is also available.
+- **Layout only.** Turn off the plugin's cards, buttons and chips entirely
+  and keep just the columns and spacing; buttons carry the theme's
+  `wp-element-button` class so block themes style them.
+
+The same article in two different themes, with no plugin settings changed:
+
+| Twenty Twenty-Five | A hospital theme |
+|---|---|
+| ![Article in Twenty Twenty-Five](docs/screenshots/03-article-with-sidebar.png) | ![Same article in another theme](docs/screenshots/04-same-article-other-theme.png) |
+
 ## Customizing
 
 Copy any file from `health-library-connector/templates/` to
-`your-theme/health-library/` and edit it. Colors use CSS custom properties
-(`--hlmc-accent`, `--hlmc-border`, …) scoped to `.hlmc`.
+`your-theme/health-library/` and edit it. Spacing and colors use CSS custom
+properties (`--hlmc-accent`, `--hlmc-border`, `--hlmc-gap`, …) scoped to
+`.hlmc`. `health-library-layout.css` is always loaded;
+`health-library.css` (the look) only when Plugin styling is on.
 
 Filters: `hlmc_source`, `hlmc_template`, `hlmc_allowed_html`,
 `hlmc_care_links`, `hlmc_care_links_match`, `hlmc_is_library_page`,

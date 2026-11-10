@@ -1,45 +1,23 @@
 /*
- * Health Library Connector
+ * Health Library Connector — look
  *
- * Deliberately light: inherits the theme's fonts, colors and link styles and
- * only adds layout. Adjust the accent in Settings → Health Library, or
- * override any of the custom properties below in your theme.
+ * Loaded on top of health-library-layout.css when "Plugin styling" is on.
+ * Text, fonts and link colors still come from your theme; this adds cards,
+ * buttons and chips painted with --hlmc-accent, which by default is one of
+ * your theme's own palette colors (Settings → Health Library). Override any
+ * --hlmc-* property in your theme to fine-tune.
  */
 
-.hlmc {
-	--hlmc-accent: #003865;
-	--hlmc-accent-contrast: #fff;
-	--hlmc-border: rgba(0, 0, 0, .12);
-	--hlmc-muted: rgba(0, 0, 0, .62);
-	--hlmc-surface: rgba(0, 0, 0, .025);
-	--hlmc-radius: 6px;
-	--hlmc-gap: 1.5rem;
-	--hlmc-sidebar-width: 18rem;
-
-	box-sizing: border-box;
-	margin-block: 1rem 2rem;
-}
-.hlmc *, .hlmc *::before, .hlmc *::after { box-sizing: inherit; }
-
 /* Search */
-.hlmc-search {
-	display: flex;
-	gap: .5rem;
-	max-width: 40rem;
-	margin: 0 0 var(--hlmc-gap);
-}
 .hlmc-search input[type="search"] {
-	flex: 1;
-	min-width: 0;
 	padding: .6rem .8rem;
 	border: 1px solid var(--hlmc-border);
 	border-radius: var(--hlmc-radius);
-	font: inherit;
-	background: #fff;
+	background: transparent;
 	color: inherit;
 }
-.hlmc-search button,
-.hlmc-button {
+.hlmc .hlmc-search button,
+.hlmc .hlmc-button {
 	display: inline-block;
 	padding: .6rem 1.2rem;
 	border: 0;
@@ -53,59 +31,30 @@
 	text-decoration: none;
 	cursor: pointer;
 }
-.hlmc-search button:hover,
-.hlmc-button:hover { filter: brightness(1.15); color: var(--hlmc-accent-contrast); }
-.hlmc-search button:focus-visible,
-.hlmc-button:focus-visible,
+.hlmc .hlmc-search button:hover,
+.hlmc .hlmc-button:hover { filter: brightness(1.15); color: var(--hlmc-accent-contrast); }
+.hlmc .hlmc-search button:focus-visible,
+.hlmc .hlmc-button:focus-visible,
 .hlmc a:focus-visible { outline: 2px solid var(--hlmc-accent); outline-offset: 2px; }
 
 /* Notices */
-.hlmc-notice,
-.hlmc-demo-notice {
-	padding: .75rem 1rem;
-	border-radius: var(--hlmc-radius);
-	margin: 0 0 var(--hlmc-gap);
-	font-size: .92em;
-}
+.hlmc-notice, .hlmc-demo-notice { padding: .75rem 1rem; border-radius: var(--hlmc-radius); font-size: .92em; }
 .hlmc-notice-error { background: #fff3cd; border: 1px solid #e6c200; color: #5c4400; }
-.hlmc-demo-notice { background: #eef4fb; border: 1px solid #b9cfe8; color: #1d3a5a; }
-
-/* Layout */
-.hlmc-layout { display: block; }
-.hlmc-has-sidebar .hlmc-layout {
-	display: grid;
-	grid-template-columns: minmax(0, 1fr) var(--hlmc-sidebar-width);
-	gap: calc(var(--hlmc-gap) * 1.5);
-	align-items: start;
-}
-.hlmc-sidebar { position: sticky; top: 1.5rem; }
-@media (max-width: 782px) {
-	.hlmc-has-sidebar .hlmc-layout { grid-template-columns: 1fr; }
-	.hlmc-sidebar { position: static; }
-}
+.hlmc-demo-notice { background: color-mix(in srgb, var(--hlmc-accent) 7%, transparent); border: 1px solid color-mix(in srgb, var(--hlmc-accent) 30%, transparent); }
 
 /* Results */
-.hlmc-heading { margin-block: 1.5rem 1rem; }
-.hlmc-count { color: var(--hlmc-muted); font-size: .92em; margin: 0 0 1rem; }
-.hlmc-results { list-style: none; margin: 0; padding: 0; }
-.hlmc-results-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
-	gap: 1rem;
-}
+.hlmc-count, .hlmc-page-of { color: var(--hlmc-muted); font-size: .92em; }
 .hlmc-result {
-	margin: 0 0 .75rem;
 	padding: 1rem 1.15rem;
 	border: 1px solid var(--hlmc-border);
 	border-radius: var(--hlmc-radius);
 	background: var(--hlmc-surface);
 }
-.hlmc-results-grid .hlmc-result { margin: 0; }
-.hlmc-result-title { margin: .2rem 0 .35rem; font-size: 1.1em; line-height: 1.3; }
+.hlmc-result-title { font-size: 1.1em; }
 .hlmc-result-title a { text-decoration: none; }
 .hlmc-result-title a:hover { text-decoration: underline; }
-.hlmc-snippet { margin: 0; color: var(--hlmc-muted); font-size: .95em; }
-.hlmc-date { margin: .35rem 0 0; color: var(--hlmc-muted); font-size: .8em; }
+.hlmc-snippet { color: var(--hlmc-muted); font-size: .95em; }
+.hlmc-date { color: var(--hlmc-muted); font-size: .8em; }
 .hlmc-badge {
 	display: inline-block;
 	padding: .1rem .5rem;
@@ -118,36 +67,19 @@
 	text-transform: uppercase;
 }
 
-.hlmc-pagination {
-	display: flex;
-	gap: 1rem;
-	align-items: center;
-	justify-content: space-between;
-	margin-top: 1.5rem;
-}
-.hlmc-page-of { color: var(--hlmc-muted); font-size: .9em; }
-
 /* Article */
-.hlmc-back { display: inline-block; margin-bottom: 1rem; font-size: .92em; }
-.hlmc-article-title { margin: .4rem 0 .75rem; }
+.hlmc-back { font-size: .92em; }
 .hlmc-abstract {
-	margin: 0 0 1.5rem;
 	padding-left: .9rem;
 	border-left: 3px solid var(--hlmc-accent);
 	font-size: 1.08em;
 	color: var(--hlmc-muted);
 }
-.hlmc-abstract p { margin: 0; }
-.hlmc-section { margin-bottom: 1.5rem; }
 .hlmc-section h3 { margin: 1.75rem 0 .6rem; }
-.hlmc-section-content ul,
-.hlmc-section-content ol { padding-left: 1.5rem; }
 .hlmc-section-content li { margin-bottom: .35rem; }
-.hlmc-figure { margin: 1rem 0 1.25rem; }
-.hlmc-figure img { display: block; max-width: 100%; height: auto; border-radius: var(--hlmc-radius); }
+.hlmc-figure img { border-radius: var(--hlmc-radius); }
 .hlmc-figure figcaption { margin-top: .4rem; font-size: .85em; color: var(--hlmc-muted); }
 .hlmc-updated {
-	margin-top: 2rem;
 	padding-top: .75rem;
 	border-top: 1px solid var(--hlmc-border);
 	font-size: .9em;
@@ -156,83 +88,41 @@
 
 /* Sidebar */
 .hlmc-cta {
-	margin-bottom: 1rem;
 	padding: 1.15rem 1.25rem;
 	border: 2px solid var(--hlmc-accent);
 	border-radius: calc(var(--hlmc-radius) + 2px);
 }
-.hlmc-cta h3, .hlmc-cta h4 { margin: 0 0 .4rem; line-height: 1.3; }
+.hlmc-cta h3, .hlmc-cta h4 { line-height: 1.3; }
 .hlmc-cta p { margin: 0 0 .75rem; font-size: .92em; }
-.hlmc-cta .hlmc-button { display: block; }
 .hlmc-cta-primary { background: var(--hlmc-accent); color: var(--hlmc-accent-contrast); }
 .hlmc-cta-primary h3 { color: inherit; }
-.hlmc-cta-primary .hlmc-button { background: var(--hlmc-accent-contrast); color: var(--hlmc-accent); }
+.hlmc .hlmc-cta-primary .hlmc-button { background: var(--hlmc-accent-contrast); color: var(--hlmc-accent); }
 .hlmc-provider-title { color: var(--hlmc-muted); margin-bottom: .2rem !important; }
 .hlmc-button-secondary { padding: .5rem 1rem; font-size: .92em; }
 .hlmc-disclaimer { font-size: .78em; color: var(--hlmc-muted); text-align: center; }
+.hlmc-link-list li { padding: .45rem 0; border-top: 1px solid var(--hlmc-border); }
+.hlmc-link-list li:first-child { border-top: 0; }
+.hlmc-link-list a { font-weight: 600; text-decoration: none; }
+.hlmc-link-list a:hover { text-decoration: underline; }
 
 /* Attribution */
 .hlmc-attribution {
-	margin-top: 2.5rem;
 	padding-top: 1rem;
 	border-top: 1px solid var(--hlmc-border);
 	font-size: .8em;
 	color: var(--hlmc-muted);
 }
 
-.hlmc .screen-reader-text {
-	position: absolute !important;
-	width: 1px; height: 1px;
-	overflow: hidden;
-	clip: rect(1px, 1px, 1px, 1px);
-	white-space: nowrap;
-}
-
-/* Topic buttons ([health_library_topics]) */
-.hlmc-topics-wrap { margin-block: 1rem; }
-.hlmc-topics-heading { margin: 0 0 .6rem; font-size: 1.05em; }
-.hlmc-topics { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; margin: 0; padding: 0; }
-.hlmc-topics li { margin: 0; padding: 0; }
+/* Topic buttons */
+.hlmc-topics-heading { font-size: 1.05em; }
 .hlmc-topics a {
 	display: inline-block;
 	padding: .35rem .9rem;
 	border: 1px solid var(--hlmc-border);
 	border-radius: 999px;
-	background: #fff;
 	color: var(--hlmc-accent);
 	font-size: .92em;
 	line-height: 1.4;
 	text-decoration: none;
 }
 .hlmc-topics a:hover { border-color: var(--hlmc-accent); background: var(--hlmc-accent); color: var(--hlmc-accent-contrast); }
-
-@media (prefers-color-scheme: dark) {
-	.hlmc-search input[type="search"] { background: transparent; }
-	.hlmc-topics a { background: transparent; }
-}
-
-/* Care links */
-.hlmc-links-provider .hlmc-button + .hlmc-button { margin-top: .5rem; }
-.hlmc-link-list { list-style: none; margin: 0; padding: 0; }
-.hlmc-link-list li { margin: 0; padding: .45rem 0; border-top: 1px solid var(--hlmc-border); }
-.hlmc-link-list li:first-child { border-top: 0; }
-.hlmc-link-list a { font-weight: 600; text-decoration: none; }
-.hlmc-link-list a:hover { text-decoration: underline; }
-
-/* Admin-only category inspector */
-.hlmc-inspector {
-	margin-top: 2rem;
-	padding: .75rem 1rem;
-	border: 1px dashed #b38600;
-	border-radius: var(--hlmc-radius);
-	background: #fffbea;
-	color: #3d3200;
-	font-size: .85em;
-}
-.hlmc-inspector summary { cursor: pointer; font-weight: 600; }
-.hlmc-inspector-note { font-weight: 400; opacity: .75; }
-.hlmc-inspector-paths { margin: .5rem 0; padding-left: 1.2rem; }
-.hlmc-inspector-paths li { margin-bottom: .3rem; line-height: 1.5; }
-.hlmc-inspector code { font-size: .9em; padding: 0 .25em; background: rgba(0,0,0,.06); border-radius: 3px; }
-.hlmc-inspector mark { background: #ffe066; padding: 0 .2em; border-radius: 3px; }
-.hlmc-inspector-mapped { color: #0a5c2b; font-weight: 600; }
