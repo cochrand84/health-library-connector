@@ -2,28 +2,28 @@
 /**
  * Front end: shortcodes, document title, canonical tag, and assets.
  *
- *   [health_library]          Full library (landing, search, article) on any page.
+ *   [pulsegrid]          Full library (landing, search, article) on any page.
  *     sidebar="none|cta|links"      Override the sidebar setting for this page.
  *     featured="12"                 Number of featured articles on the landing view (0 hides).
  *
- *   [health_library_search]   Just the search box; submits to the library page.
+ *   [pulsegrid_search]   Just the search box; submits to the library page.
  *     placeholder="Search health topics…"
  *
- *   [health_library_topics]   A row of topic buttons linking into the library.
+ *   [pulsegrid_topics]   A row of topic buttons linking into the library.
  *     heading="Popular topics"      Optional heading above the buttons.
  *     limit="6"                     Show at most this many (0 = all).
  *     topics="Label|terms; Label|CON-12345678"   Use this list instead of the saved one.
  *
- * @package HealthLibraryConnector
+ * @package PulsegridContentConnector
  */
 
 defined( 'ABSPATH' ) || exit;
 
-class HLMC_Frontend {
+class PGCC_Frontend {
 
-	const SHORTCODE        = 'health_library';
-	const SEARCH_SHORTCODE = 'health_library_search';
-	const TOPICS_SHORTCODE = 'health_library_topics';
+	const SHORTCODE        = 'pulsegrid';
+	const SEARCH_SHORTCODE = 'pulsegrid_search';
+	const TOPICS_SHORTCODE = 'pulsegrid_topics';
 
 	/** @var bool Whether the current main query is a library page. */
 	private $is_library_page = false;
@@ -62,30 +62,30 @@ class HLMC_Frontend {
 			return;
 		}
 		$is_library = has_shortcode( $post->post_content, self::SHORTCODE )
-			|| ( (int) HLMC_Settings::get( 'library_page_id' ) === (int) $post->ID );
+			|| ( (int) PGCC_Settings::get( 'library_page_id' ) === (int) $post->ID );
 
 		/**
-		 * Filter whether the current page is treated as a Health Library page
+		 * Filter whether the current page is treated as a Pulsegrid library page
 		 * (useful if the shortcode lives in a template part or page builder).
 		 *
 		 * @param bool    $is_library Detected value.
 		 * @param WP_Post $post       Queried post.
 		 */
-		$this->is_library_page = (bool) apply_filters( 'hlmc_is_library_page', $is_library, $post );
+		$this->is_library_page = (bool) apply_filters( 'pgcc_is_library_page', $is_library, $post );
 
 		if ( $this->is_library_page ) {
-			$request = HLMC_Plugin::instance()->request()->resolve();
+			$request = PGCC_Plugin::instance()->request()->resolve();
 			if ( 'article' === $request->mode && $request->canonical_url() ) {
 				remove_action( 'wp_head', 'rel_canonical' );
 			}
-			if ( '' !== $request->error && 'home' === $request->mode && '' !== HLMC_Plugin::instance()->request()->content_id ) {
+			if ( '' !== $request->error && 'home' === $request->mode && '' !== PGCC_Plugin::instance()->request()->content_id ) {
 				status_header( 404 );
 			}
 		}
 	}
 
 	public function register_assets() {
-		wp_register_style( 'hlmc', HLMC_URL . 'assets/css/health-library.css', array(), HLMC_VERSION );
+		wp_register_style( 'pgcc', PGCC_URL . 'assets/css/pulsegrid.css', array(), PGCC_VERSION );
 		if ( $this->is_library_page ) {
 			$this->enqueue_assets();
 		}
@@ -95,13 +95,13 @@ class HLMC_Frontend {
 		if ( $this->assets_enqueued ) {
 			return;
 		}
-		wp_enqueue_style( 'hlmc-layout', HLMC_URL . 'assets/css/health-library-layout.css', array(), HLMC_VERSION );
-		$handle = 'hlmc-layout';
-		if ( HLMC_Style::full() ) {
-			wp_enqueue_style( 'hlmc', HLMC_URL . 'assets/css/health-library.css', array( 'hlmc-layout' ), HLMC_VERSION );
-			$handle = 'hlmc';
+		wp_enqueue_style( 'pgcc-layout', PGCC_URL . 'assets/css/pulsegrid-layout.css', array(), PGCC_VERSION );
+		$handle = 'pgcc-layout';
+		if ( PGCC_Style::full() ) {
+			wp_enqueue_style( 'pgcc', PGCC_URL . 'assets/css/pulsegrid.css', array( 'pgcc-layout' ), PGCC_VERSION );
+			$handle = 'pgcc';
 		}
-		wp_add_inline_style( $handle, HLMC_Style::inline_css() );
+		wp_add_inline_style( $handle, PGCC_Style::inline_css() );
 		$this->assets_enqueued = true;
 	}
 
@@ -115,12 +115,12 @@ class HLMC_Frontend {
 		if ( ! $this->is_library_page ) {
 			return $parts;
 		}
-		$request = HLMC_Plugin::instance()->request();
+		$request = PGCC_Plugin::instance()->request();
 		if ( 'article' === $request->mode && $request->article_title() ) {
 			$parts['title'] = $request->article_title();
 		} elseif ( 'search' === $request->mode ) {
 			/* translators: %s: search terms */
-			$parts['title'] = sprintf( __( 'Search results for “%s”', 'health-library-connector' ), $request->query );
+			$parts['title'] = sprintf( __( 'Search results for “%s”', 'pulsegrid-content-connector' ), $request->query );
 		}
 		return $parts;
 	}
@@ -133,7 +133,7 @@ class HLMC_Frontend {
 		if ( ! $this->is_library_page ) {
 			return $title;
 		}
-		$request = HLMC_Plugin::instance()->request();
+		$request = PGCC_Plugin::instance()->request();
 		if ( 'article' === $request->mode && $request->article_title() ) {
 			return $request->article_title() . ' – ' . get_bloginfo( 'name' );
 		}
@@ -148,7 +148,7 @@ class HLMC_Frontend {
 		if ( ! $this->is_library_page || $this->seo_plugin_active() ) {
 			return;
 		}
-		$url = HLMC_Plugin::instance()->request()->canonical_url();
+		$url = PGCC_Plugin::instance()->request()->canonical_url();
 		if ( $url ) {
 			echo '<link rel="canonical" href="' . esc_url( $url ) . '" />' . "\n";
 		}
@@ -162,7 +162,7 @@ class HLMC_Frontend {
 		if ( ! $this->is_library_page ) {
 			return $canonical;
 		}
-		$url = HLMC_Plugin::instance()->request()->canonical_url();
+		$url = PGCC_Plugin::instance()->request()->canonical_url();
 		return $url ? $url : $canonical;
 	}
 
@@ -185,7 +185,7 @@ class HLMC_Frontend {
 		if ( $queried && is_singular() ) {
 			return get_permalink( $queried );
 		}
-		$page = (int) HLMC_Settings::get( 'library_page_id' );
+		$page = (int) PGCC_Settings::get( 'library_page_id' );
 		return $page ? get_permalink( $page ) : home_url( '/' );
 	}
 
@@ -195,7 +195,7 @@ class HLMC_Frontend {
 	 * @return string
 	 */
 	public static function library_url() {
-		$page = (int) HLMC_Settings::get( 'library_page_id' );
+		$page = (int) PGCC_Settings::get( 'library_page_id' );
 		return $page ? get_permalink( $page ) : self::base_url();
 	}
 
@@ -205,7 +205,7 @@ class HLMC_Frontend {
 	 * @return string
 	 */
 	public static function article_url( $content_id, $base = null ) {
-		return add_query_arg( HLMC_Request::PARAM_ID, rawurlencode( $content_id ), $base ? $base : self::base_url() );
+		return add_query_arg( PGCC_Request::PARAM_ID, rawurlencode( $content_id ), $base ? $base : self::base_url() );
 	}
 
 	/**
@@ -215,15 +215,15 @@ class HLMC_Frontend {
 	 * @return string
 	 */
 	public static function search_url( $query, $page = 1, $base = null ) {
-		$args = array( HLMC_Request::PARAM_QUERY => rawurlencode( $query ) );
+		$args = array( PGCC_Request::PARAM_QUERY => rawurlencode( $query ) );
 		if ( $page > 1 ) {
-			$args[ HLMC_Request::PARAM_PAGE ] = (int) $page;
+			$args[ PGCC_Request::PARAM_PAGE ] = (int) $page;
 		}
 		return add_query_arg( $args, $base ? $base : self::base_url() );
 	}
 
 	/**
-	 * [health_library]
+	 * [pulsegrid]
 	 *
 	 * @param array|string $atts Shortcode attributes.
 	 * @return string
@@ -231,8 +231,8 @@ class HLMC_Frontend {
 	public function render_library( $atts ) {
 		$atts = shortcode_atts(
 			array(
-				'sidebar'  => HLMC_Settings::get( 'sidebar' ),
-				'featured' => HLMC_Settings::get( 'featured_count' ),
+				'sidebar'  => PGCC_Settings::get( 'sidebar' ),
+				'featured' => PGCC_Settings::get( 'featured_count' ),
 			),
 			$atts,
 			self::SHORTCODE
@@ -240,12 +240,12 @@ class HLMC_Frontend {
 
 		$this->enqueue_assets();
 
-		$plugin  = HLMC_Plugin::instance();
+		$plugin  = PGCC_Plugin::instance();
 		$request = $plugin->request()->resolve();
 		$source  = $plugin->source();
 		$base    = self::base_url();
 
-		$sidebar = HLMC_Settings::normalize_sidebar( $atts['sidebar'] );
+		$sidebar = PGCC_Settings::normalize_sidebar( $atts['sidebar'] );
 		if ( 'home' === $request->mode ) {
 			$sidebar = 'none';
 		}
@@ -261,13 +261,13 @@ class HLMC_Frontend {
 
 		$match = null;
 		if ( 'article' === $request->mode && $request->article ) {
-			$match = HLMC_Care_Links::match( $request->article );
+			$match = PGCC_Care_Links::match( $request->article );
 		}
 
 		// Admins get a panel under each article listing its Mayo categories
 		// and which sidebar row (if any) matched, to make mapping easy.
 		$inspector = 'article' === $request->mode && $request->article
-			&& HLMC_Settings::get( 'show_inspector' )
+			&& PGCC_Settings::get( 'show_inspector' )
 			&& current_user_can( 'manage_options' );
 
 		$args = array(
@@ -278,16 +278,16 @@ class HLMC_Frontend {
 			'featured' => $featured,
 			'match'     => $match,
 			'inspector' => $inspector,
-			'settings' => HLMC_Settings::all(),
+			'settings' => PGCC_Settings::all(),
 		);
 
 		ob_start();
-		hlmc_template( 'library', $args );
+		pgcc_template( 'library', $args );
 		return (string) ob_get_clean();
 	}
 
 	/**
-	 * [health_library_search]
+	 * [pulsegrid_search]
 	 *
 	 * @param array|string $atts Shortcode attributes.
 	 * @return string
@@ -295,19 +295,19 @@ class HLMC_Frontend {
 	public function render_search_form( $atts ) {
 		$atts = shortcode_atts(
 			array(
-				'placeholder' => __( 'Search health topics…', 'health-library-connector' ),
+				'placeholder' => __( 'Search health topics…', 'pulsegrid-content-connector' ),
 			),
 			$atts,
 			self::SEARCH_SHORTCODE
 		);
 		$this->enqueue_assets();
 		ob_start();
-		echo '<div class="hlmc hlmc-search-only">';
-		hlmc_template(
+		echo '<div class="pgcc pgcc-search-only">';
+		pgcc_template(
 			'search-form',
 			array(
 				'action'      => self::library_url(),
-				'query'       => HLMC_Plugin::instance()->request()->query,
+				'query'       => PGCC_Plugin::instance()->request()->query,
 				'placeholder' => $atts['placeholder'],
 			)
 		);
@@ -316,7 +316,7 @@ class HLMC_Frontend {
 	}
 
 	/**
-	 * [health_library_topics]
+	 * [pulsegrid_topics]
 	 *
 	 * @param array|string $atts Shortcode attributes.
 	 * @return string
@@ -333,8 +333,8 @@ class HLMC_Frontend {
 		);
 
 		$topics = '' !== trim( (string) $atts['topics'] )
-			? HLMC_Topics::parse( str_replace( ';', "\n", (string) $atts['topics'] ) )
-			: HLMC_Topics::all();
+			? PGCC_Topics::parse( str_replace( ';', "\n", (string) $atts['topics'] ) )
+			: PGCC_Topics::all();
 		$limit  = absint( $atts['limit'] );
 		if ( $limit > 0 ) {
 			$topics = array_slice( $topics, 0, $limit );
@@ -349,12 +349,12 @@ class HLMC_Frontend {
 		foreach ( $topics as $topic ) {
 			$items[] = array(
 				'label' => $topic['label'],
-				'url'   => HLMC_Topics::url( $topic, $base ),
+				'url'   => PGCC_Topics::url( $topic, $base ),
 			);
 		}
 
 		ob_start();
-		hlmc_template(
+		pgcc_template(
 			'topics',
 			array(
 				'heading' => sanitize_text_field( (string) $atts['heading'] ),

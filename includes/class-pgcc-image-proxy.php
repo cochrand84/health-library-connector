@@ -4,20 +4,20 @@
  *
  * Mayo image binaries need an authenticated request, so <img> tags can't
  * point at the API directly. Images are served from
- *   https://your-site/?hlmc-image=GUID-...
+ *   https://your-site/?pgcc-image=GUID-...
  * which fetches (or reads from cache) the binary server-side and streams it,
  * keeping the API key off the client.
  *
  * Carried over from the prototype's ?mayo-image= handler.
  *
- * @package HealthLibraryConnector
+ * @package PulsegridContentConnector
  */
 
 defined( 'ABSPATH' ) || exit;
 
-class HLMC_Image_Proxy {
+class PGCC_Image_Proxy {
 
-	const QUERY_VAR = 'hlmc-image';
+	const QUERY_VAR = 'pgcc-image';
 
 	/** Hook in early, before themes or other plugins send output. */
 	public static function init() {
@@ -32,14 +32,14 @@ class HLMC_Image_Proxy {
 		}
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$guid = hlmc_sanitize_guid( sanitize_text_field( wp_unslash( $_GET[ self::QUERY_VAR ] ) ) );
+		$guid = pgcc_sanitize_guid( sanitize_text_field( wp_unslash( $_GET[ self::QUERY_VAR ] ) ) );
 		if ( '' === $guid ) {
 			status_header( 400 );
 			nocache_headers();
 			exit;
 		}
 
-		$image = HLMC_Plugin::instance()->source()->get_image( $guid );
+		$image = PGCC_Plugin::instance()->source()->get_image( $guid );
 
 		if ( is_wp_error( $image ) ) {
 			status_header( 404 );

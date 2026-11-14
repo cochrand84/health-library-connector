@@ -1,7 +1,21 @@
 # Changelog
 
-All notable changes to Health Library Connector. Versions follow
+All notable changes to Pulsegrid Content Connector. Versions follow
 [Semantic Versioning](https://semver.org/); dates are the commit dates.
+
+## 0.5.0 — 2026-11-14
+
+### Changed
+- **Renamed to Pulsegrid Content Connector** for the WordPress.org
+  directory (slug and text domain `pulsegrid-content-connector`), replacing
+  the generic "Health Library Connector" name.
+- Shortcodes: `[pulsegrid]`, `[pulsegrid_search]`, `[pulsegrid_topics]`.
+- Settings page: **Settings → Pulsegrid**. WP-CLI: `wp pulsegrid`.
+- Code prefix `hlmc`/`HLMC` → `pgcc`/`PGCC` (options, hooks, filters, CSS
+  classes, wp-config constants `PGCC_API_KEY` / `PGCC_TRCKR`). Theme
+  overrides now go in `your-theme/pulsegrid/`.
+- Not backward compatible with 0.4.x settings: export sidebar links as CSV
+  before switching, then re-enter settings and update shortcodes.
 
 ## 0.4.1 — 2026-11-10
 

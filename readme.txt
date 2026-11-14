@@ -1,10 +1,10 @@
-=== Health Library Connector ===
+=== Pulsegrid Content Connector ===
 Contributors: cochrand84
-Tags: health, medical, mayo clinic, health library, api
+Tags: health, medical, patient education, mayo clinic, api
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 0.4.1
+Stable tag: 0.5.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,11 +12,11 @@ Show Mayo Clinic Health Information Library content inside any WordPress theme u
 
 == Description ==
 
-Health Library Connector lets organizations that license the Mayo Clinic Health Information Library display that content on their own WordPress site, styled by their own theme, so visitors never leave the site.
+Pulsegrid Content Connector lets organizations that license the Mayo Clinic Health Information Library display that content on their own WordPress site, styled by their own theme, so visitors never leave the site.
 
-* Search, article and landing views from a single `[health_library]` shortcode
-* `[health_library_search]` search box for headers, sidebars or the home page
-* `[health_library_topics]` buttons for common topics, each opening a search or a specific article
+* Search, article and landing views from a single `[pulsegrid]` shortcode
+* `[pulsegrid_search]` search box for headers, sidebars or the home page
+* `[pulsegrid_topics]` buttons for common topics, each opening a search or a specific article
 * Server-side API calls — your API key never reaches the browser
 * Article images proxied and cached server-side
 * Caching capped at 48 hours, as Mayo Clinic's syndication terms require
@@ -27,7 +27,7 @@ Health Library Connector lets organizations that license the Mayo Clinic Health 
 * Matches your theme: fonts, text and links come from the theme, and the accent color can be linked to one of the theme's own palette colors (or switch to layout-only and style everything yourself)
 * Every view can be overridden from your theme
 * Demo mode with bundled sample articles, so you can try it without credentials
-* WP-CLI: `wp health-library status|test|cache clear`
+* WP-CLI: `wp pulsegrid status|test|cache clear`
 
 **You need your own content license and API credentials from Mayo Clinic.** This plugin does not include any Mayo Clinic content.
 
@@ -35,9 +35,9 @@ This plugin is an independent project. It is not affiliated with, endorsed by, o
 
 == Installation ==
 
-1. Upload the `health-library-connector` folder to `/wp-content/plugins/` and activate it.
-2. Go to **Settings → Health Library** and click **Create library page** (or add `[health_library]` to any page).
-3. The plugin starts in demo mode. To show real content, choose **Live**, enter your API key and trckr value (or define `HLMC_API_KEY` and `HLMC_TRCKR` in `wp-config.php`), save, and click **Test API connection**.
+1. Upload the `pulsegrid-content-connector` folder to `/wp-content/plugins/` and activate it.
+2. Go to **Settings → Pulsegrid** and click **Create library page** (or add `[pulsegrid]` to any page).
+3. The plugin starts in demo mode. To show real content, choose **Live**, enter your API key and trckr value (or define `PGCC_API_KEY` and `PGCC_TRCKR` in `wp-config.php`), save, and click **Test API connection**.
 
 == External services ==
 
@@ -58,25 +58,28 @@ From Mayo Clinic Global Business Solutions as part of a Health Information Libra
 
 = Will it match my theme? =
 
-Yes. Fonts, text and link colors always come from your theme. Under Settings → Health Library you can link the accent color (buttons, badges, the sidebar box) to one of your theme's palette colors, so it follows the theme if the theme changes, or set a custom color. Choose "Layout only" to turn off the plugin's cards and buttons entirely and style everything in your theme.
+Yes. Fonts, text and link colors always come from your theme. Under Settings → Pulsegrid you can link the accent color (buttons, badges, the sidebar box) to one of your theme's palette colors, so it follows the theme if the theme changes, or set a custom color. Choose "Layout only" to turn off the plugin's cards and buttons entirely and style everything in your theme.
 
 = Can I change the layout? =
 
-Copy any file from the plugin's `templates/` folder into `your-theme/health-library/` and edit it there.
+Copy any file from the plugin's `templates/` folder into `your-theme/pulsegrid/` and edit it there.
 
 = How do I add topic buttons to my home page? =
 
-Edit the list under Settings → Health Library → Topic buttons, then add `[health_library_topics]` where you want them, usually next to `[health_library_search]`. The Shortcodes & help tab lists every option.
+Edit the list under Settings → Pulsegrid → Topic buttons, then add `[pulsegrid_topics]` where you want them, usually next to `[pulsegrid_search]`. The Shortcodes & help tab lists every option.
 
 = How do I map topics to my own pages? =
 
-Settings → Health Library → Sidebar links. Download the CSV template, fill it in, and import it, or edit rows directly. While logged in as an administrator, each article shows its Mayo category codes and which row matched.
+Settings → Pulsegrid → Sidebar links. Download the CSV template, fill it in, and import it, or edit rows directly. While logged in as an administrator, each article shows its Mayo category codes and which row matched.
 
 = Does it work with Yoast SEO or Rank Math? =
 
 Yes. On article views the canonical URL and title are passed to those plugins.
 
 == Changelog ==
+
+= 0.5.0 =
+* Renamed to Pulsegrid Content Connector (slug `pulsegrid-content-connector`). Shortcodes are now `[pulsegrid]`, `[pulsegrid_search]` and `[pulsegrid_topics]`; settings are under Settings → Pulsegrid; wp-config constants are `PGCC_API_KEY` and `PGCC_TRCKR`; WP-CLI command is `wp pulsegrid`.
 
 = 0.4.1 =
 * Packaging: the plugin now sits at the repository root, so GitHub downloads install directly.
@@ -86,7 +89,7 @@ Yes. On article views the canonical URL and title are passed to those plugins.
 * Buttons carry the theme's button class (`wp-element-button`).
 
 = 0.3.0 =
-* New `[health_library_topics]` shortcode: buttons for common topics, edited under Settings → Health Library → Topic buttons.
+* New `[pulsegrid_topics]` shortcode: buttons for common topics, edited under Settings → Pulsegrid → Topic buttons.
 * New Shortcodes & help tab documenting every shortcode, link parameter and customization option.
 
 = 0.2.1 =

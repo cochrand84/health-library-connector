@@ -4,25 +4,25 @@
  *
  * @var array $args See library.php.
  *
- * @package HealthLibraryConnector
+ * @package PulsegridContentConnector
  */
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<div class="hlmc-home">
-	<p class="hlmc-intro">
-		<?php esc_html_e( 'Search our library of trusted health information. Enter a condition, symptom, procedure, or health topic to get started.', 'health-library-connector' ); ?>
+<div class="pgcc-home">
+	<p class="pgcc-intro">
+		<?php esc_html_e( 'Search our library of trusted health information. Enter a condition, symptom, procedure, or health topic to get started.', 'pulsegrid-content-connector' ); ?>
 	</p>
 
 	<?php if ( ! empty( $args['featured'] ) ) : ?>
-		<h2 class="hlmc-heading"><?php esc_html_e( 'Featured health topics', 'health-library-connector' ); ?></h2>
-		<ul class="hlmc-results hlmc-results-grid">
+		<h2 class="pgcc-heading"><?php esc_html_e( 'Featured health topics', 'pulsegrid-content-connector' ); ?></h2>
+		<ul class="pgcc-results pgcc-results-grid">
 			<?php
-			foreach ( $args['featured'] as $hlmc_result ) {
-				hlmc_template(
+			foreach ( $args['featured'] as $pgcc_result ) {
+				pgcc_template(
 					'result-item',
 					array(
-						'result'   => $hlmc_result,
+						'result'   => $pgcc_result,
 						'base_url' => $args['base_url'],
 					)
 				);

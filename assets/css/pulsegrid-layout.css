@@ -1,0 +1,110 @@
+/*
+ * Pulsegrid Content Connector — layout
+ *
+ * Always loaded. Only structure: columns, spacing, the sidebar, lists.
+ * Fonts, text and link colors are never set here, so they come from your
+ * theme. The look (cards, buttons, chips) is in pulsegrid.css, which
+ * Settings → Pulsegrid → "Plugin styling" can turn off.
+ */
+
+.pgcc {
+	--pgcc-accent: #003865;
+	--pgcc-accent-contrast: #fff;
+	--pgcc-border: color-mix(in srgb, currentColor 14%, transparent);
+	--pgcc-muted: color-mix(in srgb, currentColor 68%, transparent);
+	--pgcc-surface: color-mix(in srgb, currentColor 3%, transparent);
+	--pgcc-radius: 6px;
+	--pgcc-gap: 1.5rem;
+	--pgcc-sidebar-width: 18rem;
+
+	box-sizing: border-box;
+	margin-block: 1rem 2rem;
+}
+.pgcc *, .pgcc *::before, .pgcc *::after { box-sizing: inherit; }
+
+/* Search */
+.pgcc-search { display: flex; gap: .5rem; max-width: 40rem; margin: 0 0 var(--pgcc-gap); }
+.pgcc-search input[type="search"] { flex: 1; min-width: 0; font: inherit; }
+
+/* Notices */
+.pgcc-notice, .pgcc-demo-notice { margin: 0 0 var(--pgcc-gap); }
+
+/* Layout */
+.pgcc-layout { display: block; }
+.pgcc-has-sidebar .pgcc-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) var(--pgcc-sidebar-width);
+	gap: calc(var(--pgcc-gap) * 1.5);
+	align-items: start;
+}
+.pgcc-sidebar { position: sticky; top: 1.5rem; }
+@media (max-width: 782px) {
+	.pgcc-has-sidebar .pgcc-layout { grid-template-columns: 1fr; }
+	.pgcc-sidebar { position: static; }
+}
+
+/* Results */
+.pgcc-heading { margin-block: 1.5rem 1rem; }
+.pgcc-count { margin: 0 0 1rem; }
+.pgcc-results { list-style: none; margin: 0; padding: 0; }
+.pgcc-results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: 1rem; }
+.pgcc-result { margin: 0 0 1.25rem; }
+.pgcc-results-grid .pgcc-result { margin: 0; }
+.pgcc-result-title { margin: .2rem 0 .35rem; line-height: 1.3; }
+.pgcc-snippet { margin: 0; }
+.pgcc-date { margin: .35rem 0 0; }
+.pgcc-pagination { display: flex; gap: 1rem; align-items: center; justify-content: space-between; margin-top: 1.5rem; }
+
+/* Article */
+.pgcc-back { display: inline-block; margin-bottom: 1rem; }
+.pgcc-article-title { margin: .4rem 0 .75rem; }
+.pgcc-abstract { margin: 0 0 1.5rem; }
+.pgcc-abstract p { margin: 0; }
+.pgcc-section { margin-bottom: 1.5rem; }
+.pgcc-section-content ul, .pgcc-section-content ol { padding-left: 1.5rem; }
+.pgcc-figure { margin: 1rem 0 1.25rem; }
+.pgcc-figure img { display: block; max-width: 100%; height: auto; }
+.pgcc-updated { margin-top: 2rem; }
+
+/* Sidebar */
+.pgcc-cta { margin-bottom: 1rem; }
+.pgcc-cta h3, .pgcc-cta h4 { margin: 0 0 .4rem; }
+.pgcc-cta .pgcc-button { display: block; text-align: center; }
+.pgcc-links-provider .pgcc-button + .pgcc-button { margin-top: .5rem; }
+.pgcc-link-list { list-style: none; margin: 0; padding: 0; }
+.pgcc-link-list li { margin: 0; padding: .35rem 0; }
+
+/* Attribution */
+.pgcc-attribution { margin-top: 2.5rem; }
+
+/* Topic buttons ([pulsegrid_topics]) */
+.pgcc-topics-wrap { margin-block: 1rem; }
+.pgcc-topics-heading { margin: 0 0 .6rem; }
+.pgcc-topics { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; margin: 0; padding: 0; }
+.pgcc-topics li { margin: 0; padding: 0; }
+
+.pgcc .screen-reader-text {
+	position: absolute !important;
+	width: 1px; height: 1px;
+	overflow: hidden;
+	clip: rect(1px, 1px, 1px, 1px);
+	white-space: nowrap;
+}
+
+/* Admin-only category inspector (always styled so it stands out) */
+.pgcc-inspector {
+	margin-top: 2rem;
+	padding: .75rem 1rem;
+	border: 1px dashed #b38600;
+	border-radius: 6px;
+	background: #fffbea;
+	color: #3d3200;
+	font-size: .85em;
+}
+.pgcc-inspector summary { cursor: pointer; font-weight: 600; }
+.pgcc-inspector-note { font-weight: 400; opacity: .75; }
+.pgcc-inspector-paths { margin: .5rem 0; padding-left: 1.2rem; }
+.pgcc-inspector-paths li { margin-bottom: .3rem; line-height: 1.5; }
+.pgcc-inspector code { font-size: .9em; padding: 0 .25em; background: rgba(0,0,0,.06); border-radius: 3px; }
+.pgcc-inspector mark { background: #ffe066; padding: 0 .2em; border-radius: 3px; }
+.pgcc-inspector-mapped { color: #0a5c2b; font-weight: 600; }

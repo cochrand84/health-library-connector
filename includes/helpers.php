@@ -2,7 +2,7 @@
 /**
  * Small helpers shared by the plugin and its templates.
  *
- * @package HealthLibraryConnector
+ * @package PulsegridContentConnector
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @param string $id Raw ID.
  * @return string Sanitized ID, or '' if nothing usable.
  */
-function hlmc_sanitize_content_id( $id ) {
+function pgcc_sanitize_content_id( $id ) {
 	$id = preg_replace( '/[^A-Za-z0-9\-]/', '', (string) $id );
 	return ( strlen( $id ) > 0 && strlen( $id ) <= 64 ) ? $id : '';
 }
@@ -26,7 +26,7 @@ function hlmc_sanitize_content_id( $id ) {
  * @param string $guid Raw GUID.
  * @return string Sanitized GUID or ''.
  */
-function hlmc_sanitize_guid( $guid ) {
+function pgcc_sanitize_guid( $guid ) {
 	$guid = trim( (string) $guid );
 	return preg_match( '/^GUID-[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$/', $guid ) ? $guid : '';
 }
@@ -38,7 +38,7 @@ function hlmc_sanitize_guid( $guid ) {
  * @param mixed $abstract Raw value.
  * @return string
  */
-function hlmc_abstract_text( $abstract ) {
+function pgcc_abstract_text( $abstract ) {
 	if ( is_array( $abstract ) ) {
 		$abstract = implode( ' ', array_map( 'strval', $abstract ) );
 	}
@@ -52,7 +52,7 @@ function hlmc_abstract_text( $abstract ) {
  *
  * @return array
  */
-function hlmc_allowed_html() {
+function pgcc_allowed_html() {
 	$allowed = wp_kses_allowed_html( 'post' );
 	unset( $allowed['form'], $allowed['input'], $allowed['button'], $allowed['select'], $allowed['textarea'] );
 	/**
@@ -60,7 +60,7 @@ function hlmc_allowed_html() {
 	 *
 	 * @param array $allowed wp_kses allowlist.
 	 */
-	return apply_filters( 'hlmc_allowed_html', $allowed );
+	return apply_filters( 'pgcc_allowed_html', $allowed );
 }
 
 /**
@@ -69,8 +69,8 @@ function hlmc_allowed_html() {
  * @param string $html Raw HTML.
  * @return string
  */
-function hlmc_kses( $html ) {
-	return wp_kses( (string) $html, hlmc_allowed_html() );
+function pgcc_kses( $html ) {
+	return wp_kses( (string) $html, pgcc_allowed_html() );
 }
 
 /**
@@ -80,7 +80,7 @@ function hlmc_kses( $html ) {
  * @param string $abstract Abstract text/HTML.
  * @return string
  */
-function hlmc_abstract_html( $abstract ) {
+function pgcc_abstract_html( $abstract ) {
 	$allowed = array(
 		'p'      => array(),
 		'b'      => array(),
@@ -96,7 +96,7 @@ function hlmc_abstract_html( $abstract ) {
 			'title' => true,
 		),
 	);
-	return wp_kses( hlmc_abstract_text( $abstract ), $allowed );
+	return wp_kses( pgcc_abstract_text( $abstract ), $allowed );
 }
 
 /**
@@ -105,8 +105,8 @@ function hlmc_abstract_html( $abstract ) {
  * @param mixed $abstract Raw abstract.
  * @return string
  */
-function hlmc_snippet( $abstract ) {
-	return trim( wp_strip_all_tags( hlmc_abstract_text( $abstract ) ) );
+function pgcc_snippet( $abstract ) {
+	return trim( wp_strip_all_tags( pgcc_abstract_text( $abstract ) ) );
 }
 
 /**
@@ -115,7 +115,7 @@ function hlmc_snippet( $abstract ) {
  * @param string $iso ISO 8601 date.
  * @return string
  */
-function hlmc_format_date( $iso ) {
+function pgcc_format_date( $iso ) {
 	if ( empty( $iso ) ) {
 		return '';
 	}
@@ -134,7 +134,7 @@ function hlmc_format_date( $iso ) {
  * @param mixed $article Decoded API response.
  * @return array Article, or an empty array when it has no displayable body.
  */
-function hlmc_normalize_article( $article ) {
+function pgcc_normalize_article( $article ) {
 	if ( ! is_array( $article ) ) {
 		return array();
 	}
@@ -203,31 +203,31 @@ function hlmc_normalize_article( $article ) {
  * @param string $guid Image GUID.
  * @return string
  */
-function hlmc_image_url( $guid ) {
-	return add_query_arg( HLMC_Image_Proxy::QUERY_VAR, rawurlencode( $guid ), home_url( '/' ) );
+function pgcc_image_url( $guid ) {
+	return add_query_arg( PGCC_Image_Proxy::QUERY_VAR, rawurlencode( $guid ), home_url( '/' ) );
 }
 
 /**
  * Locate and render a template. Themes can override any template by copying
- * it to `your-theme/health-library/{name}.php`.
+ * it to `your-theme/pulsegrid/{name}.php`.
  *
  * @param string $name Template name without extension.
  * @param array  $args Variables available to the template as $args.
  */
-function hlmc_template( $name, array $args = array() ) {
+function pgcc_template( $name, array $args = array() ) {
 	$name     = sanitize_file_name( $name );
-	$template = locate_template( array( 'health-library/' . $name . '.php' ) );
+	$template = locate_template( array( 'pulsegrid/' . $name . '.php' ) );
 	if ( ! $template ) {
-		$template = HLMC_DIR . 'templates/' . $name . '.php';
+		$template = PGCC_DIR . 'templates/' . $name . '.php';
 	}
 	/**
-	 * Filter the template file used for a Health Library view.
+	 * Filter the template file used for a Pulsegrid view.
 	 *
 	 * @param string $template Absolute path.
 	 * @param string $name     Template name.
 	 * @param array  $args     Template arguments.
 	 */
-	$template = apply_filters( 'hlmc_template', $template, $name, $args );
+	$template = apply_filters( 'pgcc_template', $template, $name, $args );
 	if ( is_readable( $template ) ) {
 		include $template;
 	}

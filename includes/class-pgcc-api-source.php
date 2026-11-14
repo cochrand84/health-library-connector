@@ -9,12 +9,12 @@
  * Every request carries the `apikey` header and, if configured, the `trckr`
  * header Mayo uses for usage tracking.
  *
- * @package HealthLibraryConnector
+ * @package PulsegridContentConnector
  */
 
 defined( 'ABSPATH' ) || exit;
 
-class HLMC_API_Source implements HLMC_Source {
+class PGCC_API_Source implements PGCC_Source {
 
 	/** @var string */
 	private $base_url;
@@ -59,26 +59,26 @@ class HLMC_API_Source implements HLMC_Source {
 	}
 
 	public function get_content( $content_id ) {
-		$content_id = hlmc_sanitize_content_id( $content_id );
+		$content_id = pgcc_sanitize_content_id( $content_id );
 		if ( '' === $content_id ) {
-			return new WP_Error( 'hlmc_invalid_id', __( 'Invalid content ID.', 'health-library-connector' ) );
+			return new WP_Error( 'pgcc_invalid_id', __( 'Invalid content ID.', 'pulsegrid-content-connector' ) );
 		}
 		return $this->get_json( $this->base_url . 'content/' . rawurlencode( $content_id ) . '/' . $this->lang );
 	}
 
 	public function get_image( $guid ) {
-		$guid = hlmc_sanitize_guid( $guid );
+		$guid = pgcc_sanitize_guid( $guid );
 		if ( '' === $guid ) {
-			return new WP_Error( 'hlmc_invalid_id', __( 'Invalid image ID.', 'health-library-connector' ) );
+			return new WP_Error( 'pgcc_invalid_id', __( 'Invalid image ID.', 'pulsegrid-content-connector' ) );
 		}
 
-		$cached = HLMC_Cache::get_image( 'live', $guid );
+		$cached = PGCC_Cache::get_image( 'live', $guid );
 		if ( null !== $cached ) {
 			return $cached;
 		}
 
-		if ( ! HLMC_Rate_Limit::allow( 'image' ) ) {
-			return new WP_Error( 'hlmc_rate_limited', __( 'Too many requests. Please try again in a minute.', 'health-library-connector' ), array( 'status' => 429 ) );
+		if ( ! PGCC_Rate_Limit::allow( 'image' ) ) {
+			return new WP_Error( 'pgcc_rate_limited', __( 'Too many requests. Please try again in a minute.', 'pulsegrid-content-connector' ), array( 'status' => 429 ) );
 		}
 
 		// No JSON Accept header here: Mayo returns the raw binary for images.
@@ -99,20 +99,20 @@ class HLMC_API_Source implements HLMC_Source {
 		$body = (string) wp_remote_retrieve_body( $response );
 
 		if ( $code >= 400 || '' === $body || 0 !== strpos( strtolower( $type ), 'image/' ) ) {
-			return new WP_Error( 'hlmc_image_unavailable', sprintf( 'Mayo API returned HTTP %d for image.', $code ) );
+			return new WP_Error( 'pgcc_image_unavailable', sprintf( 'Mayo API returned HTTP %d for image.', $code ) );
 		}
 
 		$image = array(
 			'type' => $type,
 			'body' => $body,
 		);
-		HLMC_Cache::set_image( 'live', $guid, $image );
+		PGCC_Cache::set_image( 'live', $guid, $image );
 		return $image;
 	}
 
 	/**
 	 * Quick connectivity check used by the admin "Test connection" button
-	 * and `wp health-library test`.
+	 * and `wp pulsegrid test`.
 	 *
 	 * @return true|WP_Error
 	 */
@@ -137,7 +137,7 @@ class HLMC_API_Source implements HLMC_Source {
 		}
 		$code = (int) wp_remote_retrieve_response_code( $response );
 		if ( 200 !== $code ) {
-			return new WP_Error( 'hlmc_http_' . $code, sprintf( 'Mayo API returned HTTP %d.', $code ) );
+			return new WP_Error( 'pgcc_http_' . $code, sprintf( 'Mayo API returned HTTP %d.', $code ) );
 		}
 		return true;
 	}
@@ -149,14 +149,14 @@ class HLMC_API_Source implements HLMC_Source {
 	 * @return array|WP_Error
 	 */
 	private function get_json( $url ) {
-		$key    = HLMC_Cache::key( 'live', $url );
-		$cached = HLMC_Cache::get( $key );
+		$key    = PGCC_Cache::key( 'live', $url );
+		$cached = PGCC_Cache::get( $key );
 		if ( null !== $cached ) {
 			return $cached;
 		}
 
-		if ( ! HLMC_Rate_Limit::allow() ) {
-			return new WP_Error( 'hlmc_rate_limited', __( 'Too many requests. Please try again in a minute.', 'health-library-connector' ), array( 'status' => 429 ) );
+		if ( ! PGCC_Rate_Limit::allow() ) {
+			return new WP_Error( 'pgcc_rate_limited', __( 'Too many requests. Please try again in a minute.', 'pulsegrid-content-connector' ), array( 'status' => 429 ) );
 		}
 
 		$response = wp_remote_get(
@@ -173,18 +173,18 @@ class HLMC_API_Source implements HLMC_Source {
 
 		$code = (int) wp_remote_retrieve_response_code( $response );
 		if ( 404 === $code ) {
-			return new WP_Error( 'hlmc_not_found', __( 'Content not found.', 'health-library-connector' ), array( 'status' => 404 ) );
+			return new WP_Error( 'pgcc_not_found', __( 'Content not found.', 'pulsegrid-content-connector' ), array( 'status' => 404 ) );
 		}
 		if ( $code >= 400 ) {
-			return new WP_Error( 'hlmc_http_' . $code, sprintf( 'Mayo API returned HTTP %d.', $code ), array( 'status' => $code ) );
+			return new WP_Error( 'pgcc_http_' . $code, sprintf( 'Mayo API returned HTTP %d.', $code ), array( 'status' => $code ) );
 		}
 
 		$data = json_decode( wp_remote_retrieve_body( $response ), true );
 		if ( ! is_array( $data ) ) {
-			return new WP_Error( 'hlmc_bad_json', __( 'Unexpected response from the content service.', 'health-library-connector' ) );
+			return new WP_Error( 'pgcc_bad_json', __( 'Unexpected response from the content service.', 'pulsegrid-content-connector' ) );
 		}
 
-		HLMC_Cache::set( $key, $data );
+		PGCC_Cache::set( $key, $data );
 		return $data;
 	}
 

@@ -1,26 +1,26 @@
 <?php
 /**
- * Topic buttons for [health_library_topics].
+ * Topic buttons for [pulsegrid_topics].
  *
  * Each topic is a label plus a target. The target is either a Mayo content
  * ID (e.g. CON-20373087), which links straight to that article, or search
  * terms, which link to a search on the library page.
  *
- * Stored in the `hlmc_topics` option as a list of { label, target }. Edited
- * in Settings → Health Library → Topic buttons as one topic per line:
+ * Stored in the `pgcc_topics` option as a list of { label, target }. Edited
+ * in Settings → Pulsegrid → Topic buttons as one topic per line:
  *
  *   Heart attack | heart attack
  *   Colonoscopy | CON-20373087
  *   Asthma                          (label doubles as the search terms)
  *
- * @package HealthLibraryConnector
+ * @package PulsegridContentConnector
  */
 
 defined( 'ABSPATH' ) || exit;
 
-class HLMC_Topics {
+class PGCC_Topics {
 
-	const OPTION = 'hlmc_topics';
+	const OPTION = 'pgcc_topics';
 	const MAX    = 50;
 
 	/**
@@ -32,12 +32,12 @@ class HLMC_Topics {
 	public static function defaults() {
 		$out = array();
 		foreach ( array(
-			__( 'Heart disease', 'health-library-connector' )       => 'heart disease',
-			__( 'Stroke', 'health-library-connector' )              => 'stroke',
-			__( 'Type 2 diabetes', 'health-library-connector' )     => 'type 2 diabetes',
-			__( 'High blood pressure', 'health-library-connector' ) => 'high blood pressure',
-			__( 'Colonoscopy', 'health-library-connector' )         => 'colonoscopy',
-			__( 'Asthma', 'health-library-connector' )              => 'asthma',
+			__( 'Heart disease', 'pulsegrid-content-connector' )       => 'heart disease',
+			__( 'Stroke', 'pulsegrid-content-connector' )              => 'stroke',
+			__( 'Type 2 diabetes', 'pulsegrid-content-connector' )     => 'type 2 diabetes',
+			__( 'High blood pressure', 'pulsegrid-content-connector' ) => 'high blood pressure',
+			__( 'Colonoscopy', 'pulsegrid-content-connector' )         => 'colonoscopy',
+			__( 'Asthma', 'pulsegrid-content-connector' )              => 'asthma',
 		) as $label => $target ) {
 			$out[] = array(
 				'label'  => $label,
@@ -134,7 +134,7 @@ class HLMC_Topics {
 				continue;
 			}
 			if ( self::is_content_id( $target ) ) {
-				$target = strtoupper( hlmc_sanitize_content_id( $target ) );
+				$target = strtoupper( pgcc_sanitize_content_id( $target ) );
 				if ( '' === $target ) {
 					continue;
 				}
@@ -172,7 +172,7 @@ class HLMC_Topics {
 	 */
 	public static function url( array $topic, $base ) {
 		return self::is_content_id( $topic['target'] )
-			? HLMC_Frontend::article_url( $topic['target'], $base )
-			: HLMC_Frontend::search_url( $topic['target'], 1, $base );
+			? PGCC_Frontend::article_url( $topic['target'], $base )
+			: PGCC_Frontend::search_url( $topic['target'], 1, $base );
 	}
 }

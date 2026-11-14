@@ -6,12 +6,12 @@
  * and both return data in the shape the Mayo Realtime API returns, so the
  * templates never need to know which one is active.
  *
- * @package HealthLibraryConnector
+ * @package PulsegridContentConnector
  */
 
 defined( 'ABSPATH' ) || exit;
 
-interface HLMC_Source {
+interface PGCC_Source {
 
 	/**
 	 * Keyword search.

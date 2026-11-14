@@ -9,12 +9,12 @@
  * The demo articles are original placeholder text written for this plugin.
  * They are NOT Mayo Clinic content and are not medical advice.
  *
- * @package HealthLibraryConnector
+ * @package PulsegridContentConnector
  */
 
 defined( 'ABSPATH' ) || exit;
 
-class HLMC_Demo_Source implements HLMC_Source {
+class PGCC_Demo_Source implements PGCC_Source {
 
 	/** @var string */
 	private $dir;
@@ -26,7 +26,7 @@ class HLMC_Demo_Source implements HLMC_Source {
 	 * @param string|null $dir Directory containing index.json, articles/ and images/.
 	 */
 	public function __construct( $dir = null ) {
-		$this->dir = trailingslashit( $dir ? $dir : HLMC_DIR . 'demo-data' );
+		$this->dir = trailingslashit( $dir ? $dir : PGCC_DIR . 'demo-data' );
 	}
 
 	public function is_live() {
@@ -77,21 +77,21 @@ class HLMC_Demo_Source implements HLMC_Source {
 	}
 
 	public function get_content( $content_id ) {
-		$content_id = hlmc_sanitize_content_id( $content_id );
+		$content_id = pgcc_sanitize_content_id( $content_id );
 		$file       = $this->dir . 'articles/' . $content_id . '.json';
 		if ( '' === $content_id || ! is_readable( $file ) ) {
-			return new WP_Error( 'hlmc_not_found', __( 'Content not found.', 'health-library-connector' ), array( 'status' => 404 ) );
+			return new WP_Error( 'pgcc_not_found', __( 'Content not found.', 'pulsegrid-content-connector' ), array( 'status' => 404 ) );
 		}
 		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		$data = json_decode( (string) file_get_contents( $file ), true );
-		return is_array( $data ) ? $data : new WP_Error( 'hlmc_bad_json', 'Demo article is not valid JSON.' );
+		return is_array( $data ) ? $data : new WP_Error( 'pgcc_bad_json', 'Demo article is not valid JSON.' );
 	}
 
 	public function get_image( $guid ) {
-		$guid = hlmc_sanitize_guid( $guid );
+		$guid = pgcc_sanitize_guid( $guid );
 		$file = $this->dir . 'images/' . $guid . '.svg';
 		if ( '' === $guid || ! is_readable( $file ) ) {
-			return new WP_Error( 'hlmc_image_unavailable', 'Demo image not found.' );
+			return new WP_Error( 'pgcc_image_unavailable', 'Demo image not found.' );
 		}
 		return array(
 			'type' => 'image/svg+xml',

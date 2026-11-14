@@ -5,17 +5,17 @@
  * Credentials can be set in the admin screen or, preferably, as constants in
  * wp-config.php so they never touch the database:
  *
- *   define( 'HLMC_API_KEY', '...' );
- *   define( 'HLMC_TRCKR',   '...' );
+ *   define( 'PGCC_API_KEY', '...' );
+ *   define( 'PGCC_TRCKR',   '...' );
  *
- * @package HealthLibraryConnector
+ * @package PulsegridContentConnector
  */
 
 defined( 'ABSPATH' ) || exit;
 
-class HLMC_Settings {
+class PGCC_Settings {
 
-	const OPTION = 'hlmc_settings';
+	const OPTION = 'pgcc_settings';
 
 	/** @var array|null */
 	private static $cache = null;
@@ -41,12 +41,12 @@ class HLMC_Settings {
 			'theme_color'     => '',        // Palette slug; '' = suggest one.
 			'style_level'     => 'full',    // 'full' | 'layout'.
 			'sidebar'         => 'none',  // 'none' | 'cta' | 'links'.
-			'cta_title'       => __( 'Find a Doctor', 'health-library-connector' ),
-			'cta_text'        => __( 'Connect with a specialist who can help with your health concerns.', 'health-library-connector' ),
-			'cta_button'      => __( 'Schedule an Appointment', 'health-library-connector' ),
+			'cta_title'       => __( 'Find a Doctor', 'pulsegrid-content-connector' ),
+			'cta_text'        => __( 'Connect with a specialist who can help with your health concerns.', 'pulsegrid-content-connector' ),
+			'cta_button'      => __( 'Schedule an Appointment', 'pulsegrid-content-connector' ),
 			'cta_url'         => '',
-			'links_provider_heading' => __( 'Find a Provider', 'health-library-connector' ),
-			'links_services_heading' => __( 'Services We Offer', 'health-library-connector' ),
+			'links_provider_heading' => __( 'Find a Provider', 'pulsegrid-content-connector' ),
+			'links_services_heading' => __( 'Services We Offer', 'pulsegrid-content-connector' ),
 			'show_inspector'  => 1,
 		);
 	}
@@ -82,22 +82,22 @@ class HLMC_Settings {
 
 	/** @return string */
 	public static function api_key() {
-		return defined( 'HLMC_API_KEY' ) ? (string) HLMC_API_KEY : (string) self::get( 'api_key' );
+		return defined( 'PGCC_API_KEY' ) ? (string) PGCC_API_KEY : (string) self::get( 'api_key' );
 	}
 
 	/** @return string */
 	public static function trckr() {
-		return defined( 'HLMC_TRCKR' ) ? (string) HLMC_TRCKR : (string) self::get( 'trckr' );
+		return defined( 'PGCC_TRCKR' ) ? (string) PGCC_TRCKR : (string) self::get( 'trckr' );
 	}
 
 	/** @return bool */
 	public static function api_key_from_constant() {
-		return defined( 'HLMC_API_KEY' );
+		return defined( 'PGCC_API_KEY' );
 	}
 
 	/** @return bool */
 	public static function trckr_from_constant() {
-		return defined( 'HLMC_TRCKR' );
+		return defined( 'PGCC_TRCKR' );
 	}
 
 	/**
@@ -117,7 +117,7 @@ class HLMC_Settings {
 	public static function cache_ttl() {
 		$hours = (int) self::get( 'cache_hours' );
 		$ttl   = max( 1, $hours ) * HOUR_IN_SECONDS;
-		return (int) min( $ttl, HLMC_MAX_CACHE_TTL );
+		return (int) min( $ttl, PGCC_MAX_CACHE_TTL );
 	}
 
 	/**
@@ -193,7 +193,7 @@ class HLMC_Settings {
 
 		// Changing the content source or credentials invalidates cached data.
 		if ( $out['mode'] !== $current['mode'] || $out['api_key'] !== $current['api_key'] || $out['base_url'] !== $current['base_url'] || $out['language'] !== $current['language'] ) {
-			HLMC_Cache::clear();
+			PGCC_Cache::clear();
 		}
 
 		self::flush();

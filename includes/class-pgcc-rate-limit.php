@@ -12,19 +12,19 @@
  * - whole site:          default 120 uncached pages / minute
  *
  * Behind a reverse proxy every visitor may share one IP; the per-visitor
- * limit then acts as a second site-wide cap. Use the `hlmc_client_ip`
+ * limit then acts as a second site-wide cap. Use the `pgcc_client_ip`
  * filter to read a trusted header (e.g. CF-Connecting-IP) instead.
  *
  * Administrators and WP-CLI are never limited.
  *
- * @package HealthLibraryConnector
+ * @package PulsegridContentConnector
  */
 
 defined( 'ABSPATH' ) || exit;
 
-class HLMC_Rate_Limit {
+class PGCC_Rate_Limit {
 
-	const PREFIX = 'hlmc_rl_';
+	const PREFIX = 'pgcc_rl_';
 
 	/**
 	 * Record one uncached API call; false if a limit is exceeded.
@@ -43,7 +43,7 @@ class HLMC_Rate_Limit {
 		 * @param array $limits { per_ip: int, site: int, per_ip_images: int } calls per minute.
 		 */
 		$limits = apply_filters(
-			'hlmc_rate_limits',
+			'pgcc_rate_limits',
 			array(
 				'per_ip'        => 20,
 				'site'          => 120,
@@ -53,7 +53,7 @@ class HLMC_Rate_Limit {
 
 		$window = (int) floor( time() / MINUTE_IN_SECONDS );
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput -- only hashed.
-		$ip = (string) apply_filters( 'hlmc_client_ip', isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : '' );
+		$ip = (string) apply_filters( 'pgcc_client_ip', isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : '' );
 
 		$checks = 'image' === $kind
 			? array( 'per_ip_images' => self::PREFIX . 'm_' . $window . '_' . md5( $ip ) )
@@ -74,7 +74,7 @@ class HLMC_Rate_Limit {
 				 *
 				 * @param string $name Which limit ('site' or 'per_ip').
 				 */
-				do_action( 'hlmc_rate_limited', $name );
+				do_action( 'pgcc_rate_limited', $name );
 				return false;
 			}
 		}

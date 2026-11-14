@@ -23,17 +23,17 @@
  * deeper match ("Gas and gas pains") wins over a shallow one. Ties go to
  * the row nearest the top of the table.
  *
- * Rows are edited under Settings → Health Library → Sidebar links, and can
+ * Rows are edited under Settings → Pulsegrid → Sidebar links, and can
  * be imported/exported as CSV.
  *
- * @package HealthLibraryConnector
+ * @package PulsegridContentConnector
  */
 
 defined( 'ABSPATH' ) || exit;
 
-class HLMC_Care_Links {
+class PGCC_Care_Links {
 
-	const OPTION = 'hlmc_care_links';
+	const OPTION = 'pgcc_care_links';
 
 	/** CSV columns, in template order. More providerN_ / serviceN_ pairs are accepted on import. */
 	const CSV_BASE = array( 'mcv_ids', 'topic' );
@@ -45,13 +45,13 @@ class HLMC_Care_Links {
 	 */
 	public static function rows() {
 		$saved = get_option( self::OPTION, null );
-		$rows  = is_array( $saved ) ? $saved : ( HLMC_Settings::is_live() ? array() : self::example_rows() );
+		$rows  = is_array( $saved ) ? $saved : ( PGCC_Settings::is_live() ? array() : self::example_rows() );
 		/**
 		 * Filter the care-link rows (e.g. to load them from a provider directory).
 		 *
 		 * @param array[] $rows Rows.
 		 */
-		$rows = apply_filters( 'hlmc_care_links', $rows );
+		$rows = apply_filters( 'pgcc_care_links', $rows );
 		return array_values( array_filter( array_map( array( __CLASS__, 'clean_row' ), (array) $rows ) ) );
 	}
 
@@ -231,7 +231,7 @@ class HLMC_Care_Links {
 		 * @param array      $article Article response.
 		 * @param array      $depths  mcvId => depth found in the article.
 		 */
-		return apply_filters( 'hlmc_care_links_match', $best, $article, $depths );
+		return apply_filters( 'pgcc_care_links_match', $best, $article, $depths );
 	}
 
 	/**
@@ -255,7 +255,7 @@ class HLMC_Care_Links {
 				'provider' => array(
 					array(
 						/* translators: %s: specialty */
-						'label' => sprintf( __( 'Find a %s provider', 'health-library-connector' ), $topic ),
+						'label' => sprintf( __( 'Find a %s provider', 'pulsegrid-content-connector' ), $topic ),
 						'url'   => $demo,
 					),
 				),
@@ -363,7 +363,7 @@ class HLMC_Care_Links {
 			fclose( $fh ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 			return array(
 				'rows'   => array(),
-				'errors' => array( __( 'The first row must be the header row from the template (it needs an mcv_ids column).', 'health-library-connector' ) ),
+				'errors' => array( __( 'The first row must be the header row from the template (it needs an mcv_ids column).', 'pulsegrid-content-connector' ) ),
 			);
 		}
 
@@ -399,7 +399,7 @@ class HLMC_Care_Links {
 					$url = $link['url'] ?? '';
 					if ( '' !== $url && '' === esc_url_raw( $url, array( 'http', 'https' ) ) ) {
 						/* translators: 1: line number, 2: URL */
-						$errors[] = sprintf( __( 'Line %1$d: “%2$s” is not a valid http(s) URL and was skipped.', 'health-library-connector' ), $line_no, $url );
+						$errors[] = sprintf( __( 'Line %1$d: “%2$s” is not a valid http(s) URL and was skipped.', 'pulsegrid-content-connector' ), $line_no, $url );
 					}
 				}
 			}
@@ -407,7 +407,7 @@ class HLMC_Care_Links {
 			$row = self::clean_row( $raw );
 			if ( null === $row ) {
 				/* translators: %d: line number */
-				$errors[] = sprintf( __( 'Line %d skipped: it needs at least one Mayo category ID and one link with a URL.', 'health-library-connector' ), $line_no );
+				$errors[] = sprintf( __( 'Line %d skipped: it needs at least one Mayo category ID and one link with a URL.', 'pulsegrid-content-connector' ), $line_no );
 				continue;
 			}
 			$rows[] = $row;

@@ -1,0 +1,128 @@
+/*
+ * Pulsegrid Content Connector — look
+ *
+ * Loaded on top of pulsegrid-layout.css when "Plugin styling" is on.
+ * Text, fonts and link colors still come from your theme; this adds cards,
+ * buttons and chips painted with --pgcc-accent, which by default is one of
+ * your theme's own palette colors (Settings → Pulsegrid). Override any
+ * --pgcc-* property in your theme to fine-tune.
+ */
+
+/* Search */
+.pgcc-search input[type="search"] {
+	padding: .6rem .8rem;
+	border: 1px solid var(--pgcc-border);
+	border-radius: var(--pgcc-radius);
+	background: transparent;
+	color: inherit;
+}
+.pgcc .pgcc-search button,
+.pgcc .pgcc-button {
+	display: inline-block;
+	padding: .6rem 1.2rem;
+	border: 0;
+	border-radius: var(--pgcc-radius);
+	background: var(--pgcc-accent);
+	color: var(--pgcc-accent-contrast);
+	font: inherit;
+	font-weight: 600;
+	line-height: 1.3;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+}
+.pgcc .pgcc-search button:hover,
+.pgcc .pgcc-button:hover { filter: brightness(1.15); color: var(--pgcc-accent-contrast); }
+.pgcc .pgcc-search button:focus-visible,
+.pgcc .pgcc-button:focus-visible,
+.pgcc a:focus-visible { outline: 2px solid var(--pgcc-accent); outline-offset: 2px; }
+
+/* Notices */
+.pgcc-notice, .pgcc-demo-notice { padding: .75rem 1rem; border-radius: var(--pgcc-radius); font-size: .92em; }
+.pgcc-notice-error { background: #fff3cd; border: 1px solid #e6c200; color: #5c4400; }
+.pgcc-demo-notice { background: color-mix(in srgb, var(--pgcc-accent) 7%, transparent); border: 1px solid color-mix(in srgb, var(--pgcc-accent) 30%, transparent); }
+
+/* Results */
+.pgcc-count, .pgcc-page-of { color: var(--pgcc-muted); font-size: .92em; }
+.pgcc-result {
+	padding: 1rem 1.15rem;
+	border: 1px solid var(--pgcc-border);
+	border-radius: var(--pgcc-radius);
+	background: var(--pgcc-surface);
+}
+.pgcc-result-title { font-size: 1.1em; }
+.pgcc-result-title a { text-decoration: none; }
+.pgcc-result-title a:hover { text-decoration: underline; }
+.pgcc-snippet { color: var(--pgcc-muted); font-size: .95em; }
+.pgcc-date { color: var(--pgcc-muted); font-size: .8em; }
+.pgcc-badge {
+	display: inline-block;
+	padding: .1rem .5rem;
+	border-radius: 999px;
+	background: color-mix(in srgb, var(--pgcc-accent) 12%, transparent);
+	color: var(--pgcc-accent);
+	font-size: .75em;
+	font-weight: 600;
+	letter-spacing: .02em;
+	text-transform: uppercase;
+}
+
+/* Article */
+.pgcc-back { font-size: .92em; }
+.pgcc-abstract {
+	padding-left: .9rem;
+	border-left: 3px solid var(--pgcc-accent);
+	font-size: 1.08em;
+	color: var(--pgcc-muted);
+}
+.pgcc-section h3 { margin: 1.75rem 0 .6rem; }
+.pgcc-section-content li { margin-bottom: .35rem; }
+.pgcc-figure img { border-radius: var(--pgcc-radius); }
+.pgcc-figure figcaption { margin-top: .4rem; font-size: .85em; color: var(--pgcc-muted); }
+.pgcc-updated {
+	padding-top: .75rem;
+	border-top: 1px solid var(--pgcc-border);
+	font-size: .9em;
+	color: var(--pgcc-muted);
+}
+
+/* Sidebar */
+.pgcc-cta {
+	padding: 1.15rem 1.25rem;
+	border: 2px solid var(--pgcc-accent);
+	border-radius: calc(var(--pgcc-radius) + 2px);
+}
+.pgcc-cta h3, .pgcc-cta h4 { line-height: 1.3; }
+.pgcc-cta p { margin: 0 0 .75rem; font-size: .92em; }
+.pgcc-cta-primary { background: var(--pgcc-accent); color: var(--pgcc-accent-contrast); }
+.pgcc-cta-primary h3 { color: inherit; }
+.pgcc .pgcc-cta-primary .pgcc-button { background: var(--pgcc-accent-contrast); color: var(--pgcc-accent); }
+.pgcc-provider-title { color: var(--pgcc-muted); margin-bottom: .2rem !important; }
+.pgcc-button-secondary { padding: .5rem 1rem; font-size: .92em; }
+.pgcc-disclaimer { font-size: .78em; color: var(--pgcc-muted); text-align: center; }
+.pgcc-link-list li { padding: .45rem 0; border-top: 1px solid var(--pgcc-border); }
+.pgcc-link-list li:first-child { border-top: 0; }
+.pgcc-link-list a { font-weight: 600; text-decoration: none; }
+.pgcc-link-list a:hover { text-decoration: underline; }
+
+/* Attribution */
+.pgcc-attribution {
+	padding-top: 1rem;
+	border-top: 1px solid var(--pgcc-border);
+	font-size: .8em;
+	color: var(--pgcc-muted);
+}
+
+/* Topic buttons */
+.pgcc-topics-heading { font-size: 1.05em; }
+.pgcc-topics a {
+	display: inline-block;
+	padding: .35rem .9rem;
+	border: 1px solid var(--pgcc-border);
+	border-radius: 999px;
+	color: var(--pgcc-accent);
+	font-size: .92em;
+	line-height: 1.4;
+	text-decoration: none;
+}
+.pgcc-topics a:hover { border-color: var(--pgcc-accent); background: var(--pgcc-accent); color: var(--pgcc-accent-contrast); }

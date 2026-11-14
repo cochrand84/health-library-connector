@@ -3,7 +3,7 @@
  * How the library picks up the site's look.
  *
  * Fonts, text and link colors always come from the theme (the stylesheet
- * never sets them). On top of that, Settings → Health Library offers:
+ * never sets them). On top of that, Settings → Pulsegrid offers:
  *
  * Accent color (buttons, badges, the sidebar box)
  *   theme  – one of the active theme's palette colors, by slug. Output as
@@ -19,12 +19,12 @@
  *            theme's button classes and everything else is left to the
  *            theme or your own CSS.
  *
- * @package HealthLibraryConnector
+ * @package PulsegridContentConnector
  */
 
 defined( 'ABSPATH' ) || exit;
 
-class HLMC_Style {
+class PGCC_Style {
 
 	/**
 	 * Colors in the active theme's palette (theme.json or editor-color-palette),
@@ -84,10 +84,10 @@ class HLMC_Style {
 	/**
 	 * The accent color in effect.
 	 *
-	 * @return array { css: string (value for --hlmc-accent), hex: string, slug: string, from_theme: bool }
+	 * @return array { css: string (value for --pgcc-accent), hex: string, slug: string, from_theme: bool }
 	 */
 	public static function accent() {
-		$s      = HLMC_Settings::all();
+		$s      = PGCC_Settings::all();
 		$custom = sanitize_hex_color( (string) $s['accent_color'] );
 		$custom = $custom ? $custom : '#003865';
 
@@ -123,12 +123,12 @@ class HLMC_Style {
 	public static function inline_css() {
 		$accent   = self::accent();
 		$contrast = self::luminance( $accent['hex'] ) > 0.4 ? '#111' : '#fff';
-		return '.hlmc{--hlmc-accent:' . $accent['css'] . ';--hlmc-accent-contrast:' . $contrast . ';}';
+		return '.pgcc{--pgcc-accent:' . $accent['css'] . ';--pgcc-accent-contrast:' . $contrast . ';}';
 	}
 
 	/** @return bool Whether the plugin's own look (cards, buttons) is on. */
 	public static function full() {
-		return 'layout' !== HLMC_Settings::get( 'style_level' );
+		return 'layout' !== PGCC_Settings::get( 'style_level' );
 	}
 
 	/**

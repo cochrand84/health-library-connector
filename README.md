@@ -1,4 +1,4 @@
-# Health Library Connector — WordPress plugin
+# Pulsegrid Content Connector — WordPress plugin
 
 Display the **Mayo Clinic Health Information Library** on any WordPress site,
 inside your own theme, using your organization's licensed Mayo Clinic
@@ -17,9 +17,9 @@ without leaving your site.
 
 ## Features
 
-- `[health_library]` — landing page with featured topics, search with paging, and article pages, all from one shortcode on any page
-- `[health_library_search]` — a search box for your header, sidebar or home page
-- `[health_library_topics]` — a row of buttons for common topics (each opens a search or a specific article), edited in Settings
+- `[pulsegrid]` — landing page with featured topics, search with paging, and article pages, all from one shortcode on any page
+- `[pulsegrid_search]` — a search box for your header, sidebar or home page
+- `[pulsegrid_topics]` — a row of buttons for common topics (each opens a search or a specific article), edited in Settings
 - Server-side requests only; the API key never reaches the browser and can live in `wp-config.php`
 - Article images proxied and cached server-side (the image endpoint needs authentication)
 - License-friendly by default: cache capped at **48 hours**, canonical tag to Mayo's `originalUrl` (also passed to Yoast / Rank Math), "Last reviewed" date, © MFMER notice and Terms of Use link
@@ -31,7 +31,7 @@ without leaving your site.
 
 | | |
 |---|---|
-| ![Home page with search box and topic buttons](docs/screenshots/01-home-search-and-topics.png)<br>`[health_library_search]` and `[health_library_topics]` on a home page | ![Search results](docs/screenshots/02-search-results.png)<br>Search results with the call-to-action sidebar |
+| ![Home page with search box and topic buttons](docs/screenshots/01-home-search-and-topics.png)<br>`[pulsegrid_search]` and `[pulsegrid_topics]` on a home page | ![Search results](docs/screenshots/02-search-results.png)<br>Search results with the call-to-action sidebar |
 | ![Settings: General](docs/screenshots/05-settings-general.png)<br>Settings: content source, display and theme colors | ![Settings: Sidebar links](docs/screenshots/06-settings-sidebar-links.png)<br>Sidebar links: map topics to your own pages, or import a CSV |
 | ![Settings: Topic buttons](docs/screenshots/07-settings-topic-buttons.png)<br>Topic buttons | ![Settings: Shortcodes & help](docs/screenshots/08-settings-shortcodes-help.png)<br>Built-in shortcode reference |
 
@@ -42,16 +42,16 @@ See [CHANGELOG.md](CHANGELOG.md) for what changed in each version.
 
 ## Install
 
-1. Download `health-library-connector.zip` from [Releases](../../releases) and upload it under **Plugins → Add New → Upload Plugin**. (GitHub's green **Code → Download ZIP** also installs, but the folder will be named `health-library-connector-main`; the release zip keeps the correct folder name for updates.)
-2. Activate it, then go to **Settings → Health Library** and click **Create library page**.
+1. Download `pulsegrid-content-connector.zip` from [Releases](../../releases) and upload it under **Plugins → Add New → Upload Plugin**. (GitHub's green **Code → Download ZIP** also installs, but the folder will be named `pulsegrid-content-connector-main`; the release zip keeps the correct folder name for updates.)
+2. Activate it, then go to **Settings → Pulsegrid** and click **Create library page**.
 3. You'll see demo content. To go live, choose **Live**, add your credentials, save, and click **Test API connection**.
 
 Prefer keeping secrets out of the database:
 
 ```php
 // wp-config.php
-define( 'HLMC_API_KEY', 'your-api-key' );
-define( 'HLMC_TRCKR',   'your-trckr-value' );
+define( 'PGCC_API_KEY', 'your-api-key' );
+define( 'PGCC_TRCKR',   'your-trckr-value' );
 ```
 
 ## URLs
@@ -65,13 +65,13 @@ define( 'HLMC_TRCKR',   'your-trckr-value' );
 ## Shortcode options
 
 ```
-[health_library sidebar="none|cta|links" featured="12"]
-[health_library_search placeholder="Search health topics…"]
-[health_library_topics heading="Popular topics" limit="6"]
-[health_library_topics topics="Heart attack|heart attack; Colonoscopy|CON-20373087"]
+[pulsegrid sidebar="none|cta|links" featured="12"]
+[pulsegrid_search placeholder="Search health topics…"]
+[pulsegrid_topics heading="Popular topics" limit="6"]
+[pulsegrid_topics topics="Heart attack|heart attack; Colonoscopy|CON-20373087"]
 ```
 
-Edit the saved topic list under **Settings → Health Library → Topic buttons**, one per line as `Label | search terms` or `Label | CONTENT-ID`. The **Shortcodes & help** tab in the same screen documents every option.
+Edit the saved topic list under **Settings → Pulsegrid → Topic buttons**, one per line as `Label | search terms` or `Label | CONTENT-ID`. The **Shortcodes & help** tab in the same screen documents every option.
 
 ## Sidebar links
 
@@ -92,20 +92,20 @@ Library → Sidebar links**:
 CSV columns: `mcv_ids, topic, provider_label, provider_url, service1_label, service1_url, …`
 (several codes in one cell separated by `;`; add `service4_*`, `provider2_*` … as needed).
 
-Rows can also be supplied from code with the `hlmc_care_links` filter.
+Rows can also be supplied from code with the `pgcc_care_links` filter.
 
 ## Protecting your API quota
 
 Every uncached search, results page or article costs a live API call. The
 plugin limits uncached calls to 20 pages per visitor and 120 site-wide per
 minute, with a separate 100-per-visitor budget for images (administrators and
-WP-CLI are exempt). Adjust with the `hlmc_rate_limits`
-filter; behind a CDN or proxy, use `hlmc_client_ip` to read the real visitor
+WP-CLI are exempt). Adjust with the `pgcc_rate_limits`
+filter; behind a CDN or proxy, use `pgcc_client_ip` to read the real visitor
 IP from a header you trust (e.g. `CF-Connecting-IP`).
 
-Cached images are stored in `wp-content/uploads/hlmc-cache/` under
+Cached images are stored in `wp-content/uploads/pgcc-cache/` under
 unguessable names. Apache is also blocked by an `.htaccess` file there; on
-nginx you can add `location ^~ /wp-content/uploads/hlmc-cache/ { deny all; }`.
+nginx you can add `location ^~ /wp-content/uploads/pgcc-cache/ { deny all; }`.
 
 ## Matching your theme
 
@@ -115,7 +115,7 @@ into it:
 - **Fonts, text and link colors always come from your theme.** The plugin's
   stylesheet never sets them.
 - **Accent color from the theme.** Buttons, badges and the sidebar box use
-  one of your theme's own palette colors (Settings → Health Library), output
+  one of your theme's own palette colors (Settings → Pulsegrid), output
   as `var(--wp--preset--color--<slug>)`, so if the theme's color changes the
   library follows. Works with block themes and with classic themes that
   register an editor color palette. A custom hex color is also available.
@@ -132,22 +132,22 @@ The same article in two different themes, with no plugin settings changed:
 ## Customizing
 
 Copy any file from the plugin's `templates/` to
-`your-theme/health-library/` and edit it. Spacing and colors use CSS custom
-properties (`--hlmc-accent`, `--hlmc-border`, `--hlmc-gap`, …) scoped to
-`.hlmc`. `health-library-layout.css` is always loaded;
-`health-library.css` (the look) only when Plugin styling is on.
+`your-theme/pulsegrid/` and edit it. Spacing and colors use CSS custom
+properties (`--pgcc-accent`, `--pgcc-border`, `--pgcc-gap`, …) scoped to
+`.pgcc`. `pulsegrid-layout.css` is always loaded;
+`pulsegrid.css` (the look) only when Plugin styling is on.
 
-Filters: `hlmc_source`, `hlmc_template`, `hlmc_allowed_html`,
-`hlmc_care_links`, `hlmc_care_links_match`, `hlmc_is_library_page`,
-`hlmc_rate_limits`, `hlmc_client_ip`.
-Actions: `hlmc_cache_cleared`, `hlmc_rate_limited`.
+Filters: `pgcc_source`, `pgcc_template`, `pgcc_allowed_html`,
+`pgcc_care_links`, `pgcc_care_links_match`, `pgcc_is_library_page`,
+`pgcc_rate_limits`, `pgcc_client_ip`.
+Actions: `pgcc_cache_cleared`, `pgcc_rate_limited`.
 
 ## WP-CLI
 
 ```bash
-wp health-library status
-wp health-library test
-wp health-library cache clear
+wp pulsegrid status
+wp pulsegrid test
+wp pulsegrid cache clear
 ```
 
 ## Your license obligations

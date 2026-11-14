@@ -8,14 +8,14 @@
  * Image filenames are keyed with a site secret, so even on servers that
  * ignore .htaccess (nginx) the cached files can't be fetched by guessing.
  *
- * @package HealthLibraryConnector
+ * @package PulsegridContentConnector
  */
 
 defined( 'ABSPATH' ) || exit;
 
-class HLMC_Cache {
+class PGCC_Cache {
 
-	const PREFIX = 'hlmc_';
+	const PREFIX = 'pgcc_';
 
 	/**
 	 * Transient key for a request. Includes the content source so demo and
@@ -43,7 +43,7 @@ class HLMC_Cache {
 	 * @param mixed  $value Value.
 	 */
 	public static function set( $key, $value ) {
-		set_transient( $key, $value, HLMC_Settings::cache_ttl() );
+		set_transient( $key, $value, PGCC_Settings::cache_ttl() );
 	}
 
 	/**
@@ -74,9 +74,9 @@ class HLMC_Cache {
 		self::clear_images();
 
 		/**
-		 * Fires after the Health Library cache has been cleared.
+		 * Fires after the Pulsegrid cache has been cleared.
 		 */
-		do_action( 'hlmc_cache_cleared' );
+		do_action( 'pgcc_cache_cleared' );
 
 		return (int) floor( $count / 2 );
 	}
@@ -92,7 +92,7 @@ class HLMC_Cache {
 		if ( ! empty( $uploads['error'] ) ) {
 			return false;
 		}
-		$dir = trailingslashit( $uploads['basedir'] ) . 'hlmc-cache/';
+		$dir = trailingslashit( $uploads['basedir'] ) . 'pgcc-cache/';
 		if ( ! is_dir( $dir ) ) {
 			if ( ! wp_mkdir_p( $dir ) ) {
 				return false;
@@ -119,7 +119,7 @@ class HLMC_Cache {
 		if ( ! is_readable( $file ) || ! is_readable( $file . '.type' ) ) {
 			return null;
 		}
-		if ( ( time() - filemtime( $file ) ) >= HLMC_Settings::cache_ttl() ) {
+		if ( ( time() - filemtime( $file ) ) >= PGCC_Settings::cache_ttl() ) {
 			wp_delete_file( $file );
 			wp_delete_file( $file . '.type' );
 			return null;

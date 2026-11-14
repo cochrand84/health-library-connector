@@ -9,12 +9,12 @@
  *   ?mayo-q=diabetes        search
  *   ?mayo-page=2            search results page
  *
- * @package HealthLibraryConnector
+ * @package PulsegridContentConnector
  */
 
 defined( 'ABSPATH' ) || exit;
 
-class HLMC_Request {
+class PGCC_Request {
 
 	const PARAM_ID    = 'mayo-id';
 	const PARAM_QUERY = 'mayo-q';
@@ -44,21 +44,21 @@ class HLMC_Request {
 	/** @var bool */
 	private $resolved = false;
 
-	/** @var HLMC_Source */
+	/** @var PGCC_Source */
 	private $source;
 
 	/**
-	 * @param HLMC_Source $source Content source.
+	 * @param PGCC_Source $source Content source.
 	 * @param array|null  $params Query parameters (defaults to $_GET).
 	 */
-	public function __construct( HLMC_Source $source, $params = null ) {
+	public function __construct( PGCC_Source $source, $params = null ) {
 		$this->source = $source;
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only public view parameters.
 		$params = is_array( $params ) ? $params : wp_unslash( $_GET );
 
 		if ( ! empty( $params[ self::PARAM_ID ] ) ) {
-			$this->content_id = hlmc_sanitize_content_id( $params[ self::PARAM_ID ] );
+			$this->content_id = pgcc_sanitize_content_id( $params[ self::PARAM_ID ] );
 			$this->mode       = '' !== $this->content_id ? 'article' : 'home';
 		} elseif ( isset( $params[ self::PARAM_QUERY ] ) && '' !== trim( (string) $params[ self::PARAM_QUERY ] ) ) {
 			$this->query = mb_substr( sanitize_text_field( $params[ self::PARAM_QUERY ] ), 0, 200 );
@@ -82,10 +82,10 @@ class HLMC_Request {
 		if ( 'article' === $this->mode ) {
 			$result = $this->source->get_content( $this->content_id );
 			if ( ! is_wp_error( $result ) ) {
-				$result = hlmc_normalize_article( $result );
+				$result = pgcc_normalize_article( $result );
 			}
 			if ( is_wp_error( $result ) || empty( $result['body'] ) ) {
-				$this->error = __( 'The requested article could not be loaded. Please try again or search below.', 'health-library-connector' );
+				$this->error = __( 'The requested article could not be loaded. Please try again or search below.', 'pulsegrid-content-connector' );
 				$this->mode  = 'home';
 			} else {
 				$this->article = $result;
@@ -93,10 +93,10 @@ class HLMC_Request {
 		}
 
 		if ( 'search' === $this->mode ) {
-			$per    = (int) HLMC_Settings::get( 'per_page' );
+			$per    = (int) PGCC_Settings::get( 'per_page' );
 			$result = $this->source->search( $this->query, $per, ( $this->page - 1 ) * $per );
 			if ( is_wp_error( $result ) ) {
-				$this->error = __( 'Search is temporarily unavailable. Please try again shortly.', 'health-library-connector' );
+				$this->error = __( 'Search is temporarily unavailable. Please try again shortly.', 'pulsegrid-content-connector' );
 				$this->mode  = 'home';
 			} else {
 				$this->search = $result;
