@@ -13,7 +13,7 @@ without leaving your site.
 > sponsored by Mayo Clinic. "Mayo Clinic" is a trademark of Mayo Foundation
 > for Medical Education and Research.
 
-**Live demo:** https://mayoplugin.davidcochran.us (demo mode)
+**Live demo:** https://pulsegrid.davidcochran.us (demo mode)
 
 ## Features
 
